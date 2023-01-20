@@ -31,11 +31,32 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_name(name){
       m_pDriveMotor = new TalonFX(driveMotorID);
       m_pTurningMotor = new VictorSPX(turningMotorID);
+      
       m_pTurningMotor->ConfigFactoryDefault();
-
       m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
       m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
       m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
+      
+      m_pTurningMotor->SelectProfileSlot(0, 0);
+	
+      m_pTurningMotor->Config_kP(0, RobotParameters::k_steerMotorControllerKp, 10);
+      m_pTurningMotor->Config_kI(0, RobotParameters::k_steerMotorControllerKi, 10);
+      m_pTurningMotor->Config_kD(0, RobotParameters::k_steerMotorControllerKd, 10);
+      m_pTurningMotor->Config_IntegralZone(0, 0, 10);
+      m_pTurningMotor->ConfigMaxIntegralAccumulator (0, 0, 10);
+      m_pTurningMotor->SetNeutralMode(NeutralMode::Brake);
+      m_pTurningMotor->EnableVoltageCompensation(true);
+      m_pTurningMotor->ConfigVoltageCompSaturation(12.0, 0);
+      m_pTurningMotor->ConfigNeutralDeadband(0.04, 0);
+      m_pTurningMotor->ConfigNominalOutputForward(0.0, 0.0);
+      m_pTurningMotor->ConfigNominalOutputReverse(0.0, 0.0);
+      m_pTurningMotor->ConfigPeakOutputForward(1.0, 0.0);
+      m_pTurningMotor->ConfigPeakOutputReverse(-1.0, 0.0);
+      m_pTurningMotor->SetSensorPhase(false);	
+      m_pTurningMotor->SetInverted(false);
+
+
+      
       m_pDriveMotor->ConfigFactoryDefault();
       m_pDriveMotor->SetInverted(driveEncoderReversed);
       m_pDriveMotor->Config_kP(0, 0.1);//.07

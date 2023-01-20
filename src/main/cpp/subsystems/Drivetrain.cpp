@@ -3,10 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Drivetrain.h"
-
 #include <frc/Timer.h>
-
 #include "ExampleGlobalMeasurementSensor.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "networktables/NetworkTableInstance.h"
+#include "units/length.h"
 
 void Drivetrain::Drive(units::meters_per_second_t xSpeed,
                        units::meters_per_second_t ySpeed,
@@ -34,8 +35,12 @@ void Drivetrain::UpdateOdometry() {
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
+  // bot pose type
+  std::vector<double> default_bot_pose = {0, 0, 0};
+  std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
+  frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg};
+    
   m_poseEstimator.AddVisionMeasurement(
-      ExampleGlobalMeasurementSensor::GetEstimatedGlobalPose(
-          m_poseEstimator.GetEstimatedPosition()),
+      global_pose, 
       frc::Timer::GetFPGATimestamp() - 0.3_s);
 }
