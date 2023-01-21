@@ -1,16 +1,36 @@
 #include "subsystems/Elevator.h"
 #include "RobotParameters.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/WaitUntilCommand.h>
 
+frc2::CommandPtr Elevator::GoToBottomPostCommand(){
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorBottomPostPosition);
+}
+
+frc2::CommandPtr Elevator::GoToTopPostCommand(){
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorTopPostPosition);
+}
+
+frc2::CommandPtr Elevator::GoToPositionCommand(double pos){
+    return RunOnce([this, pos] {SetTargetPosition(pos);});
+}
+
+frc2::CommandPtr Elevator::WaitForElevatorOnTargetCommand(){
+    return frc2::WaitUntilCommand([this] {return IsOnTarget();}).ToPtr();
+}
 
 Elevator::Elevator(){
     m_pMotor = new TalonFX(FalconIDs::kElevatorMotor);
     m_pMotor->ConfigFactoryDefault();
-    m_pMotor->Config_kP(0, RobotParameters::k_steerMotorControllerKp, 10);
-    m_pMotor->Config_kI(0, RobotParameters::k_steerMotorControllerKi, 10);
-    m_pMotor->Config_kD(0, RobotParameters::k_steerMotorControllerKd, 10);
-    m_pMotor->Config_kF(0, RobotParameters::k_steerMotorControllerKd, 10);
+    m_pMotor->Config_kP(0, ElevatorConstants::k_ElevatorkP, 10);
+    m_pMotor->Config_kI(0, ElevatorConstants::k_ElevatorkI, 10);
+    m_pMotor->Config_kD(0, ElevatorConstants::k_ElevatorkD, 10);
+    m_pMotor->Config_kF(0, ElevatorConstants::k_ElevatorkF, 10);
     m_pMotor->Config_IntegralZone(0, 0, 10);
     m_pMotor->ConfigMaxIntegralAccumulator (0, 0, 10);
+    m_pMotor->ConfigMotionCruiseVelocity(ElevatorConstants::k_ElevatorMaxSpeed);  //Degrees per second
+    m_pMotor->ConfigMotionAcceleration(ElevatorConstants::k_ElevatorAcceleration);
+    m_pMotor->ConfigMotionSCurveStrength(ElevatorConstants::k_ElevatorSCurveStrength);
     m_pMotor->SetNeutralMode(NeutralMode::Brake);
     m_pMotor->EnableVoltageCompensation(true);
     m_pMotor->ConfigVoltageCompSaturation(12.0, 0);
@@ -21,28 +41,37 @@ Elevator::Elevator(){
     m_pMotor->ConfigPeakOutputReverse(-1.0, 0.0);
     m_pMotor->SetSensorPhase(false);	
     m_pMotor->SetInverted(false);
+    m_pMotor->ConfigForwardSoftLimitThreshold(ElevatorConstants::k_ElevatorTopSoftLimit, 10);
+    m_pMotor->ConfigReverseSoftLimitThreshold(ElevatorConstants::k_ElevatorBottomSoftLimit, 10);
+    m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
+    m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
 }
 
 void Elevator::Periodic(){
+    frc::SmartDashboard::PutNumber("Elevator Target Position", GetTargetPosition());
+    frc::SmartDashboard::PutNumber("Elevator Actual Position", GetActualPosition());
+    frc::SmartDashboard::PutBoolean("Elevator On Target", IsOnTarget());
+}
+
+void Elevator::SetTargetPosition(double pos){
+    m_desiredPosition = pos;
+    double ticks = pos * ElevatorConstants::k_ElevatorTicksPerInch;
+    m_pMotor->Set(TalonFXControlMode::MotionMagic, ticks);
 
 }
 
-void Elevator::SetDesiredPosition(double pos){
-
-}
-
-double Elevator::GetDesiredPosition(){
-
+double Elevator::GetTargetPosition(){
+    return m_desiredPosition;
 }
 
 double Elevator::GetActualPosition(){
-
+    return m_pMotor->GetSelectedSensorPosition() / ElevatorConstants::k_ElevatorTicksPerInch;
 }
 
 void Elevator::Zero(){
-
+    m_pMotor->SetSelectedSensorPosition(0, 0, 10);
 }
 
 bool Elevator::IsOnTarget(){
-
+    return abs(GetActualPosition() - GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold;
 }

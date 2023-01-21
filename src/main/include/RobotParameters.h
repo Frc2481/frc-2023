@@ -206,12 +206,34 @@ namespace ClimberConstants{
 }
 
 namespace ElevatorConstants{
-    static constexpr double k_ElevatorKp = 0;
-    static constexpr double k_ElevatorKi = 0;
-    static constexpr double k_ElevatorKd = 0;
-    static constexpr double k_ElevatorKf = 0;
+    static constexpr double k_ElevatorkP = 0;
+    static constexpr double k_ElevatorkI = 0;
+    static constexpr double k_ElevatorkD = 0;
+    static constexpr double k_ElevatorkF = 0;
     static constexpr double k_ElevatorAcceleration = 0; //36000
-    static constexpr double k_maxElevatorSpeed = 0; //24000
+    static constexpr double k_ElevatorMaxSpeed = 0; //24000
+    static constexpr double k_ElevatorSCurveStrength = 6;
+    static constexpr double k_ElevatorTicksPerInch = 0;
+    static constexpr double k_ElevatorTopSoftLimit = 0;
+    static constexpr double k_ElevatorBottomSoftLimit = 0;
+    static constexpr double k_ElevatorOnTargetThreshold = 0;
+    static constexpr double k_ElevatorTopPostPosition = 0;
+    static constexpr double k_ElevatorBottomPostPosition = 0;
+}
+
+namespace SlideConstants{
+    static constexpr double k_SlidekP = 0;
+    static constexpr double k_SlidekI = 0;
+    static constexpr double k_SlidekD = 0;
+    static constexpr double k_SlidekF = 0;
+    static constexpr double k_SlideAcceleration = 0; //36000
+    static constexpr double k_SlideMaxSpeed = 0; //24000
+    static constexpr double k_SlideSCurveStrength = 6;
+    static constexpr double k_SlideTicksPerInch = 0;
+    static constexpr double k_SlideOnTargetThreshold = 0;
+    static constexpr double k_SlideLeftSoftLimit = 0;
+    static constexpr double k_SlideRightSoftLimit = 0;
+    static constexpr double k_SlideCenterPosition = 0;
 }
 
 //TODO: figure this all out

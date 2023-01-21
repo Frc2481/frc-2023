@@ -4,14 +4,15 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 
-class Elevator : public frc2::SubsystemBase {
+class Slide : public frc2::SubsystemBase {
 public:
-    Elevator();
+    Slide();
 
-    frc2::CommandPtr GoToBottomPostCommand();
-    frc2::CommandPtr GoToTopPostCommand();
+    frc2::CommandPtr GoToCenterPositionCommand();
+    frc2::CommandPtr TrackLimelightUpperPostCommand();
+    frc2::CommandPtr TrackLimelightLowerPostCommand();
     frc2::CommandPtr GoToPositionCommand(double pos);
-    frc2::CommandPtr WaitForElevatorOnTargetCommand();
+    frc2::CommandPtr WaitForSlideOnTargetCommand();
     void Periodic() override;
 
     void SetTargetPosition(double pos);
