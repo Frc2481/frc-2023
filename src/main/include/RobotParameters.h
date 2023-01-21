@@ -37,7 +37,7 @@ namespace VictorIDs{
     static constexpr int kRearLeftTurningMotorID = 32;
     static constexpr int kRearMiddleTurningMotorID = 35;
     static constexpr int kFeederMotorID = 11;
-    static constexpr int kIndexerMotorID = 10;
+    static constexpr int kIndexerMotorID = 12;
 }
 
 namespace FalconIDs{
@@ -50,6 +50,7 @@ namespace FalconIDs{
     static constexpr int kRearLeftDriveMotorID = 7;
     static constexpr int kRearLeftDriveMotorFollowerID = 8;
     static constexpr int kElevatorMotor = 9;
+    static constexpr int kSlideMotor = 10;
 } 
 
 namespace CANCoderIDs
@@ -172,37 +173,12 @@ namespace FeederConstants{ //TODO figure out
     static constexpr double kShootingIndexerSpeed = 0.47/0.7;
 }
 
-namespace DigitalInputs{
-    static constexpr int kFeederBeamBreakPort = 0;
-    static constexpr int kIndexerBeamBreakPort = 1;
-    static constexpr int kIntakeBeamBreakPort = 7;
-    static constexpr int kFloorLineSensor = 5;
-    static constexpr int kTrussLineSensor = 4;
-}
-
-namespace ShooterConstants{ //TODO wheel speeds
-    static constexpr double kDonutTopWheelSpeed = 0; 
-    static constexpr double kDonutBottomWheelSpeed = 0; 
-    static constexpr double kTopShooterSpeed = -2500; //-2500
-    static constexpr double kBottomShooterSpeed = -1700; // -1700
-
-
-}
-
-namespace LimelightConstants{
-    static constexpr double kTargetHeight = 102.5; //inches
-    static constexpr double kLimelightHeight = 45; //TODO find actual height
-    static constexpr double kLimelightAngle = 19.5; //TODO find angle 21
-    
-}
-
-namespace ClimberConstants{
-    static constexpr double kFloorWheelSpeed = 1;
-    static constexpr double kTrussWheelSpeed = 1;
-    static constexpr double kJavelinDeployRoll = 45;
-    static constexpr double kDriveTrainSpeedConstant = 0.4;
-    
-    
+namespace LimeLightConstants{
+    static constexpr double k_TopPostPipeLine = 0;
+    static constexpr double k_BottomPostPipeLine = 0;
+    static constexpr double k_TopPostHeight_in = 0;
+    static constexpr double k_BottomPostHeight_in = 0;
+    static constexpr double k_CameraHeight_in = 0;
 }
 
 namespace ElevatorConstants{
@@ -284,58 +260,6 @@ namespace RobotParameters {
     static constexpr unsigned k_ctreMagEncoderTicksPerRev = 4096;
     static constexpr unsigned k_grayhillEncoderTicksPerRev = 512;
     static constexpr unsigned k_falconFXEncoderTicksPerRev = 2048;
-
-
-    //shooter Constants TODO set correct values
-    static constexpr double k_shooterBotP = 0.02;
-    static constexpr double k_shooterBotI = 0.0;
-    static constexpr double k_shooterBotD = 0.0;
-    static constexpr double k_shooterBotF = 0.0542;
-
-    static constexpr double k_shooterTopP = 0.1;
-    static constexpr double k_shooterTopI = 0.0;
-    static constexpr double k_shooterTopD = 0.0;
-    static constexpr double k_shooterTopF = 0.0552;
-    //turret Constants TODO set correct values
-    // static constexpr double k_turretP = 1;
-    // static constexpr double k_turretI = 0.0;
-    // static constexpr double k_turretD = 0.0;
-    // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    // static constexpr double k_turretF = .0775;
-    static constexpr double k_turretP = .2; //.2
-    static constexpr double k_turretI = 0; //.01
-    static constexpr double k_turretD = 10;
-    // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    static constexpr double k_turretF = 0.0; //0.75
-
-    static constexpr double k_turretAcceleration = 100000; //36000
-    static constexpr double k_maxTurretSpeed = 16000; //24000
-    static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
-    static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
-    static constexpr double k_turretRadius = 6; 
-    static constexpr double k_turretTeeth = 152; // 152.0;  This isn't right, but othere things are wrong so this makes it better.
-    static constexpr double k_turretDriveTeeth = 1.6;
-    static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
-    static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;
-    static constexpr double k_turretADCPerRotation = 4096/k_turretABSMaxRotations;
-    static constexpr double k_turretABSDegreesPerShaftRotation = 720.0/k_turretABSMaxRotations;
-    static constexpr double k_turretTicksPerRotation = 2048*k_turretGearRatio;
-    static constexpr double k_turretTicksPerNinetyDegrees = k_turretTicksPerRotation/4;
-    static constexpr double k_turretTicksPerDegree = k_turretTicksPerRotation / 360;
-
-    static constexpr double k_minTurretDegrees = -125;
-    static constexpr double k_maxTurretDegrees = 225;
-
-    static constexpr double k_minTurretSearchDegrees = -75; //-125
-    static constexpr double k_maxTurretSearchDegrees = 75; //225
-
-
-    //limelight TODO find corret values
-    static constexpr double k_limeLightP = 4.9;
-    static constexpr double k_limeLightI = 1;
-    static constexpr double k_limeLightD = 0;
-    static constexpr double k_limeLightIZone = 10;
-
     
 }
 

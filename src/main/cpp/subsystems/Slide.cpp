@@ -2,17 +2,53 @@
 #include "RobotParameters.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/WaitUntilCommand.h>
+#include <frc2/command/FunctionalCommand.h>
+#include "networktables/NetworkTableInstance.h"
 
 frc2::CommandPtr Slide::GoToCenterPositionCommand(){
     return GoToPositionCommand(SlideConstants::k_SlideCenterPosition);
 }
 
-frc2::CommandPtr Slide::TrackLimelightUpperPostCommand(){
-    return ;
+frc2::CommandPtr Slide::TrackLimelightTopPostCommand(){
+    return frc2::FunctionalCommand(
+        [this] {
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_TopPostPipeLine);
+        }, 
+        [this]{
+            double x_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+            double y_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty", 0);
+            double d_in = (LimeLightConstants::k_TopPostHeight_in - LimeLightConstants::k_CameraHeight_in) / tan(y_in * std::numbers::pi / 180.0);
+            double SlideOffset_in = d_in * sin(x_in * std::numbers::pi / 180);
+            SetTargetPosition(SlideOffset_in);
+        }, 
+        [this](bool interrupted){
+            SetTargetPosition(0.0);
+        },
+        [this]{
+            return false;
+        },{this}
+    ).ToPtr();
 }
 
-frc2::CommandPtr Slide::TrackLimelightLowerPostCommand(){
-    return ;
+frc2::CommandPtr Slide::TrackLimelightBottomPostCommand(){
+    return frc2::FunctionalCommand(
+        [this] {
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_BottomPostPipeLine);
+        }, 
+        [this]{
+            double x_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+            double y_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty", 0);
+            double d_in = (LimeLightConstants::k_BottomPostHeight_in - LimeLightConstants::k_CameraHeight_in) / tan(y_in * std::numbers::pi / 180.0);
+            double SlideOffset_in = d_in * sin(x_in * std::numbers::pi / 180);
+            SetTargetPosition(SlideOffset_in);
+        }, 
+        [this](bool interrupted){
+            SetTargetPosition(0.0);
+        },
+        [this]{
+            return false;
+        },{this}
+    ).ToPtr();
 }
 
 frc2::CommandPtr Slide::GoToPositionCommand(double pos){
@@ -32,7 +68,7 @@ Slide::Slide(){
     m_pMotor->Config_kF(0, SlideConstants::k_SlidekF, 10);
     m_pMotor->Config_IntegralZone(0, 0, 10);
     m_pMotor->ConfigMaxIntegralAccumulator (0, 0, 10);
-    m_pMotor->ConfigMotionCruiseVelocity(SlideConstants::k_MaxSlideSpeed);  //Degrees per second
+    m_pMotor->ConfigMotionCruiseVelocity(SlideConstants::k_SlideMaxSpeed);  //Degrees per second
     m_pMotor->ConfigMotionAcceleration(SlideConstants::k_SlideAcceleration);
     m_pMotor->ConfigMotionSCurveStrength(SlideConstants::k_SlideSCurveStrength);
     m_pMotor->SetNeutralMode(NeutralMode::Brake);
@@ -45,8 +81,8 @@ Slide::Slide(){
     m_pMotor->ConfigPeakOutputReverse(-1.0, 0.0);
     m_pMotor->SetSensorPhase(false);	
     m_pMotor->SetInverted(false);
-    m_pMotor->ConfigForwardSoftLimitThreshold(SlideConstants::k_SlideTopSoftLimit, 10);
-    m_pMotor->ConfigReverseSoftLimitThreshold(SlideConstants::k_SlideBottomSoftLimit, 10);
+    m_pMotor->ConfigForwardSoftLimitThreshold(SlideConstants::k_SlideLeftSoftLimit, 10);
+    m_pMotor->ConfigReverseSoftLimitThreshold(SlideConstants::k_SlideRightSoftLimit, 10);
     m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
     m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
 }

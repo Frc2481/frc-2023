@@ -9,8 +9,8 @@ public:
     Slide();
 
     frc2::CommandPtr GoToCenterPositionCommand();
-    frc2::CommandPtr TrackLimelightUpperPostCommand();
-    frc2::CommandPtr TrackLimelightLowerPostCommand();
+    frc2::CommandPtr TrackLimelightTopPostCommand();
+    frc2::CommandPtr TrackLimelightBottomPostCommand();
     frc2::CommandPtr GoToPositionCommand(double pos);
     frc2::CommandPtr WaitForSlideOnTargetCommand();
     void Periodic() override;
