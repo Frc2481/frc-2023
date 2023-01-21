@@ -174,8 +174,9 @@ namespace FeederConstants{ //TODO figure out
 }
 
 namespace LimeLightConstants{
-    static constexpr double k_TopPostPipeLine = 0;
-    static constexpr double k_BottomPostPipeLine = 0;
+    static constexpr double k_MarkersPipeline = 0;
+    static constexpr double k_TopPostPipeLine = 1;
+    static constexpr double k_BottomPostPipeLine = 2;
     static constexpr double k_TopPostHeight_in = 0;
     static constexpr double k_BottomPostHeight_in = 0;
     static constexpr double k_CameraHeight_in = 0;

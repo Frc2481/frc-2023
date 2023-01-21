@@ -23,6 +23,7 @@ frc2::CommandPtr Slide::TrackLimelightTopPostCommand(){
         }, 
         [this](bool interrupted){
             SetTargetPosition(0.0);
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_MarkersPipeline);
         },
         [this]{
             return false;
@@ -44,6 +45,7 @@ frc2::CommandPtr Slide::TrackLimelightBottomPostCommand(){
         }, 
         [this](bool interrupted){
             SetTargetPosition(0.0);
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_MarkersPipeline);
         },
         [this]{
             return false;
