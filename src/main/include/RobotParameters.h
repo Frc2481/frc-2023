@@ -41,18 +41,15 @@ namespace VictorIDs{
 }
 
 namespace FalconIDs{
-    static constexpr int kFrontRightDriveMotorID = 3;//5
-    static constexpr int kFrontLeftDriveMotorID = 1;//6
-    static constexpr int kRearRightDriveMotorID = 4;//7
-    static constexpr int kRearLeftDriveMotorID = 2;//8
-    static constexpr int kRearMiddleDriveMotorID = 5;//TODO figure me out
-    static constexpr int kTopShooterMotorID = 13; //TODO figure me out
-    static constexpr int kBottomShooterMotorID = 12; //TODO figure me out
-    static constexpr int kturretMotorID = 6; 
-    static constexpr int kFloorClimberMotorID = 7; //TODO figure out
-    static constexpr int kTrussClimberMotorID = 8; //TODO figure out
-    static constexpr int kIntakeRollerMotorID = 9; //intake roller motor is a talon SRX
-    
+    static constexpr int kFrontRightDriveMotorID = 1;
+    static constexpr int kFrontRightDriveMotorFollowerID = 2;
+    static constexpr int kFrontLeftDriveMotorID = 3;
+    static constexpr int kFrontLeftDriveMotorFollowerID = 4;
+    static constexpr int kRearRightDriveMotorID = 5;
+    static constexpr int kRearRightDriveMotorFollowerID = 6;
+    static constexpr int kRearLeftDriveMotorID = 7;
+    static constexpr int kRearLeftDriveMotorFollowerID = 8;
+    static constexpr int kElevatorMotor = 9;
 } 
 
 namespace CANCoderIDs
@@ -206,6 +203,15 @@ namespace ClimberConstants{
     static constexpr double kDriveTrainSpeedConstant = 0.4;
     
     
+}
+
+namespace ElevatorConstants{
+    static constexpr double k_ElevatorKp = 0;
+    static constexpr double k_ElevatorKi = 0;
+    static constexpr double k_ElevatorKd = 0;
+    static constexpr double k_ElevatorKf = 0;
+    static constexpr double k_ElevatorAcceleration = 0; //36000
+    static constexpr double k_maxElevatorSpeed = 0; //24000
 }
 
 //TODO: figure this all out
