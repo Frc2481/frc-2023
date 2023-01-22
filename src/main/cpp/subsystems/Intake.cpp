@@ -3,8 +3,111 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Intake.h"
+#include "RobotParameters.h"
 
-Intake::Intake() = default;
+frc2::CommandPtr Intake::ExtendCommand(){
+    return RunOnce([this] {Extend();});
+}
+
+frc2::CommandPtr Intake::RetractCommand(){
+    return RunOnce([this] {Retract();});
+}
+
+frc2::CommandPtr Intake::TurnOnIntakeCommand(){
+    return RunOnce([this] {TurnOnIntake();});
+}
+
+frc2::CommandPtr Intake::TurnOnBarfCommand(){
+    return RunOnce([this] {TurnOnBarf();});
+}
+
+frc2::CommandPtr Intake::TurnOffCommand(){
+    return RunOnce([this] {TurnOff();});
+}
+
+// frc2::CommandPtr Intake::WaitForGamePieceCommand(){
+
+// }
+
+Intake::Intake(){
+    m_ExtendSolenoid = new frc::DoubleSolenoid(
+        0, 
+        frc::PneumaticsModuleType::CTREPCM, 
+        SolenoidPorts::kIntakeSolenoidPort, 
+        SolenoidPorts::kIntakeSolenoidReversePort);
+
+    m_pHorizontalMotor = new TalonFX(FalconIDs::kIntakeHorizontalMotor);
+    m_pHorizontalMotor->ConfigFactoryDefault();
+    m_pHorizontalMotor->SetNeutralMode(NeutralMode::Brake);
+    m_pHorizontalMotor->EnableVoltageCompensation(true);
+    m_pHorizontalMotor->ConfigVoltageCompSaturation(12.0, 0);
+    m_pHorizontalMotor->ConfigNeutralDeadband(0.04, 0);
+    m_pHorizontalMotor->ConfigNominalOutputForward(0.0, 0.0);
+    m_pHorizontalMotor->ConfigNominalOutputReverse(0.0, 0.0);
+    m_pHorizontalMotor->ConfigPeakOutputForward(1.0, 0.0);
+    m_pHorizontalMotor->ConfigPeakOutputReverse(-1.0, 0.0);
+    m_pHorizontalMotor->SetSensorPhase(false);	
+    m_pHorizontalMotor->SetInverted(false);
+    m_pHorizontalMotor->ConfigSupplyCurrentLimit(
+        ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(
+            true, 
+            IntakeConstants::k_IntakeHorizontalCurrentLimit - 5, 
+            IntakeConstants::k_IntakeHorizontalCurrentLimit, 
+            IntakeConstants::k_IntakeCurrentDuration), 0);
+
+    m_pVerticalMotor = new TalonFX(FalconIDs::kIntakeVerticalMotor);
+    m_pVerticalMotor->ConfigFactoryDefault();
+    m_pVerticalMotor->SetNeutralMode(NeutralMode::Brake);
+    m_pVerticalMotor->EnableVoltageCompensation(true);
+    m_pVerticalMotor->ConfigVoltageCompSaturation(12.0, 0);
+    m_pVerticalMotor->ConfigNeutralDeadband(0.04, 0);
+    m_pVerticalMotor->ConfigNominalOutputForward(0.0, 0.0);
+    m_pVerticalMotor->ConfigNominalOutputReverse(0.0, 0.0);
+    m_pVerticalMotor->ConfigPeakOutputForward(1.0, 0.0);
+    m_pVerticalMotor->ConfigPeakOutputReverse(-1.0, 0.0);
+    m_pVerticalMotor->SetSensorPhase(false);	
+    m_pVerticalMotor->SetInverted(false);
+    m_pVerticalMotor->ConfigSupplyCurrentLimit(
+        ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(
+            true, 
+            IntakeConstants::k_IntakeVerticalCurrentLimit - 5, 
+            IntakeConstants::k_IntakeVerticalCurrentLimit, 
+            IntakeConstants::k_IntakeCurrentDuration), 0);
+    
+}
+
+void Intake::TurnOnIntake(){
+    m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 
+                            IntakeConstants::k_IntakeHorizontalRollerSpeed);
+    m_pVerticalMotor->Set(TalonFXControlMode::PercentOutput, 
+                          IntakeConstants::k_IntakeVerticalRollerSpeed);
+}
+
+void Intake::TurnOnBarf(){
+     m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 
+                            IntakeConstants::k_IntakeBarfHorizontalRollerSpeed);
+    m_pVerticalMotor->Set(TalonFXControlMode::PercentOutput, 
+                          IntakeConstants::k_IntakeBarfVerticalRollerSpeed);
+}
+
+void Intake::TurnOff(){
+    m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 0);
+    m_pVerticalMotor->Set(TalonFXControlMode::PercentOutput, 0);
+}
+
+void Intake::Extend(){
+    m_ExtendSolenoid->Set(m_ExtendSolenoid->kForward);
+    m_isExtended = true;
+}
+
+void Intake::Retract(){
+    m_ExtendSolenoid->Set(m_ExtendSolenoid->kReverse);
+    m_isExtended = false;
+}
+
+bool Intake::IsExtended(){
+    return m_isExtended;
+}
 
 // This method will be called once per scheduler run
 void Intake::Periodic() {}

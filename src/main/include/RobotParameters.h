@@ -51,6 +51,8 @@ namespace FalconIDs{
     static constexpr int kRearLeftDriveMotorFollowerID = 8;
     static constexpr int kElevatorMotor = 9;
     static constexpr int kSlideMotor = 10;
+    static constexpr int kIntakeHorizontalMotor = 1;
+    static constexpr int kIntakeVerticalMotor = 1;
 } 
 
 namespace CANCoderIDs
@@ -66,6 +68,8 @@ namespace SolenoidPorts{
  
     static constexpr int kIntakeSolenoidPort = 0;
     static constexpr int kIntakeSolenoidReversePort = 1;
+    static constexpr int kGripperSolenoidPort = 2;
+    static constexpr int kGripperSolenoidReversePort = 3;
    
     static constexpr int kFloorClimberSolenoidPort = 2;
     static constexpr int kFloorClimberSolenoidReversePort = 3;
@@ -163,8 +167,15 @@ namespace FieldConstants{
     // static constexpr double kBlueAllianceOrigin = ;
     }
 namespace IntakeConstants{
-    static constexpr double kDefaultIntakeRollerSpeed = 1; //TODO: Find out
-    static constexpr double kIntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
+    static constexpr double k_DefaultIntakeRollerSpeed = 1; //TODO: Find out
+    static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
+    static constexpr double k_IntakeHorizontalRollerSpeed = 1;
+    static constexpr double k_IntakeVerticalRollerSpeed = 1;
+    static constexpr double k_IntakeBarfHorizontalRollerSpeed = -1;
+    static constexpr double k_IntakeBarfVerticalRollerSpeed = -1;
+    static constexpr double k_IntakeHorizontalCurrentLimit = 0;
+    static constexpr double k_IntakeVerticalCurrentLimit = 0;
+    static constexpr double k_IntakeCurrentDuration = 0;
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
