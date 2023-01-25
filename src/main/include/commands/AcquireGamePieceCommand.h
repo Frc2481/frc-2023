@@ -14,10 +14,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class CanterLaneBlueAutoCommand
-    : public frc2::CommandHelper<frc2::CommandBase, CanterLaneBlueAutoCommand> {
+class AcquireGamePiece
+    : public frc2::CommandHelper<frc2::CommandBase, AcquireGamePiece> {
  public:
-  CanterLaneBlueAutoCommand();
+  AcquireGamePiece();
 
   void Initialize() override;
 

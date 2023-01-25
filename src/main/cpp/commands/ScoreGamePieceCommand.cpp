@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/auto/CanterLaneBlueAutoCommand.h"
+#include "commands/ScoreGamePieceCommand.h"
 
-CanterLaneBlueAutoCommand::CanterLaneBlueAutoCommand() {
+ScoreGamePieceCommand::ScoreGamePieceCommand() {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void CanterLaneBlueAutoCommand::Initialize() {}
+void ScoreGamePieceCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void CanterLaneBlueAutoCommand::Execute() {}
+void ScoreGamePieceCommand::Execute() {}
 
 // Called once the command ends or is interrupted.
-void CanterLaneBlueAutoCommand::End(bool interrupted) {}
+void ScoreGamePieceCommand::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool CanterLaneBlueAutoCommand::IsFinished() {
+bool ScoreGamePieceCommand::IsFinished() {
   return false;
 }
