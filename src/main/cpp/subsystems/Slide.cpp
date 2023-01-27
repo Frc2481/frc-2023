@@ -5,11 +5,11 @@
 #include <frc2/command/FunctionalCommand.h>
 #include "networktables/NetworkTableInstance.h"
 
-frc2::CommandPtr Slide::GoToCenterPositionCommand(){
+frc2::InstantCommand Slide::GoToCenterPositionCommand(){
     return GoToPositionCommand(SlideConstants::k_SlideCenterPosition);
 }
 
-frc2::CommandPtr Slide::TrackLimelightTopPostCommand(){
+frc2::FunctionalCommand Slide::TrackLimelightTopPostCommand(){
     return frc2::FunctionalCommand(
         [this] {
             nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_TopPostPipeLine);
@@ -28,10 +28,10 @@ frc2::CommandPtr Slide::TrackLimelightTopPostCommand(){
         [this]{
             return false;
         },{this}
-    ).ToPtr();
+    );
 }
 
-frc2::CommandPtr Slide::TrackLimelightBottomPostCommand(){
+frc2::FunctionalCommand Slide::TrackLimelightBottomPostCommand(){
     return frc2::FunctionalCommand(
         [this] {
             nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_BottomPostPipeLine);
@@ -50,15 +50,59 @@ frc2::CommandPtr Slide::TrackLimelightBottomPostCommand(){
         [this]{
             return false;
         },{this}
-    ).ToPtr();
+    );
 }
 
-frc2::CommandPtr Slide::GoToPositionCommand(double pos){
-    return RunOnce([this, pos] {SetTargetPosition(pos);});
+frc2::InstantCommand Slide::GoToPositionCommand(double pos){
+    return frc2::InstantCommand([this, pos] {SetTargetPosition(pos);});
 }
 
-frc2::CommandPtr Slide::WaitForSlideOnTargetCommand(){
-    return frc2::WaitUntilCommand([this] {return IsOnTarget();}).ToPtr();
+frc2::WaitUntilCommand Slide::WaitForSlideOnTargetCommand(){
+    return frc2::WaitUntilCommand([this] {return IsOnTarget();});
+}
+
+frc2::FunctionalCommand Slide::TrackAprilTagsMidShelfCommand(){
+    return frc2::FunctionalCommand(
+        [this] {
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_MarkersPipeline);
+        }, 
+        [this]{
+            double x_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+            double y_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty", 0);
+            double d_in = (LimeLightConstants::k_AprilTagHeight_in - LimeLightConstants::k_CameraHeight_in) / tan(y_in * std::numbers::pi / 180.0);
+            double SlideOffset_in = d_in * sin(x_in * std::numbers::pi / 180);
+            SetTargetPosition(SlideOffset_in);
+        }, 
+        [this](bool interrupted){
+            SetTargetPosition(0.0);
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_MarkersPipeline);
+        },
+        [this]{
+            return false;
+        },{this}
+    );
+}
+
+frc2::FunctionalCommand Slide::TrackAprilTagsTopShelfCommand(){
+    return frc2::FunctionalCommand(
+        [this] {
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_MarkersPipeline);
+        }, 
+        [this]{
+            double x_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+            double y_in = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty", 0);
+            double d_in = (LimeLightConstants::k_AprilTagHeight_in - LimeLightConstants::k_CameraHeight_in) / tan(y_in * std::numbers::pi / 180.0);
+            double SlideOffset_in = d_in * sin(x_in * std::numbers::pi / 180);
+            SetTargetPosition(SlideOffset_in);
+        }, 
+        [this](bool interrupted){
+            SetTargetPosition(0.0);
+            nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", LimeLightConstants::k_MarkersPipeline);
+        },
+        [this]{
+            return false;
+        },{this}
+    );
 }
 
 Slide::Slide(){

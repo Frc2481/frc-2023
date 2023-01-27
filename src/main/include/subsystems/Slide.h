@@ -3,16 +3,20 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <frc2/command/InstantCommand.h>
 
 class Slide : public frc2::SubsystemBase {
 public:
     Slide();
 
-    frc2::CommandPtr GoToCenterPositionCommand();
-    frc2::CommandPtr TrackLimelightTopPostCommand();
-    frc2::CommandPtr TrackLimelightBottomPostCommand();
-    frc2::CommandPtr GoToPositionCommand(double pos);
-    frc2::CommandPtr WaitForSlideOnTargetCommand();
+    frc2::InstantCommand GoToCenterPositionCommand();
+    frc2::FunctionalCommand TrackLimelightTopPostCommand();
+    frc2::FunctionalCommand TrackLimelightBottomPostCommand();
+    frc2::InstantCommand GoToPositionCommand(double pos);
+    frc2::WaitUntilCommand WaitForSlideOnTargetCommand();
+    frc2::FunctionalCommand TrackAprilTagsMidShelfCommand();
+    frc2::FunctionalCommand TrackAprilTagsTopShelfCommand();
+
     void Periodic() override;
 
     void SetTargetPosition(double pos);

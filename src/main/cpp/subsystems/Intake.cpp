@@ -5,24 +5,24 @@
 #include "subsystems/Intake.h"
 #include "RobotParameters.h"
 
-frc2::CommandPtr Intake::ExtendCommand(){
-    return RunOnce([this] {Extend();});
+frc2::InstantCommand Intake::ExtendCommand(){
+    return frc2::InstantCommand([this] {Extend();},{this});
 }
 
-frc2::CommandPtr Intake::RetractCommand(){
-    return RunOnce([this] {Retract();});
+frc2::InstantCommand Intake::RetractCommand(){
+    return frc2::InstantCommand([this] {Retract();},{this});
 }
 
-frc2::CommandPtr Intake::TurnOnIntakeCommand(){
-    return RunOnce([this] {TurnOnIntake();});
+frc2::InstantCommand Intake::TurnOnIntakeCommand(){
+    return frc2::InstantCommand([this] {TurnOnIntake();},{this});
 }
 
-frc2::CommandPtr Intake::TurnOnBarfCommand(){
-    return RunOnce([this] {TurnOnBarf();});
+frc2::InstantCommand Intake::TurnOnBarfCommand(){
+    return frc2::InstantCommand([this] {TurnOnBarf();},{this});
 }
 
-frc2::CommandPtr Intake::TurnOffCommand(){
-    return RunOnce([this] {TurnOff();});
+frc2::InstantCommand Intake::TurnOffCommand(){
+    return frc2::InstantCommand([this] {TurnOff();},{this});
 }
 
 // frc2::CommandPtr Intake::WaitForGamePieceCommand(){

@@ -8,16 +8,17 @@
 #include <ctre/phoenix.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/InstantCommand.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
   Intake();
 
-  frc2::CommandPtr ExtendCommand();
-  frc2::CommandPtr RetractCommand();
-  frc2::CommandPtr TurnOnIntakeCommand();
-  frc2::CommandPtr TurnOnBarfCommand();
-  frc2::CommandPtr TurnOffCommand();
+  frc2::InstantCommand ExtendCommand();
+  frc2::InstantCommand RetractCommand();
+  frc2::InstantCommand TurnOnIntakeCommand();
+  frc2::InstantCommand TurnOnBarfCommand();
+  frc2::InstantCommand TurnOffCommand();
   // frc2::CommandPtr WaitForGamePieceCommand();
 
   /**

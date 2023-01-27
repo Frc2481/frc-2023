@@ -50,33 +50,31 @@ class CenterLaneBlueAutoCommand
     m_pIntake = intake;
     m_pSlide = slide;
 
+    AddCommands(
+
+      frc2::SequentialCommandGroup{
+        frc2::WaitCommand(5.0_s),
+        m_pElevator->GoToTopPostCommand(),
+        
+      //   // ScoreGamePieceCommand(), //add needed subsystems
+
+      //   // Retract Elevator??
+
+      //   // DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+
+        m_pIntake->ExtendCommand(),
+        m_pIntake->TurnOnIntakeCommand(),
+        // Wait For Game Piece Command??
+        m_pIntake->RetractCommand(),
+        
+      // //Acqiure Game Piece Command?
+
+      //   // DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+
+      //   // Balance??
+        
+      }
+
+    );
   }
   };
-
-    // AddCommands(
-
-  //     frc2::SequentialCommandGroup{
-  //       GoToTopPostCommand(m_pElevator),
-        
-  //       ScoreGamePieceCommand(), //add needed subsystems
-
-  //       Retract Elevator??
-
-  //       DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-
-  //       Extend(m_pIntake),
-  //       TurnOnIntake(m_pIntake),
-  //       Wait For Game Piece Command??
-  //       Retract(m_pIntake),
-        
-  //     //Acqiure Game Piece Command?
-
-  //       DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-
-  //       Balance??
-        
-  //             }
-
-  //   );
-  // }
-  // };

@@ -2,21 +2,34 @@
 #include "RobotParameters.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/WaitUntilCommand.h>
+#include <frc2/command/InstantCommand.h>
 
-frc2::CommandPtr Elevator::GoToBottomPostCommand(){
+frc2::InstantCommand Elevator::GoToFloorCommand(){
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorFloorPosition);
+}
+
+frc2::InstantCommand Elevator::GoToBottomPostCommand(){
     return GoToPositionCommand(ElevatorConstants::k_ElevatorBottomPostPosition);
 }
 
-frc2::CommandPtr Elevator::GoToTopPostCommand(){
+frc2::InstantCommand Elevator::GoToTopPostCommand(){
     return GoToPositionCommand(ElevatorConstants::k_ElevatorTopPostPosition);
 }
 
-frc2::CommandPtr Elevator::GoToPositionCommand(double pos){
-    return RunOnce([this, pos] {SetTargetPosition(pos);});
+frc2::InstantCommand Elevator::GoToMidShelfCommand(){
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorMidShelfPosition);
 }
 
-frc2::CommandPtr Elevator::WaitForElevatorOnTargetCommand(){
-    return frc2::WaitUntilCommand([this] {return IsOnTarget();}).ToPtr();
+frc2::InstantCommand Elevator::GoToTopShelfCommand(){
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorTopShelfPosition);
+}
+
+frc2::InstantCommand Elevator::GoToPositionCommand(double pos){
+    return frc2::InstantCommand([this, pos] {SetTargetPosition(pos);},{this});
+}
+
+frc2::WaitUntilCommand Elevator::WaitForElevatorOnTargetCommand(){
+    return frc2::WaitUntilCommand([this] {return IsOnTarget();});
 }
 
 Elevator::Elevator(){

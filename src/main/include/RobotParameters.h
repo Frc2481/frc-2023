@@ -70,6 +70,8 @@ namespace SolenoidPorts{
     static constexpr int kIntakeSolenoidReversePort = 1;
     static constexpr int kGripperSolenoidPort = 2;
     static constexpr int kGripperSolenoidReversePort = 3;
+    static constexpr int kFlipperSolenoidPort = 4;
+    static constexpr int kFlipperSolenoidReversePort = 5;
    
     static constexpr int kFloorClimberSolenoidPort = 2;
     static constexpr int kFloorClimberSolenoidReversePort = 3;
@@ -191,6 +193,7 @@ namespace LimeLightConstants{
     static constexpr double k_TopPostHeight_in = 0;
     static constexpr double k_BottomPostHeight_in = 0;
     static constexpr double k_CameraHeight_in = 0;
+    static constexpr double k_AprilTagHeight_in = 0;
 }
 
 namespace ElevatorConstants{
@@ -207,6 +210,9 @@ namespace ElevatorConstants{
     static constexpr double k_ElevatorOnTargetThreshold = 0;
     static constexpr double k_ElevatorTopPostPosition = 0;
     static constexpr double k_ElevatorBottomPostPosition = 0;
+    static constexpr double k_ElevatorFloorPosition = 0;
+    static constexpr double k_ElevatorMidShelfPosition = 0;
+    static constexpr double k_ElevatorTopShelfPosition = 0;
 }
 
 namespace SlideConstants{
