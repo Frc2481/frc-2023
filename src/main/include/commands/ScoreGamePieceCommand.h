@@ -62,6 +62,8 @@ class ScoreGamePieceCommand
         m_pSlide->WaitForSlideOnTargetCommand(),
         m_pElevator->WaitForElevatorOnTargetCommand()
         //TODO drop and center hatch slide and retract elevator
+
+      
       }
     );
   }
