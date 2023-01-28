@@ -32,6 +32,8 @@ void Drivetrain::UpdateOdometry() {
                          {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                           m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
+  
+
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
@@ -43,4 +45,8 @@ void Drivetrain::UpdateOdometry() {
   m_poseEstimator.AddVisionMeasurement(
       global_pose, 
       frc::Timer::GetFPGATimestamp() - 0.3_s);
+}
+
+frc::SwerveDriveKinematics<4> & Drivetrain::GetKinematics(){
+  return m_kinematics;
 }

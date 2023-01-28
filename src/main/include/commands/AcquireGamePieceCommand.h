@@ -16,9 +16,9 @@
 #include <frc2/command/WaitCommand.h>
 
 
-class AcquireGamePiece
+class AcquireGamePieceCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
-    AcquireGamePiece> {
+    AcquireGamePieceCommand> {
 
       private:
       Gripper* m_pGripper;
@@ -26,7 +26,7 @@ class AcquireGamePiece
       Flipper* m_pFlipper;  
 
  public:
-  AcquireGamePiece(Gripper* gripper, Intake* intake, Flipper* flipper){
+  AcquireGamePieceCommand(Gripper* gripper, Intake* intake, Flipper* flipper){
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pFlipper = flipper;
@@ -36,7 +36,8 @@ class AcquireGamePiece
     frc2::SequentialCommandGroup{
         m_pIntake->ExtendCommand(),
         m_pIntake->TurnOnIntakeCommand(),
-        //wait for game piece command??
+        m_pIntake->WaitForGamePieceCommand(),
+        m_pIntake->TurnOffCommand(),
         m_pIntake->RetractCommand(),
         m_pFlipper->UpCommand(),
         m_pGripper->CloseCommand(),

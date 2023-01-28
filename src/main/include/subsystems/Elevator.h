@@ -10,6 +10,7 @@ class Elevator : public frc2::SubsystemBase {
 public:
     Elevator();
 
+    frc2::InstantCommand StowCommand();
     frc2::InstantCommand GoToFloorCommand();
     frc2::InstantCommand GoToBottomPostCommand();
     frc2::InstantCommand GoToTopPostCommand();

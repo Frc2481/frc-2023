@@ -25,9 +25,9 @@ frc2::InstantCommand Intake::TurnOffCommand(){
     return frc2::InstantCommand([this] {TurnOff();},{this});
 }
 
-// frc2::CommandPtr Intake::WaitForGamePieceCommand(){
-
-// }
+frc2::WaitUntilCommand Intake::WaitForGamePieceCommand(){
+    return frc2::WaitUntilCommand([this] {return HasGamePiece();});
+}
 
 Intake::Intake(){
     m_ExtendSolenoid = new frc::DoubleSolenoid(
@@ -107,6 +107,10 @@ void Intake::Retract(){
 
 bool Intake::IsExtended(){
     return m_isExtended;
+}
+
+bool Intake::HasGamePiece(){
+    return false;
 }
 
 // This method will be called once per scheduler run

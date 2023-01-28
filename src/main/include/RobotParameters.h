@@ -213,6 +213,7 @@ namespace ElevatorConstants{
     static constexpr double k_ElevatorFloorPosition = 0;
     static constexpr double k_ElevatorMidShelfPosition = 0;
     static constexpr double k_ElevatorTopShelfPosition = 0;
+    static constexpr double k_ElevatorStowPosition = 0;
 }
 
 namespace SlideConstants{

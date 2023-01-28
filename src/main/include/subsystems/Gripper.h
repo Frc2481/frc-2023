@@ -9,12 +9,16 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/InstantCommand.h>
 
+enum GamePieceType{CUBE, CONE, NONE};
 class Gripper : public frc2::SubsystemBase {
  public:
   Gripper();
 
    frc2::InstantCommand OpenCommand();
    frc2::InstantCommand CloseCommand();
+   frc2::InstantCommand PickedUpCubeCommand();
+   frc2::InstantCommand PickedUpConeCommand();
+   frc2::InstantCommand DroppedGamePieceCommand();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -24,9 +28,12 @@ class Gripper : public frc2::SubsystemBase {
 
   void Close();
 
+  GamePieceType GetGamePieceType();
+
  private:
 
  frc::DoubleSolenoid * m_pSolenoid;
+ GamePieceType m_GamePiece;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

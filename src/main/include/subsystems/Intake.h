@@ -9,6 +9,7 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/WaitUntilCommand.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -19,7 +20,8 @@ class Intake : public frc2::SubsystemBase {
   frc2::InstantCommand TurnOnIntakeCommand();
   frc2::InstantCommand TurnOnBarfCommand();
   frc2::InstantCommand TurnOffCommand();
-  // frc2::CommandPtr WaitForGamePieceCommand();
+  frc2::WaitUntilCommand WaitForGamePieceCommand();
+  
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -37,6 +39,8 @@ class Intake : public frc2::SubsystemBase {
   void Retract();
 
   bool IsExtended();
+
+  bool HasGamePiece();
 
  private:
   TalonFX * m_pHorizontalMotor;

@@ -13,6 +13,18 @@
     return frc2::InstantCommand([this] {Close();});
  }
 
+ frc2::InstantCommand Gripper::PickedUpCubeCommand(){
+   return frc2::InstantCommand([this] {m_GamePiece = CUBE;});
+ }
+
+ frc2::InstantCommand Gripper::PickedUpConeCommand(){
+   return frc2::InstantCommand([this] {m_GamePiece = CONE;});
+ }
+
+ frc2::InstantCommand Gripper::DroppedGamePieceCommand(){
+   return frc2::InstantCommand([this] {m_GamePiece = NONE;});
+ }
+ 
 Gripper::Gripper(){
    m_pSolenoid = new frc::DoubleSolenoid(
         0, 
@@ -27,6 +39,10 @@ Gripper::Gripper(){
 
  void Gripper::Close(){
     m_pSolenoid->Set(m_pSolenoid->kReverse);
+ }
+
+  GamePieceType Gripper::GetGamePieceType(){
+    return m_GamePiece;
  }
 
 // This method will be called once per scheduler run

@@ -26,6 +26,8 @@ class Drivetrain {
              bool fieldRelative);
   void UpdateOdometry();
 
+  frc::SwerveDriveKinematics<4> & GetKinematics();
+
   static constexpr auto kMaxSpeed = 3.0_mps;  // 3 meters per second
   static constexpr units::radians_per_second_t kMaxAngularSpeed{
       std::numbers::pi};  // 1/2 rotation per second

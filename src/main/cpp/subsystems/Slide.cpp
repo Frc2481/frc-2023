@@ -105,6 +105,11 @@ frc2::FunctionalCommand Slide::TrackAprilTagsTopShelfCommand(){
     );
 }
 
+frc2::WaitUntilCommand Slide::WaitForTargetVisibleCommand(){
+    return frc2::WaitUntilCommand([this] {return nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0);}
+    );
+}
+
 Slide::Slide(){
     m_pMotor = new TalonFX(FalconIDs::kSlideMotor);
     m_pMotor->ConfigFactoryDefault();

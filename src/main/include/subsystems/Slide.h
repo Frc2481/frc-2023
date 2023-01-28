@@ -17,6 +17,7 @@ public:
     frc2::WaitUntilCommand WaitForSlideOnTargetCommand();
     frc2::FunctionalCommand TrackAprilTagsMidShelfCommand();
     frc2::FunctionalCommand TrackAprilTagsTopShelfCommand();
+    frc2::WaitUntilCommand WaitForTargetVisibleCommand();
 
     void Periodic() override;
 

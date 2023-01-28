@@ -4,6 +4,10 @@
 #include <frc2/command/WaitUntilCommand.h>
 #include <frc2/command/InstantCommand.h>
 
+frc2::InstantCommand Elevator::StowCommand(){
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorStowPosition);
+}
+
 frc2::InstantCommand Elevator::GoToFloorCommand(){
     return GoToPositionCommand(ElevatorConstants::k_ElevatorFloorPosition);
 }
