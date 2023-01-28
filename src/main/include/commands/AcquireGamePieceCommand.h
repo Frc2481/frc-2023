@@ -6,24 +6,42 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc2/command/SequentialCommandGroup.h>
+#include "subsystems/Intake.h"
+#include "subsystems/Flipper.h"
+#include "subsystems/Gripper.h"
+#include <frc2/command/ScheduleCommand.h>
+#include <frc2/command/InstantCommand.h>
+#include "RobotParameters.h"
+#include <frc2/command/WaitCommand.h>
 
-/**
- * An example command.
- *
- * <p>Note that this extends CommandHelper, rather extending CommandBase
- * directly; this is crucially important, or else the decorator functions in
- * Command will *not* work!
- */
+
 class AcquireGamePiece
-    : public frc2::CommandHelper<frc2::CommandBase, AcquireGamePiece> {
+    : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
+    AcquireGamePiece> {
+
+      private:
+      Gripper* m_pGripper;
+      Intake* m_pIntake;
+      Flipper* m_pFlipper;  
+
  public:
-  AcquireGamePiece();
+  AcquireGamePiece(Gripper* gripper, Intake* intake, Flipper* flipper){
+    m_pGripper = gripper;
+    m_pIntake = intake;
+    m_pFlipper = flipper;
 
-  void Initialize() override;
+  AddCommands(
 
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
+    frc2::SequentialCommandGroup{
+        m_pIntake->ExtendCommand(),
+        m_pIntake->TurnOnIntakeCommand(),
+        //wait for game piece command??
+        m_pIntake->RetractCommand(),
+        m_pFlipper->UpCommand(),
+        m_pGripper->CloseCommand(),
+        m_pFlipper->DownCommand()
+    }
+  );
+  }  
 };

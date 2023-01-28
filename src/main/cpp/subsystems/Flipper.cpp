@@ -6,12 +6,12 @@
 #include "RobotParameters.h"
 
 
-frc2::CommandPtr Flipper::UpCommand(){
-    return RunOnce([this] {Up();});
+frc2::InstantCommand Flipper::UpCommand(){
+    return frc2::InstantCommand([this] {Up();});
 }
 
-frc2::CommandPtr Flipper::DownCommand(){
-    return RunOnce([this] {Down();});
+frc2::InstantCommand Flipper::DownCommand(){
+    return frc2::InstantCommand([this] {Down();});
 }
 
 Flipper::Flipper(){

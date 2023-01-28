@@ -4,6 +4,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/WaitUntilCommand.h>
 
 class Slide : public frc2::SubsystemBase {
 public:

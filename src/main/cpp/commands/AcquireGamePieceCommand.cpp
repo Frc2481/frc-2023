@@ -4,20 +4,20 @@
 
 #include "commands/AcquireGamePieceCommand.h"
 
-AcquireGamePiece::AcquireGamePiece() {
-  // Use addRequirements() here to declare subsystem dependencies.
-}
+// AcquireGamePiece::AcquireGamePiece() {
+//   // Use addRequirements() here to declare subsystem dependencies.
+// }
 
-// Called when the command is initially scheduled.
-void AcquireGamePiece::Initialize() {}
+// // Called when the command is initially scheduled.
+// void AcquireGamePiece::Initialize() {}
 
-// Called repeatedly when this Command is scheduled to run
-void AcquireGamePiece::Execute() {}
+// // Called repeatedly when this Command is scheduled to run
+// void AcquireGamePiece::Execute() {}
 
-// Called once the command ends or is interrupted.
-void AcquireGamePiece::End(bool interrupted) {}
+// // Called once the command ends or is interrupted.
+// void AcquireGamePiece::End(bool interrupted) {}
 
-// Returns true when the command should end.
-bool AcquireGamePiece::IsFinished() {
-  return false;
-}
+// // Returns true when the command should end.
+// bool AcquireGamePiece::IsFinished() {
+//   return false;
+// }

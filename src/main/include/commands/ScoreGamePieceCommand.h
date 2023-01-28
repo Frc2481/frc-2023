@@ -13,7 +13,6 @@
 #include <frc2/command/SelectCommand.h>
 
 
-
 enum ScoringPosition{FLOOR, MID_SHELF, TOP_SHELF, BOTTOM_POST, TOP_POST};
 enum GamePieceType{CUBE, CONE};
 
@@ -60,10 +59,9 @@ class ScoreGamePieceCommand
           }
         },
         m_pSlide->WaitForSlideOnTargetCommand(),
-        m_pElevator->WaitForElevatorOnTargetCommand()
+        m_pElevator->WaitForElevatorOnTargetCommand(),
         //TODO drop and center hatch slide and retract elevator
-
-      
+        m_pGripper->OpenCommand()
       }
     );
   }

@@ -16,10 +16,10 @@
 //auto
 #include "commands/auto/CenterLaneBlueAutoCommand.h"
 #include "commands/auto/CenterLaneRedAutoCommand.h"
-#include "commands/auto/LeftLaneBlueCommand.h"
-#include "commands/auto/LeftLaneRedCommand.h"
-#include "commands/auto/RightLaneBlueCommand.h"
-#include "commands/auto/RightLaneRedCommand.h"
+#include "commands/auto/LeftLaneBlueAutoCommand.h"
+#include "commands/auto/LeftLaneRedAutoCommand.h"
+#include "commands/auto/RightLaneBlueAutoCommand.h"
+#include "commands/auto/RightLaneRedAutoCommand.h"
 
 
 
@@ -33,8 +33,8 @@
 // ConfigureButtonBindings();
 //   m_chooser.SetDefaultOption("Center Lane Blue", new CenterLaneBlueAutoCommand());
 //   m_chooser.AddOption("Center Lane Red", new CenterLaneRedAutoCommand());
-//   m_chooser.AddOption("Left Lane Blue", new LeftLaneBlueCommand());
-//   m_chooser.AddOption("Left Lane Red", new LeftLaneRedCommand());
+//   m_chooser.AddOption("Left Lane Blue", new LeftLaneBlueAutoCommand());
+//   m_chooser.AddOption("Left Lane Red", new LeftLaneRedAutoCommand());
 //   m_chooser.AddOption("Right Lane Blue", new RightLaneBlueCommand());
 //   m_chooser.AddOption("Right Lane Red", new RightLaneRedCommand());
 //   frc::SmartDashboard::PutData(&m_chooser);  

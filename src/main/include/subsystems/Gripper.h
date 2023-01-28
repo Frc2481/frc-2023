@@ -7,13 +7,14 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/InstantCommand.h>
 
 class Gripper : public frc2::SubsystemBase {
  public:
   Gripper();
 
-   frc2::CommandPtr OpenCommand();
-   frc2::CommandPtr CloseCommand();
+   frc2::InstantCommand OpenCommand();
+   frc2::InstantCommand CloseCommand();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

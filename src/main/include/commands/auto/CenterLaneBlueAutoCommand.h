@@ -53,10 +53,9 @@ class CenterLaneBlueAutoCommand
     AddCommands(
 
       frc2::SequentialCommandGroup{
-        frc2::WaitCommand(5.0_s),
         m_pElevator->GoToTopPostCommand(),
         
-      //   // ScoreGamePieceCommand(), //add needed subsystems
+        // ScoreGamePieceCommand(), //add needed subsystems
 
       //   // Retract Elevator??
 

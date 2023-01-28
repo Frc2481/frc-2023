@@ -25,9 +25,9 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class CenterLaneRedAutoCommand
+class LeftLaneBlueAutoCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
-    CenterLaneRedAutoCommand> {
+    LeftLaneBlueAutoCommand> {
 
       private:
       Drivetrain* m_pDrive;
@@ -38,7 +38,7 @@ class CenterLaneRedAutoCommand
       Slide* m_pSlide;
 
  public:
-  CenterLaneRedAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
+  LeftLaneBlueAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
     m_pDrive = drive;
     m_pElevator = elevator;
     m_pFlipper = flipper;
@@ -49,7 +49,7 @@ class CenterLaneRedAutoCommand
     AddCommands(
       
       frc2::SequentialCommandGroup{
-
+        
       }
     );
   }

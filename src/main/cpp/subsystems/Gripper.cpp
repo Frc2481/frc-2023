@@ -5,12 +5,12 @@
 #include "subsystems/Gripper.h"
 #include "RobotParameters.h"
 
- frc2::CommandPtr Gripper::OpenCommand(){
-    return RunOnce([this] {Open();});
+ frc2::InstantCommand Gripper::OpenCommand(){
+    return frc2::InstantCommand([this] {Open();});
  }
 
- frc2::CommandPtr Gripper::CloseCommand(){
-    return RunOnce([this] {Close();});
+ frc2::InstantCommand Gripper::CloseCommand(){
+    return frc2::InstantCommand([this] {Close();});
  }
 
 Gripper::Gripper(){

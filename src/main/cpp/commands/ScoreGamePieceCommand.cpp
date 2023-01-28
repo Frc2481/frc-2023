@@ -4,20 +4,20 @@
 
 #include "commands/ScoreGamePieceCommand.h"
 
-ScoreGamePieceCommand::ScoreGamePieceCommand() {
-  // Use addRequirements() here to declare subsystem dependencies.
-}
+// ScoreGamePieceCommand::ScoreGamePieceCommand() {
+//   // Use addRequirements() here to declare subsystem dependencies.
+// }
 
-// Called when the command is initially scheduled.
-void ScoreGamePieceCommand::Initialize() {}
+// // Called when the command is initially scheduled.
+// void ScoreGamePieceCommand::Initialize() {}
 
-// Called repeatedly when this Command is scheduled to run
-void ScoreGamePieceCommand::Execute() {}
+// // Called repeatedly when this Command is scheduled to run
+// void ScoreGamePieceCommand::Execute() {}
 
-// Called once the command ends or is interrupted.
-void ScoreGamePieceCommand::End(bool interrupted) {}
+// // Called once the command ends or is interrupted.
+// void ScoreGamePieceCommand::End(bool interrupted) {}
 
-// Returns true when the command should end.
-bool ScoreGamePieceCommand::IsFinished() {
-  return false;
-}
+// // Returns true when the command should end.
+// bool ScoreGamePieceCommand::IsFinished() {
+//   return false;
+// }

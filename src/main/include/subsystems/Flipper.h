@@ -7,14 +7,15 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/InstantCommand.h>
 
 
 class Flipper : public frc2::SubsystemBase {
  public:
   Flipper();
 
-    frc2::CommandPtr UpCommand();
-    frc2::CommandPtr DownCommand();
+    frc2::InstantCommand UpCommand();
+    frc2::InstantCommand DownCommand();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
