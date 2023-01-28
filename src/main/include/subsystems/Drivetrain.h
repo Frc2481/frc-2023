@@ -11,20 +11,22 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc2/command/SubsystemBase.h>
 
 #include "components/SwerveModule.h"
 
 /**
  * Represents a swerve drive style drivetrain.
  */
-class Drivetrain {
+class Drivetrain : public frc2::SubsystemBase{
  public:
   Drivetrain() { m_gyro.Reset(); }
 
   void Drive(units::meters_per_second_t xSpeed,
-             units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
-             bool fieldRelative);
+             units::meters_per_second_t ySpeed, units::radians_per_second_t rot);
   void UpdateOdometry();
+
+  bool getFieldCentricForJoystick();
 
   frc::SwerveDriveKinematics<4> & GetKinematics();
 
@@ -44,6 +46,8 @@ class Drivetrain {
   SwerveModule m_backRight{10, 11, 12, 4, false, false, "BACK_RIGHT"};
 
   frc::AnalogGyro m_gyro{0};
+
+  bool m_fieldCentricForJoystick = false;
 
   frc::SwerveDriveKinematics<4> m_kinematics{
       m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation,

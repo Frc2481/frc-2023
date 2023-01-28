@@ -11,9 +11,9 @@
 
 void Drivetrain::Drive(units::meters_per_second_t xSpeed,
                        units::meters_per_second_t ySpeed,
-                       units::radians_per_second_t rot, bool fieldRelative) {
+                       units::radians_per_second_t rot) {
   auto states = m_kinematics.ToSwerveModuleStates(
-      fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
+      m_fieldCentricForJoystick ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot, m_gyro.GetRotation2d())
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
@@ -38,13 +38,19 @@ void Drivetrain::UpdateOdometry() {
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
   // bot pose type
-  std::vector<double> default_bot_pose = {0, 0, 0};
-  std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
-  frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg};
-    
-  m_poseEstimator.AddVisionMeasurement(
-      global_pose, 
-      frc::Timer::GetFPGATimestamp() - 0.3_s);
+  if(nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0)) {
+      std::vector<double> default_bot_pose = {0, 0, 0};
+      std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
+      frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg}; 
+
+      m_poseEstimator.AddVisionMeasurement(
+        global_pose, 
+        frc::Timer::GetFPGATimestamp() - 0.3_s);
+  }
+}
+
+bool Drivetrain::getFieldCentricForJoystick(){
+  return m_fieldCentricForJoystick;
 }
 
 frc::SwerveDriveKinematics<4> & Drivetrain::GetKinematics(){

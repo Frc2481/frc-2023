@@ -17,7 +17,8 @@
 #include "subsystems/Gripper.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Slide.h"
-
+#include <frc2/command/ParallelDeadlineGroup.h>
+#include "commands/FollowPathCommand.h"
 #include "commands/AcquireGamePieceCommand.h"
 #include "commands/ScoreGamePieceCommand.h"
 
@@ -49,31 +50,37 @@ class CenterLaneBlueAutoCommand
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pSlide = slide;
+    frc::TrajectoryConfig forwardConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    forwardConfig.SetKinematics(m_pDrive->GetKinematics());
+    forwardConfig.SetReversed(false);
+
+    frc::TrajectoryConfig reverseConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    reverseConfig.SetKinematics(m_pDrive->GetKinematics());
+    reverseConfig.SetReversed(true);
 
     AddCommands(
 
       frc2::SequentialCommandGroup{
-        m_pElevator->GoToTopPostCommand(),
-        
-        // ScoreGamePieceCommand(), //add needed subsystems
+        ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide),
+        frc2::ParallelDeadlineGroup(
+          std::move(AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)),
+          std::move(FollowPathCommand(
+            frc::Pose2d{0_in, 0_in, 0_deg}, 
+            {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
+            frc::Pose2d{0_in, 0_in, 0_deg},
+            forwardConfig)
+          )
+        ),
+        FollowPathCommand(
+            frc::Pose2d{0_in, 0_in, 0_deg}, 
+            {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
+            frc::Pose2d{0_in, 0_in, 0_deg},
+            reverseConfig),
 
-      //   // Retract Elevator??
-
-      //   // DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-
-        m_pIntake->ExtendCommand(),
-        m_pIntake->TurnOnIntakeCommand(),
-        // Wait For Game Piece Command??
-        m_pIntake->RetractCommand(),
-        
-      // //Acqiure Game Piece Command?
-
-      //   // DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-
-      //   // Balance??
-        
+            // Balance???
       }
-
     );
   }
   };

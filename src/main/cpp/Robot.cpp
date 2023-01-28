@@ -12,7 +12,6 @@
 class Robot : public frc::TimedRobot {
  public:
   void AutonomousPeriodic() override {
-    DriveWithJoystick(false);
     m_swerve.UpdateOdometry();
   }
 
@@ -47,7 +46,7 @@ class Robot : public frc::TimedRobot {
     const auto rot = -m_rotLimiter.Calculate(m_controller.GetRightX()) *
                      Drivetrain::kMaxAngularSpeed;
 
-    m_swerve.Drive(xSpeed, ySpeed, rot, fieldRelative);
+    m_swerve.Drive(xSpeed, ySpeed, rot);
   }
 };
 
