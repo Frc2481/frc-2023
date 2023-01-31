@@ -33,7 +33,8 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pTurningMotor = new VictorSPX(turningMotorID);
       
       m_pTurningMotor->ConfigFactoryDefault();
-      m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      // m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      m_pTurningEncoder = new CTREMagEncoder(turnEncoderID, name);
       m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
       m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
       

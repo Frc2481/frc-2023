@@ -19,6 +19,7 @@
 
 #include "RobotParameters.h"
 #include "components/CTRECANEncoder.h"
+#include "components/CTREMagEncoder.h"
 
 
 class SwerveModule {
@@ -59,7 +60,8 @@ class SwerveModule {
 
   TalonFX* m_pDriveMotor;
   VictorSPX* m_pTurningMotor;
-  CTRECANEncoder* m_pTurningEncoder;
+  CTREMagEncoder* m_pTurningEncoder;
+//   CTRECANEncoder* m_pTurningEncoder;
 
   bool m_reverseDriveEncoder;
   bool m_reverseTurningEncoder;
