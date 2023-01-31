@@ -6,10 +6,10 @@
 
 #include <string>
 #include "ctre/Phoenix.h"
-#include "components/CommonMotorController.h"
+
 class CTREMagEncoder {
 public:
-    CTREMagEncoder(CommonMotorController* pTalon, const std::string &name);
+    CTREMagEncoder(TalonSRX* pTalon, const std::string &name);
     ~CTREMagEncoder();
 
     void update();
@@ -31,7 +31,7 @@ public:
     int getZero() const;
 
 private:
-    CommonMotorController* m_pTalon;
+    TalonSRX* m_pTalon;
     int m_encoderTicks;
     int m_encoderTicksZero;
     std::string m_calibrationKey;

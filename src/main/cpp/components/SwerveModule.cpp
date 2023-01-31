@@ -30,13 +30,14 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_reverseTurningEncoder(turningEncoderReversed),  
       m_name(name){
       m_pDriveMotor = new TalonFX(driveMotorID);
-      m_pTurningMotor = new VictorSPX(turningMotorID);
+      m_pTurningMotor = new TalonSRX(turningMotorID);
+      // m_pTurningMotor = new VictorSPX(turningMotorID);
       
       m_pTurningMotor->ConfigFactoryDefault();
       // m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
-      m_pTurningEncoder = new CTREMagEncoder(turnEncoderID, name);
-      m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
-      m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
+      m_pTurningEncoder = new CTREMagEncoder(m_pTurningMotor, name);
+      // m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
+      // m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
       
       m_pTurningMotor->SelectProfileSlot(0, 0);
 	
@@ -193,5 +194,5 @@ void SwerveModule::DriveArc(double arcLength, double wheelAngle){
 }
 
 void SwerveModule::SyncCANcoders(){
-  m_pTurningEncoder->getCANCoder()->SetPositionToAbsolute();
+  // m_pTurningEncoder->getCANCoder()->SetPositionToAbsolute();
 }

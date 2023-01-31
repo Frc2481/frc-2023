@@ -20,13 +20,15 @@
  */
 class Drivetrain : public frc2::SubsystemBase{
  public:
-  Drivetrain() { m_gyro.Reset(); }
+  Drivetrain() {}
 
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot);
   void UpdateOdometry();
 
   bool getFieldCentricForJoystick();
+
+  void ResetEncoders();
 
   frc::SwerveDriveKinematics<4> & GetKinematics();
 
@@ -40,12 +42,12 @@ class Drivetrain : public frc2::SubsystemBase{
   frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
   frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
 
-  SwerveModule m_frontLeft{1, 2, 3, 1, false, false, "FRONT_LEFT"};
-  SwerveModule m_frontRight{4, 5, 6, 2, false, false, "FRONT_RIGHT"};
-  SwerveModule m_backLeft{7, 8, 9, 3, false, false, "BACK_LEFT"};
-  SwerveModule m_backRight{10, 11, 12, 4, false, false, "BACK_RIGHT"};
+  SwerveModule m_frontLeft{ 1, 2, 3, 1, false, false, "FRONT_LEFT"};
+  SwerveModule m_frontRight{4, 5, 6, 2, true, false, "FRONT_RIGHT"};
+  SwerveModule m_backLeft{  7, 8, 9, 3, false, false, "BACK_LEFT"};
+  SwerveModule m_backRight{10, 11, 12, 4, true, false, "BACK_RIGHT"};
 
-  frc::AnalogGyro m_gyro{0};
+
 
   bool m_fieldCentricForJoystick = false;
 

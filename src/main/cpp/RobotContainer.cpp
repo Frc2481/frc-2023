@@ -24,7 +24,16 @@
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
 
+class InstantDisabledCommand : public frc2::InstantCommand {
+public:
 
+  InstantDisabledCommand(std::function<void()> toRun,
+                 std::initializer_list<frc2::Subsystem*> requirements = {}) : frc2::InstantCommand(toRun, requirements) {} 
+
+  virtual bool RunsWhenDisabled() const override {
+    return true;
+  }
+};
 
 RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
                                   m_tDpadAux(&m_auxController, XBOX_DPAD_TOP),
@@ -41,6 +50,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Red", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         frc::SmartDashboard::PutData(&m_chooser);  
+        frc::SmartDashboard::PutData("Zero Steer", new InstantDisabledCommand([this]{m_drivetrain.ResetEncoders();}));
 }
 void RobotContainer::ConfigureButtonBindings() {
      m_drivetrain.SetDefaultCommand(std::move(DriveWithJoystickCommand(&m_drivetrain, &m_driverController)));

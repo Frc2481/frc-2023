@@ -59,7 +59,7 @@ class SwerveModule {
               std::numbers::pi * 2.0 * 12.0);  // radians per second squared
 
   TalonFX* m_pDriveMotor;
-  VictorSPX* m_pTurningMotor;
+  TalonSRX* m_pTurningMotor;
   CTREMagEncoder* m_pTurningEncoder;
 //   CTRECANEncoder* m_pTurningEncoder;
 

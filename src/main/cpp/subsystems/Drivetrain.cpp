@@ -8,13 +8,14 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "networktables/NetworkTableInstance.h"
 #include "units/length.h"
+#include <frc/geometry/Rotation2d.h>
 
 void Drivetrain::Drive(units::meters_per_second_t xSpeed,
                        units::meters_per_second_t ySpeed,
                        units::radians_per_second_t rot) {
   auto states = m_kinematics.ToSwerveModuleStates(
       m_fieldCentricForJoystick ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
-                          xSpeed, ySpeed, rot, m_gyro.GetRotation2d())
+                          xSpeed, ySpeed, rot, frc::Rotation2d())
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
   m_kinematics.DesaturateWheelSpeeds(&states, kMaxSpeed);
@@ -28,9 +29,9 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
 }
 
 void Drivetrain::UpdateOdometry() {
-  m_poseEstimator.Update(m_gyro.GetRotation2d(),
-                         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                          m_backLeft.GetPosition(), m_backRight.GetPosition()});
+  // m_poseEstimator.Update(m_gyro.GetRotation2d(),
+  //                        {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+  //                         m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
   
 
@@ -55,4 +56,11 @@ bool Drivetrain::getFieldCentricForJoystick(){
 
 frc::SwerveDriveKinematics<4> & Drivetrain::GetKinematics(){
   return m_kinematics;
+}
+
+void Drivetrain::ResetEncoders() {
+  m_frontLeft.ResetEncoders();
+  m_backLeft.ResetEncoders();
+  m_frontRight.ResetEncoders();
+  m_backRight.ResetEncoders();
 }

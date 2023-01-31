@@ -10,7 +10,7 @@
 #include "units/constants.h"
  
 
-CTREMagEncoder::CTREMagEncoder(CommonMotorController* pTalon, const std::string &name)
+CTREMagEncoder::CTREMagEncoder(TalonSRX* pTalon, const std::string &name)
 	:
     m_encoderTicks(0),
     m_encoderTicksZero(0) {
@@ -93,7 +93,7 @@ int CTREMagEncoder::convertWheelDistanceToTickSetpoint(double wheelRadius, doubl
 }
 
 bool CTREMagEncoder::isConnected() const {
-	return m_pTalon->isSensorConnected() > 0;
+	return m_pTalon->GetSensorCollection().GetPulseWidthRiseToRiseUs() > 0;
 }
 
 bool CTREMagEncoder::isCalibrated() const {
