@@ -22,10 +22,10 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
 
   auto [fl, fr, bl, br] = states;
 
-  m_frontLeft.SetDesiredState(fl);
+  // m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);
-  m_backLeft.SetDesiredState(bl);
-  m_backRight.SetDesiredState(br);
+  // m_backLeft.SetDesiredState(bl);
+  // m_backRight.SetDesiredState(br);
 }
 
 void Drivetrain::UpdateOdometry() {
@@ -44,9 +44,9 @@ void Drivetrain::UpdateOdometry() {
       std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
       frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg}; 
 
-      m_poseEstimator.AddVisionMeasurement(
-        global_pose, 
-        frc::Timer::GetFPGATimestamp() - 0.3_s);
+      // m_poseEstimator.AddVisionMeasurement(
+        // global_pose, 
+        // frc::Timer::GetFPGATimestamp() - 0.3_s);
   }
 }
 
@@ -59,8 +59,8 @@ frc::SwerveDriveKinematics<4> & Drivetrain::GetKinematics(){
 }
 
 void Drivetrain::ResetEncoders() {
-  m_frontLeft.ResetEncoders();
-  m_backLeft.ResetEncoders();
+  // m_frontLeft.ResetEncoders();
+  // m_backLeft.ResetEncoders();
   m_frontRight.ResetEncoders();
-  m_backRight.ResetEncoders();
+  // /m_backRight.ResetEncoders();
 }

@@ -42,10 +42,10 @@ class Drivetrain : public frc2::SubsystemBase{
   frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
   frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
 
-  SwerveModule m_frontLeft{ 1, 2, 3, 1, false, false, "FRONT_LEFT"};
+  // SwerveModule m_frontLeft{ 1, 2, 3, 1, false, false, "FRONT_LEFT"};
   SwerveModule m_frontRight{4, 5, 6, 2, true, false, "FRONT_RIGHT"};
-  SwerveModule m_backLeft{  7, 8, 9, 3, false, false, "BACK_LEFT"};
-  SwerveModule m_backRight{10, 11, 12, 4, true, false, "BACK_RIGHT"};
+  // SwerveModule m_backLeft{  7, 8, 9, 3, false, false, "BACK_LEFT"};
+  // SwerveModule m_backRight{10, 11, 12, 4, true, false, "BACK_RIGHT"};
 
 
 
@@ -57,12 +57,12 @@ class Drivetrain : public frc2::SubsystemBase{
 
   // Gains are for example purposes only - must be determined for your own
   // robot!
-  frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
-      m_kinematics,
-      frc::Rotation2d{},
-      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-       m_backLeft.GetPosition(), m_backRight.GetPosition()},
-      frc::Pose2d{},
-      {0.1, 0.1, 0.1},
-      {0.1, 0.1, 0.1}};
+//  / frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+     // m_kinematics,
+    //   frc::Rotation2d{},
+    //   {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+    //    m_backLeft.GetPosition(), m_backRight.GetPosition()},
+    //   frc::Pose2d{},
+    //   {0.1, 0.1, 0.1},
+    //   {0.1, 0.1, 0.1}};
 };

@@ -117,8 +117,8 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
   // auto turnOutput = m_turningPIDController.Calculate(
   //     units::radian_t(units::degree_t(m_turningEncoder->getAngle())), state.angle.Radians());
     
-  //   frc::SmartDashboard::PutNumber("Desired", state.angle.Degrees().to<double>());
-  //   frc::SmartDashboard::PutNumber("Current", units::degree_t(m_turningEncoder->getAngle()).to<double>());
+    frc::SmartDashboard::PutNumber("Desired", state.angle.Degrees().to<double>());
+    frc::SmartDashboard::PutNumber("Current", units::degree_t(m_pTurningEncoder->getAngle()).to<double>());
   //   frc::SmartDashboard::PutNumber("Turn Output", turnOutput); //TODO: These shouldn't stay here
   //   frc::SmartDashboard::PutNumber("Speed", m_driveMotor->GetEncoder().GetVelocity());
       // printf("%s: current angle %f desired angle %f\n", 
