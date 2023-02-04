@@ -98,7 +98,7 @@ frc::SwerveModuleState SwerveModule::GetState() const {
 
 frc::SwerveModulePosition SwerveModule::GetPosition() const{
     // TODO: acount for gear reduction
-return {units::meter_t{m_pDriveMotor->GetSelectedSensorPosition()},//MATH_CONSTANTS_PI
+return {units::meter_t{m_pDriveMotor->GetSelectedSensorPosition() * RobotParametersCompetition::k_driveMotorEncoderTicksToMeters},//MATH_CONSTANTS_PI
           frc::Rotation2d(units::degree_t(m_pTurningEncoder->getAngle()))};
 
 }

@@ -38,21 +38,17 @@ class DriveWithJoystickCommand
   }
 
   void Execute() override{
-    m_fieldCentric = m_pDrivetrain->getFieldCentricForJoystick();
-    //if (!m_rBumperDriver.GetRawButton(XBOX_RIGHT_BUMPER)) {
-            if(m_fieldCentric){
-              m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
-                                units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
-                                units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2)//*6.65
-                                );
-            }else{
-              m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
-                                units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
-                                units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2)//*6.65
-                                );
-            }
-    
-    //}
+    // if(m_pDrivetrain->getFieldCentricForJoystick()){
+      m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
+                        units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+                        units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2)//*6.65
+                        );
+    // }else{
+    //   m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
+    //                     units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+    //                     units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2)//*6.65
+    //                     );
+    // }
   }
 
   void End(bool interrupted) override{
@@ -62,17 +58,10 @@ class DriveWithJoystickCommand
   bool IsFinished() override{
     return false;
   }
-  void ToggleFeildCentric(){
-    if(m_fieldCentric){
-      m_fieldCentric = false;
-    }else{
-      m_fieldCentric = true;
-    }
-  }
+
 
  private:
     Joystick2481* m_pDriverController;
     Drivetrain* m_pDrivetrain;
-    bool m_fieldCentric = false;
     
 };

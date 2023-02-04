@@ -15,6 +15,7 @@
 
 #include "components/SwerveModule.h"
 
+#include "AHRS.h"
 /**
  * Represents a swerve drive style drivetrain.
  */
@@ -28,9 +29,19 @@ class Drivetrain : public frc2::SubsystemBase{
 
   bool getFieldCentricForJoystick();
 
+  void toggleFieldCentricForJoystick();
+
   void ResetEncoders();
 
   void Periodic();
+
+  frc::Rotation2d GetHeading();
+
+  void ZeroHeading(double offset = 0);
+
+  void ResetOdometry(frc::Pose2d pose);
+
+  frc::Pose2d GetOdometryPosition();
 
   frc::SwerveDriveKinematics<4> & GetKinematics();
 
@@ -57,6 +68,11 @@ class Drivetrain : public frc2::SubsystemBase{
                            FalconIDs::kBackRightDriveMotorFollowerID, 
                            12, 4, false, true, "BACK_RIGHT"};
 
+  AHRS m_IMU{
+    frc::SPI::kMXP
+  };
+
+  double m_yawOffset = 0;
 
 
   bool m_fieldCentricForJoystick = false;
@@ -67,12 +83,12 @@ class Drivetrain : public frc2::SubsystemBase{
 
   // Gains are for example purposes only - must be determined for your own
   // robot!
-//  / frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
-     // m_kinematics,
-    //   frc::Rotation2d{},
-    //   {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-    //    m_backLeft.GetPosition(), m_backRight.GetPosition()},
-    //   frc::Pose2d{},
-    //   {0.1, 0.1, 0.1},
-    //   {0.1, 0.1, 0.1}};
+ frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+     m_kinematics,
+      frc::Rotation2d{},
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+       m_backLeft.GetPosition(), m_backRight.GetPosition()},
+      frc::Pose2d{},
+      {0.1, 0.1, 0.1},
+      {0.1, 0.1, 0.1}};
 };
