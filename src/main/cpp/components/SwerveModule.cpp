@@ -33,6 +33,7 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pTurningMotor = new TalonSRX(turningMotorID);
       // m_pTurningMotor = new VictorSPX(turningMotorID);
       
+      m_pDriveMotor->ConfigFactoryDefault();
       m_pTurningMotor->ConfigFactoryDefault();
       // m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
       m_pTurningEncoder = new CTREMagEncoder(m_pTurningMotor, name);
@@ -54,7 +55,7 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pTurningMotor->ConfigNominalOutputReverse(0.0, 0.0);
       m_pTurningMotor->ConfigPeakOutputForward(1.0, 0.0);
       m_pTurningMotor->ConfigPeakOutputReverse(-1.0, 0.0);
-      m_pTurningMotor->SetSensorPhase(false);	
+      m_pTurningMotor->SetSensorPhase(turningEncoderReversed);	
       m_pTurningMotor->SetInverted(false);
 
 
@@ -144,7 +145,8 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
 
   // Set the motor outputs.
   // TODO Convert RPM to ticks
-  m_pDriveMotor->Set(ControlMode::Velocity, driveMotorRPM);
+  // m_pDriveMotor->Set(ControlMode::Velocity, driveMotorRPM);
+  m_pDriveMotor->Set(ControlMode::PercentOutput, driveMotorRPM);
   
   // m_turningMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnOutput);
 

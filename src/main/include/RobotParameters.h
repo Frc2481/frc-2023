@@ -41,16 +41,16 @@ namespace VictorIDs{
 }
 
 namespace FalconIDs{
-    static constexpr int kFrontRightDriveMotorID = 1;
-    static constexpr int kFrontRightDriveMotorFollowerID = 2;
-    static constexpr int kFrontLeftDriveMotorID = 3;
-    static constexpr int kFrontLeftDriveMotorFollowerID = 4;
-    static constexpr int kRearRightDriveMotorID = 5;
-    static constexpr int kRearRightDriveMotorFollowerID = 6;
-    static constexpr int kRearLeftDriveMotorID = 7;
-    static constexpr int kRearLeftDriveMotorFollowerID = 8;
-    static constexpr int kElevatorMotor = 9;
-    static constexpr int kSlideMotor = 10;
+    static constexpr int kFrontRightDriveMotorID = 4;
+    static constexpr int kFrontRightDriveMotorFollowerID = 5;
+    static constexpr int kFrontLeftDriveMotorID = 1;
+    static constexpr int kFrontLeftDriveMotorFollowerID = 2;
+    static constexpr int kBackRightDriveMotorID = 10;
+    static constexpr int kBackRightDriveMotorFollowerID = 11;
+    static constexpr int kBackLeftDriveMotorID = 7;
+    static constexpr int kBackLeftDriveMotorFollowerID = 8;
+    static constexpr int kElevatorMotor = 13;
+    static constexpr int kSlideMotor = 14;
     static constexpr int kIntakeHorizontalMotor = 1;
     static constexpr int kIntakeVerticalMotor = 1;
 } 

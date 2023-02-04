@@ -10,6 +10,10 @@
 #include "units/length.h"
 #include <frc/geometry/Rotation2d.h>
 
+void Drivetrain::Periodic() {
+  // Drive(units::meters_per_second_t(0.0), units::meters_per_second_t(0.0), units::radians_per_second_t(0));
+}
+
 void Drivetrain::Drive(units::meters_per_second_t xSpeed,
                        units::meters_per_second_t ySpeed,
                        units::radians_per_second_t rot) {
@@ -22,10 +26,10 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
 
   auto [fl, fr, bl, br] = states;
 
-  // m_frontLeft.SetDesiredState(fl);
+  m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);
-  // m_backLeft.SetDesiredState(bl);
-  // m_backRight.SetDesiredState(br);
+  m_backLeft.SetDesiredState(bl);
+  m_backRight.SetDesiredState(br);
 }
 
 void Drivetrain::UpdateOdometry() {
@@ -59,8 +63,8 @@ frc::SwerveDriveKinematics<4> & Drivetrain::GetKinematics(){
 }
 
 void Drivetrain::ResetEncoders() {
-  // m_frontLeft.ResetEncoders();
-  // m_backLeft.ResetEncoders();
+  m_frontLeft.ResetEncoders();
+  m_backLeft.ResetEncoders();
   m_frontRight.ResetEncoders();
-  // /m_backRight.ResetEncoders();
+  m_backRight.ResetEncoders();
 }

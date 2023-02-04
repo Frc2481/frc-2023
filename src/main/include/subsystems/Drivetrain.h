@@ -30,6 +30,8 @@ class Drivetrain : public frc2::SubsystemBase{
 
   void ResetEncoders();
 
+  void Periodic();
+
   frc::SwerveDriveKinematics<4> & GetKinematics();
 
   static constexpr auto kMaxSpeed = 3.0_mps;  // 3 meters per second
@@ -42,10 +44,18 @@ class Drivetrain : public frc2::SubsystemBase{
   frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
   frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
 
-  // SwerveModule m_frontLeft{ 1, 2, 3, 1, false, false, "FRONT_LEFT"};
-  SwerveModule m_frontRight{4, 5, 6, 2, true, false, "FRONT_RIGHT"};
-  // SwerveModule m_backLeft{  7, 8, 9, 3, false, false, "BACK_LEFT"};
-  // SwerveModule m_backRight{10, 11, 12, 4, true, false, "BACK_RIGHT"};
+  SwerveModule m_frontLeft{FalconIDs::kFrontLeftDriveMotorID, 
+                           FalconIDs::kFrontLeftDriveMotorFollowerID, 
+                           3, 1, false, true, "FRONT_LEFT"};
+  SwerveModule m_frontRight{FalconIDs::kFrontRightDriveMotorID, 
+                            FalconIDs::kFrontRightDriveMotorFollowerID, 
+                            6, 2, false, true, "FRONT_RIGHT"};
+  SwerveModule m_backLeft{FalconIDs::kBackLeftDriveMotorID, 
+                          FalconIDs::kBackLeftDriveMotorFollowerID, 
+                          9, 3, false, true, "BACK_LEFT"};
+  SwerveModule m_backRight{FalconIDs::kBackRightDriveMotorID, 
+                           FalconIDs::kBackRightDriveMotorFollowerID, 
+                           12, 4, false, true, "BACK_RIGHT"};
 
 
 
