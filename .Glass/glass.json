@@ -2,6 +2,9 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "Field": {
+          "open": true
+        },
         "Zero Steer": {
           "open": true
         },
@@ -10,10 +13,28 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Reset Angle": "Command",
+      "/SmartDashboard/Reset Odometry": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Zero Steer": "Command"
     },
     "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Reset Angle": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Reset Odometry": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Zero Steer": {
         "window": {
           "visible": true
@@ -51,7 +72,20 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "height": 338
+        }
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

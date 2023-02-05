@@ -11,6 +11,10 @@
 #include <frc/geometry/Rotation2d.h>
 #include "Utils/NormalizeToRange.h"
 
+Drivetrain::Drivetrain(){
+  frc::SmartDashboard::PutData("Field", &m_field);
+}
+
 void Drivetrain::Periodic() {
   // Drive(units::meters_per_second_t(0.0), units::meters_per_second_t(0.0), units::radians_per_second_t(0));
   frc::SmartDashboard::PutNumber("IMU heading", (double)GetHeading().Degrees());
@@ -41,9 +45,16 @@ void Drivetrain::UpdateOdometry() {
                          {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                           m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
-  frc::SmartDashboard::PutNumber("Odometry X", m_poseEstimator.GetEstimatedPosition().X().to<double>());
-  frc::SmartDashboard::PutNumber("Odometry Y", m_poseEstimator.GetEstimatedPosition().Y().to<double>());
-  frc::SmartDashboard::PutNumber("Odometry Yaw", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().to<double>());
+  frc::SmartDashboard::PutNumber("Odometry X", units::inch_t(GetOdometryPosition().X()).value());
+  frc::SmartDashboard::PutNumber("Odometry Y", units::inch_t(GetOdometryPosition().Y()).value());
+  frc::SmartDashboard::PutNumber("Odometry Yaw", GetOdometryPosition().Rotation().Degrees().to<double>());
+
+  frc::SmartDashboard::PutNumber("Front Left", units::inch_t(m_frontLeft.GetPosition().distance).value());
+  frc::SmartDashboard::PutNumber("Front Right", units::inch_t(m_frontRight.GetPosition().distance).value());
+  frc::SmartDashboard::PutNumber("Back Left", units::inch_t(m_backLeft.GetPosition().distance).value());
+  frc::SmartDashboard::PutNumber("Back Right", units::inch_t(m_backRight.GetPosition().distance).value());
+
+  m_field.SetRobotPose(GetOdometryPosition());
 
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
@@ -57,19 +68,20 @@ void Drivetrain::UpdateOdometry() {
       // m_poseEstimator.AddVisionMeasurement(
         // global_pose, 
         // frc::Timer::GetFPGATimestamp() - 0.3_s);
-        
+    printf("Vision Sample\n");
   }
 }
 
 void Drivetrain::ResetOdometry(frc::Pose2d pose) {
-  ZeroHeading();
+  // ZeroHeading();
   m_poseEstimator.ResetPosition(GetHeading(), 
                         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                          m_backLeft.GetPosition(), m_backRight.GetPosition()}, pose);
   
-}
+  }
 
 frc::Pose2d Drivetrain::GetOdometryPosition(){
+  // return m_poseEstimator.GetPose();
   return m_poseEstimator.GetEstimatedPosition();
 }
 

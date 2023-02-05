@@ -12,16 +12,18 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
+#include <frc/smartdashboard/field2d.h>
 
 #include "components/SwerveModule.h"
 
 #include "AHRS.h"
+
 /**
  * Represents a swerve drive style drivetrain.
  */
 class Drivetrain : public frc2::SubsystemBase{
  public:
-  Drivetrain() {}
+  Drivetrain();
 
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot);
@@ -77,6 +79,8 @@ class Drivetrain : public frc2::SubsystemBase{
 
   bool m_fieldCentricForJoystick = false;
 
+  frc::Field2d m_field;
+
   frc::SwerveDriveKinematics<4> m_kinematics{
       m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation,
       m_backRightLocation};
@@ -89,6 +93,16 @@ class Drivetrain : public frc2::SubsystemBase{
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
        m_backLeft.GetPosition(), m_backRight.GetPosition()},
       frc::Pose2d{},
-      {0.1, 0.1, 0.1},
-      {0.1, 0.1, 0.1}};
+      // {0.1, 0.1, 0.1},
+      // {0.1, 0.1, 0.1}
+      };
+
+    // frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+    //  m_kinematics,
+    //   frc::Rotation2d{},
+    //   {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+    //    m_backLeft.GetPosition(), m_backRight.GetPosition()},
+    //   frc::Pose2d{},
+    //   {0.1, 0.1, 0.1},
+    //   {0.1, 0.1, 0.1}};
 };
