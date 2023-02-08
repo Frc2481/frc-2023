@@ -321,6 +321,14 @@ namespace RobotParametersTest {
     static constexpr double k_steerMotorControllerKap = 0;
     static constexpr double k_steerMotorControllerKan = 0;
 
+    // drive motors
+    static constexpr double k_driveMotorControllerKp = 0.1;
+    static constexpr double k_driveMotorControllerKi = 0;
+    static constexpr double k_driveMotorControllerKd = 0;
+    static constexpr double k_driveMotorControllerKv = 0.06666;
+    static constexpr double k_driveMotorControllerKs = 0.12032;
+    static constexpr double k_driveMotorControllerKa = 0.0049351;
+
 
     // encoders
     static constexpr unsigned k_ctreMagEncoderTicksPerRev = 4096;

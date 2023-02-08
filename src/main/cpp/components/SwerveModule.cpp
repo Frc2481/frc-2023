@@ -62,9 +62,9 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       
       m_pDriveMotor->ConfigFactoryDefault();
       m_pDriveMotor->SetInverted(driveEncoderReversed);
-      m_pDriveMotor->Config_kP(0, 0.1);//.07
-      m_pDriveMotor->Config_kI(0, 0);
-      m_pDriveMotor->Config_kD(0, 0);//.035
+      m_pDriveMotor->Config_kP(0, RobotParameters::k_driveMotorControllerKp);//.07
+      m_pDriveMotor->Config_kI(0, RobotParameters::k_driveMotorControllerKi);
+      m_pDriveMotor->Config_kD(0, RobotParameters::k_driveMotorControllerKd);//.035
       m_pDriveMotor->Config_kF(0, 1023/(RobotParameters::k_maxSpeed/RobotParameters::k_driveMotorEncoderTicksToMPS));
       m_pDriveMotor->Config_IntegralZone(0, 0);
       m_pDriveMotor->ConfigOpenloopRamp(0.5, 10);
