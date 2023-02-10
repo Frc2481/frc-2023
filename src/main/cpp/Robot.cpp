@@ -13,7 +13,7 @@
 class Robot : public frc::TimedRobot {
  public:
   void AutonomousPeriodic() override {
-    m_swerve.UpdateOdometry();
+    // m_swerve.UpdateOdometry();
   }
 
   void TeleopPeriodic(){
@@ -26,7 +26,7 @@ class Robot : public frc::TimedRobot {
 
  private:
   frc::XboxController m_controller{0};
-  Drivetrain m_swerve;
+  // Drivetrain m_swerve;
   RobotContainer m_Container;
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0

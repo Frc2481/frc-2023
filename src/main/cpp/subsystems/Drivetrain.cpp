@@ -44,17 +44,17 @@ void Drivetrain::UpdateOdometry() {
   m_poseEstimator.Update(GetHeading(),
                          {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                           m_backLeft.GetPosition(), m_backRight.GetPosition()});
-
-  frc::SmartDashboard::PutNumber("Odometry X", units::inch_t(GetOdometryPosition().X()).value());
-  frc::SmartDashboard::PutNumber("Odometry Y", units::inch_t(GetOdometryPosition().Y()).value());
-  frc::SmartDashboard::PutNumber("Odometry Yaw", GetOdometryPosition().Rotation().Degrees().to<double>());
+  frc::Pose2d pose = GetOdometryPosition();
+  frc::SmartDashboard::PutNumber("Odometry X", units::inch_t(pose.X()).value());
+  frc::SmartDashboard::PutNumber("Odometry Y", units::inch_t(pose.Y()).value());
+  frc::SmartDashboard::PutNumber("Odometry Yaw", pose.Rotation().Degrees().to<double>());
 
   frc::SmartDashboard::PutNumber("Front Left", units::inch_t(m_frontLeft.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Front Right", units::inch_t(m_frontRight.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Left", units::inch_t(m_backLeft.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Right", units::inch_t(m_backRight.GetPosition().distance).value());
 
-  m_field.SetRobotPose(GetOdometryPosition());
+  m_field.SetRobotPose(pose);
 
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
@@ -81,7 +81,6 @@ void Drivetrain::ResetOdometry(frc::Pose2d pose) {
   }
 
 frc::Pose2d Drivetrain::GetOdometryPosition(){
-  // return m_poseEstimator.GetPose();
   return m_poseEstimator.GetEstimatedPosition();
 }
 
