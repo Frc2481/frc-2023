@@ -47,9 +47,7 @@ class Drivetrain : public frc2::SubsystemBase{
 
   frc::SwerveDriveKinematics<4> & GetKinematics();
 
-  static constexpr auto kMaxSpeed = 3.0_mps;  // 3 meters per second
-  static constexpr units::radians_per_second_t kMaxAngularSpeed{
-      std::numbers::pi};  // 1/2 rotation per second
+  void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
 
  private:
   frc::Translation2d m_frontLeftLocation{+0.381_m, +0.381_m};

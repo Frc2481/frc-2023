@@ -29,7 +29,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
                           xSpeed, ySpeed, rot, GetHeading())
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
-  m_kinematics.DesaturateWheelSpeeds(&states, kMaxSpeed);
+  m_kinematics.DesaturateWheelSpeeds(&states, RobotParameters::k_maxSpeed);
 
   auto [fl, fr, bl, br] = states;
   frc::SmartDashboard::PutNumber("fl angle", (double)fl.angle.Degrees());
@@ -38,6 +38,10 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   m_frontRight.SetDesiredState(fr);
   m_backLeft.SetDesiredState(bl);
   m_backRight.SetDesiredState(br);
+}
+
+void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates){
+  m_kinematics.DesaturateWheelSpeeds(&desiredStates, RobotParameters::k_maxSpeed);
 }
 
 void Drivetrain::UpdateOdometry() {

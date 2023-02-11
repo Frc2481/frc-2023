@@ -65,7 +65,7 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pDriveMotor->Config_kP(0, RobotParameters::k_driveMotorControllerKp);//.07
       m_pDriveMotor->Config_kI(0, RobotParameters::k_driveMotorControllerKi);
       m_pDriveMotor->Config_kD(0, RobotParameters::k_driveMotorControllerKd);//.035
-      m_pDriveMotor->Config_kF(0, 1023/(RobotParameters::k_maxSpeed/RobotParameters::k_driveMotorEncoderTicksToMPS));
+      m_pDriveMotor->Config_kF(0, 1023/(RobotParameters::k_maxSpeed.value()/RobotParameters::k_driveMotorEncoderTicksToMPS));
       m_pDriveMotor->Config_IntegralZone(0, 0);
       m_pDriveMotor->ConfigOpenloopRamp(0.5, 10);
       m_pDriveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
@@ -189,8 +189,8 @@ void SwerveModule::setBrake(){
 void SwerveModule::DriveArc(double arcLength, double wheelAngle){
   double desiredTicks = m_pTurningEncoder->convertAngleToTickSetpoint(wheelAngle);
   m_pTurningMotor->Set(ControlMode::Position, desiredTicks);
-  m_pDriveMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS);
-  m_pDriveMotor->ConfigMotionAcceleration(((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS)*2);
+  m_pDriveMotor->ConfigMotionCruiseVelocity((units::meters_per_second_t(RobotParameters::k_maxSpeed).value())/RobotParameters::k_driveMotorEncoderTicksToMPS);
+  m_pDriveMotor->ConfigMotionAcceleration((units::meters_per_second_t(RobotParameters::k_maxSpeed).value()/RobotParameters::k_driveMotorEncoderTicksToMPS)*2);
   m_pDriveMotor->Set(ControlMode::MotionMagic, m_pDriveMotor->GetSelectedSensorPosition() + arcLength/RobotParameters::k_driveMotorEncoderTicksToMeters);
 
 }

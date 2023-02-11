@@ -70,14 +70,14 @@ class LeftLaneRedAutoCommand
             frc::Pose2d{0_in, 0_in, 0_deg}, 
             {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
-            forwardConfig)
+            forwardConfig, m_pDrive)
           )
         ),
         FollowPathCommand(
             frc::Pose2d{0_in, 0_in, 0_deg}, 
             {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
-            reverseConfig),
+            reverseConfig, m_pDrive),
         //TODO figure out what/where scoring
         ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide),
         frc2::ParallelDeadlineGroup(
@@ -86,14 +86,14 @@ class LeftLaneRedAutoCommand
             frc::Pose2d{0_in, 0_in, 0_deg}, 
             {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
-            forwardConfig)
+            forwardConfig, m_pDrive)
           )
         ),
         FollowPathCommand(
             frc::Pose2d{0_in, 0_in, 0_deg}, 
             {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
-            reverseConfig),
+            reverseConfig, m_pDrive),
         //TODO figure out what/where scoring
         ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide)
       }

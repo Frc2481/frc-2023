@@ -1,5 +1,5 @@
 // Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
+// Open Source So(ftware; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
@@ -11,6 +11,7 @@
 #include <frc/trajectory/TrajectoryConfig.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc/controller/HolonomicDriveController.h>
+#include "RobotParameters.h"
 
 /**
  * An example command.
@@ -24,27 +25,43 @@ class FollowPathCommand
 
       private:
       frc::Trajectory m_trajectory;
-      frc::ProfiledPIDController<units::radians> m_yawController;
-      frc2::PIDController m_XController;
-      frc2::PIDController m_YController;
+      frc::ProfiledPIDController<units::radians> m_yawController{RobotParameters::k_yawKp, RobotParameters::k_yawKi, RobotParameters::k_yawKd, frc::ProfiledPIDController<units::radians>::Constraints(RobotParameters::k_maxYawRate, RobotParameters::k_maxYawAccel)};
+      frc2::PIDController m_XController{RobotParameters::k_xyKp, RobotParameters::k_xyKi, RobotParameters::k_xyKd};
+      frc2::PIDController m_YController{RobotParameters::k_xyKp, RobotParameters::k_xyKi, RobotParameters::k_xyKd};
       frc::HolonomicDriveController m_swerveController{m_XController, m_YController, m_yawController};
+      frc::Timer m_timer;
+      units::second_t m_PrevTime;
+      Drivetrain* m_drivetrain;
+
 
  public:
   FollowPathCommand(const frc::Pose2d & start, 
                     const std::vector<frc::Translation2d> & innerWayPoints,
                     const frc::Pose2d & end,
-                    const frc::TrajectoryConfig & config){
-
+                    const frc::TrajectoryConfig & config, 
+                    Drivetrain* drivetrain){
+    m_drivetrain = drivetrain;
     m_trajectory = frc::TrajectoryGenerator::GenerateTrajectory(start, innerWayPoints, end, config);
   }
 
-  void Initialize() override{}
+  void Initialize() override{
+    m_timer.Reset();
+  }
 
-  void Execute() override{}
+  void Execute() override{
+    auto curTime = m_timer.Get();
+    auto desirdedState = m_trajectory.Sample(curTime);
+    auto desiredRotation = m_trajectory.States().back().pose.Rotation();
+    auto targetChassisSpeeds = m_swerveController.Calculate(m_drivetrain->GetOdometryPosition(), desirdedState, desiredRotation);
+    auto targetModuleStates = m_drivetrain->GetKinematics().ToSwerveModuleStates(targetChassisSpeeds);
+    m_drivetrain->SetModuleStates(targetModuleStates);
+  }
 
-  void End(bool interrupted) override{}
+  void End(bool interrupted) override{
+    m_timer.Stop();
+  }
 
   bool IsFinished() override{
-    return false;
+    return m_timer.HasElapsed(m_trajectory.TotalTime());
   }
 };

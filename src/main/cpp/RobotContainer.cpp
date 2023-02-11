@@ -60,3 +60,6 @@ void RobotContainer::ConfigureButtonBindings() {
     
 }
 
+frc2::Command* RobotContainer::GetAutonomousCommand(){
+  return m_chooser.GetSelected();
+}

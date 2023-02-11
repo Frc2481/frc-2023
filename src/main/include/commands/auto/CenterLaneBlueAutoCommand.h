@@ -70,14 +70,14 @@ class CenterLaneBlueAutoCommand
             frc::Pose2d{0_in, 0_in, 0_deg}, 
             {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
-            forwardConfig)
+            forwardConfig, m_pDrive)
           )
         ),
         FollowPathCommand(
             frc::Pose2d{0_in, 0_in, 0_deg}, 
             {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
-            reverseConfig),
+            reverseConfig, m_pDrive),
 
             // Balance???
       }
