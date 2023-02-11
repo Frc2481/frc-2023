@@ -20,6 +20,7 @@
 #include "commands/auto/LeftLaneRedAutoCommand.h"
 #include "commands/auto/RightLaneBlueAutoCommand.h"
 #include "commands/auto/RightLaneRedAutoCommand.h"
+// #include "commands/auto/TestCommand.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -49,10 +50,12 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         m_chooser.AddOption("Left Lane Red", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Red", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        // m_chooser.AddOption("Test Auto", new TestCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         frc::SmartDashboard::PutData(&m_chooser);  
         frc::SmartDashboard::PutData("Zero Steer", new InstantDisabledCommand([this]{m_drivetrain.ResetEncoders();}));
         frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this]{m_drivetrain.ResetOdometry(frc::Pose2d());}));
         frc::SmartDashboard::PutData("Reset Angle", new InstantDisabledCommand([this]{m_drivetrain.ZeroHeading();}));
+        // frc::SmartDashboard::PutData("Test Auto", new Test(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
 }
 void RobotContainer::ConfigureButtonBindings() {
     m_drivetrain.SetDefaultCommand(std::move(DriveWithJoystickCommand(&m_drivetrain, &m_driverController)));
