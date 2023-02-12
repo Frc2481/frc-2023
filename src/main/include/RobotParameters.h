@@ -125,7 +125,7 @@ using radians_per_second_squared_t =
     units::compound_unit<units::radians,
                          units::inverse<units::squared<units::second>>>;
 
-constexpr auto kMaxSpeed = units::meters_per_second_t(3);
+// constexpr auto kMaxSpeed = units::meters_per_second_t(3);
 constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(3);
 constexpr auto kMaxAngularSpeed = units::radians_per_second_t(3.142);
 constexpr auto kMaxAngularAcceleration =
@@ -291,7 +291,7 @@ namespace RobotParametersTest {
     static constexpr double k_wheelLeverArm = sqrt(std::pow(k_wheelBase/2,2) + std::pow(k_wheelTrack/2,2));
     static constexpr double k_wheelRad = (3.79/2)*.0254*1.03; // in TODO find actual size
     static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(15); //TODO change also in driveWithJoystickCommand
-    static constexpr double k_maxAccel = 1;
+    static constexpr double k_maxAccel = 3;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
     static constexpr double k_driveMotorGearRatio = (11.0/30.0)*(1.0/3.0);

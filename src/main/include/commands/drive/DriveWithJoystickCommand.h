@@ -39,9 +39,9 @@ class DriveWithJoystickCommand
 
   void Execute() override{
     // if(m_pDrivetrain->getFieldCentricForJoystick()){
-      m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
-                        units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
-                        units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2)//*6.65
+      m_pDrivetrain->Drive(units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
+                        units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+                        units::radians_per_second_t(-m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2)//*6.65
                         );
     // }else{
     //   m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),

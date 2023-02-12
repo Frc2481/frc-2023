@@ -111,7 +111,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
   //     m_driveMotor->GetEncoder().GetVelocity(), state.speed.to<double>());
 
   float currentAngle = units::degree_t(m_pTurningEncoder->getAngle()).to<double>();
-  float driveMotorRPM = state.speed.to<double>();///RobotParameters::k_driveMotorEncoderRPMToMPS;
+  float driveMotorRPM = state.speed.to<double>() * RobotParameters::k_driveMotorEncoderTicksToMPS;
   float desiredAngle = state.angle.Degrees().to<double>();
 
   // // Calculate the turning motor output from the turning PID controller.
@@ -145,8 +145,8 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
 
   // Set the motor outputs.
   // TODO Convert RPM to ticks
-  // m_pDriveMotor->Set(ControlMode::Velocity, driveMotorRPM);
-  m_pDriveMotor->Set(ControlMode::PercentOutput, driveMotorRPM);
+  m_pDriveMotor->Set(ControlMode::Velocity, driveMotorRPM);
+  // m_pDriveMotor->Set(ControlMode::PercentOutput, driveMotorRPM);
   
   // m_turningMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnOutput);
 

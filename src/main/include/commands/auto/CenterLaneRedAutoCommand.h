@@ -68,14 +68,14 @@ class CenterLaneRedAutoCommand
           std::move(AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)),
           std::move(FollowPathCommand(
             frc::Pose2d{0_in, 0_in, 0_deg}, 
-            {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
-            frc::Pose2d{0_in, 0_in, 0_deg},
+            {frc::Translation2d{25_in, 0_in}, frc::Translation2d{75_in, 0_in}},
+            frc::Pose2d{100_in, 0_in, 0_deg},
             forwardConfig, m_pDrive)
           )
         ),
         FollowPathCommand(
-            frc::Pose2d{0_in, 0_in, 0_deg}, 
-            {frc::Translation2d{0_in, 0_in}, frc::Translation2d{0_in, 0_in}},
+            frc::Pose2d{100_in, 0_in, 0_deg}, 
+            {frc::Translation2d{75_in, 0_in}, frc::Translation2d{25_in, 0_in}},
             frc::Pose2d{0_in, 0_in, 0_deg},
             reverseConfig, m_pDrive),
 

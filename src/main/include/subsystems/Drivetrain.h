@@ -49,6 +49,8 @@ class Drivetrain : public frc2::SubsystemBase{
 
   void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
 
+  frc::Field2d* GetField();
+
  private:
   frc::Translation2d m_frontLeftLocation{+0.381_m, +0.381_m};
   frc::Translation2d m_frontRightLocation{+0.381_m, -0.381_m};

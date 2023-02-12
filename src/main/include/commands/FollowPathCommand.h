@@ -12,7 +12,7 @@
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc/controller/HolonomicDriveController.h>
 #include "RobotParameters.h"
-
+#include <units/length.h>
 /**
  * An example command.
  *
@@ -42,17 +42,22 @@ class FollowPathCommand
                     Drivetrain* drivetrain){
     m_drivetrain = drivetrain;
     m_trajectory = frc::TrajectoryGenerator::GenerateTrajectory(start, innerWayPoints, end, config);
+    AddRequirements(m_drivetrain);
   }
 
   void Initialize() override{
     m_timer.Reset();
+    m_timer.Start();
+    m_drivetrain->GetField()->GetObject("traj")->SetTrajectory(m_trajectory);
   }
 
   void Execute() override{
     auto curTime = m_timer.Get();
-    auto desirdedState = m_trajectory.Sample(curTime);
+    auto desiredState = m_trajectory.Sample(curTime);
+    frc::SmartDashboard::PutNumber("Path X", units::inch_t(desiredState.pose.X()).value());
+    frc::SmartDashboard::PutNumber("Path Y", units::inch_t(desiredState.pose.Y()).value());
     auto desiredRotation = m_trajectory.States().back().pose.Rotation();
-    auto targetChassisSpeeds = m_swerveController.Calculate(m_drivetrain->GetOdometryPosition(), desirdedState, desiredRotation);
+    auto targetChassisSpeeds = m_swerveController.Calculate(m_drivetrain->GetOdometryPosition(), desiredState, desiredRotation);
     auto targetModuleStates = m_drivetrain->GetKinematics().ToSwerveModuleStates(targetChassisSpeeds);
     m_drivetrain->SetModuleStates(targetModuleStates);
   }

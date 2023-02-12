@@ -38,10 +38,23 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   m_frontRight.SetDesiredState(fr);
   m_backLeft.SetDesiredState(bl);
   m_backRight.SetDesiredState(br);
+
+  printf("%f\n", fl.speed.value());
 }
 
 void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates){
   m_kinematics.DesaturateWheelSpeeds(&desiredStates, RobotParameters::k_maxSpeed);
+  auto [fl, fr, bl, br] = desiredStates;
+  m_frontLeft.SetDesiredState(fl);
+  m_frontRight.SetDesiredState(fr);
+  m_backLeft.SetDesiredState(bl);
+  m_backRight.SetDesiredState(br);
+
+  printf("%f\n", fl.speed.value());
+}
+
+frc::Field2d * Drivetrain::GetField(){
+  return & m_field;
 }
 
 void Drivetrain::UpdateOdometry() {
@@ -60,6 +73,7 @@ void Drivetrain::UpdateOdometry() {
 
   m_field.SetRobotPose(pose);
 
+  
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
