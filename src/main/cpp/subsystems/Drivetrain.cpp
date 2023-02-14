@@ -39,7 +39,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   m_backLeft.SetDesiredState(bl);
   m_backRight.SetDesiredState(br);
 
-  printf("%f\n", fl.speed.value());
+  // printf("%f\n", fl.speed.value());
 }
 
 void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates){
@@ -51,6 +51,7 @@ void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredSt
   m_backRight.SetDesiredState(br);
 
   printf("%f\n", fl.speed.value());
+  frc::SmartDashboard::PutNumber("fl Speed", fl.speed.value());
 }
 
 frc::Field2d * Drivetrain::GetField(){
@@ -65,11 +66,15 @@ void Drivetrain::UpdateOdometry() {
   frc::SmartDashboard::PutNumber("Odometry X", units::inch_t(pose.X()).value());
   frc::SmartDashboard::PutNumber("Odometry Y", units::inch_t(pose.Y()).value());
   frc::SmartDashboard::PutNumber("Odometry Yaw", pose.Rotation().Degrees().to<double>());
+  auto chassisSpeed = m_kinematics.ToChassisSpeeds(m_frontLeft.GetState(), m_frontRight.GetState(), m_backLeft.GetState(), m_backRight.GetState());
+  frc::SmartDashboard::PutNumber("Robot Velocity X", units::feet_per_second_t(chassisSpeed.vx).value());
+  frc::SmartDashboard::PutNumber("Robot Velocity Y", units::feet_per_second_t(chassisSpeed.vy).value());
 
   frc::SmartDashboard::PutNumber("Front Left", units::inch_t(m_frontLeft.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Front Right", units::inch_t(m_frontRight.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Left", units::inch_t(m_backLeft.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Right", units::inch_t(m_backRight.GetPosition().distance).value());
+
 
   m_field.SetRobotPose(pose);
 
@@ -87,6 +92,7 @@ void Drivetrain::UpdateOdometry() {
         // global_pose, 
         // frc::Timer::GetFPGATimestamp() - 0.3_s);
     printf("Vision Sample\n");
+
   }
 }
 

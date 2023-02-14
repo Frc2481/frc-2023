@@ -248,7 +248,7 @@ namespace RobotParametersCompetition {
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
     static constexpr double k_driveMotorGearRatio = (11.0/30.0)*(1.0/3.0);
     static constexpr double k_ticksPerRev= 2048.0;//ticks per 100ms TODO check
-    static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(k_driveMotorGearRatio)*k_wheelRad*3.14159265*2*10;
+    static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(k_driveMotorGearRatio)*k_wheelRad*3.14159265*2/10;
     static constexpr double k_driveMotorEncoderTicksToMeters = (1/k_ticksPerRev)*(k_driveMotorGearRatio)*k_wheelRad*3.14159265*2;
     static constexpr double k_minRobotVelocity = 1;
     static constexpr double k_minRobotYawRate = 1;
@@ -296,7 +296,7 @@ namespace RobotParametersTest {
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
     static constexpr double k_driveMotorGearRatio = (11.0/30.0)*(1.0/3.0);
     static constexpr double k_ticksPerRev= 2048.0;//ticks per 100ms TODO check
-    static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2*10;
+    static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2/10;
     static constexpr double k_driveMotorEncoderTicksToMeters = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2;
     static constexpr double k_minRobotVelocity = 1;
     static constexpr double k_minRobotYawRate = 1;

@@ -92,13 +92,13 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
 
 frc::SwerveModuleState SwerveModule::GetState() const {
     // TODO: acount for gear reduction
-  return {units::meters_per_second_t{m_pDriveMotor->GetSelectedSensorVelocity()},//MATH_CONSTANTS_PI
+  return {units::meters_per_second_t{m_pDriveMotor->GetSelectedSensorVelocity() * RobotParameters::k_driveMotorEncoderTicksToMPS},//MATH_CONSTANTS_PI
           frc::Rotation2d(units::degree_t(m_pTurningEncoder->getAngle()))};
 }
 
 frc::SwerveModulePosition SwerveModule::GetPosition() const{
     // TODO: acount for gear reduction
-return {units::meter_t{m_pDriveMotor->GetSelectedSensorPosition() * RobotParametersCompetition::k_driveMotorEncoderTicksToMeters},//MATH_CONSTANTS_PI
+return {units::meter_t{m_pDriveMotor->GetSelectedSensorPosition() * RobotParameters::k_driveMotorEncoderTicksToMeters},//MATH_CONSTANTS_PI
           frc::Rotation2d(units::degree_t(m_pTurningEncoder->getAngle()))};
 
 }
@@ -111,7 +111,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
   //     m_driveMotor->GetEncoder().GetVelocity(), state.speed.to<double>());
 
   float currentAngle = units::degree_t(m_pTurningEncoder->getAngle()).to<double>();
-  float driveMotorRPM = state.speed.to<double>() * RobotParameters::k_driveMotorEncoderTicksToMPS;
+  float driveMotorRPM = state.speed.to<double>(); // * RobotParameters::k_driveMotorEncoderTicksToMPS;
   float desiredAngle = state.angle.Degrees().to<double>();
 
   // // Calculate the turning motor output from the turning PID controller.
@@ -145,8 +145,8 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
 
   // Set the motor outputs.
   // TODO Convert RPM to ticks
-  m_pDriveMotor->Set(ControlMode::Velocity, driveMotorRPM);
-  // m_pDriveMotor->Set(ControlMode::PercentOutput, driveMotorRPM);
+  // m_pDriveMotor->Set(ControlMode::Velocity, driveMotorRPM);
+  m_pDriveMotor->Set(ControlMode::PercentOutput, driveMotorRPM);
   
   // m_turningMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnOutput);
 

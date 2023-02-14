@@ -17,6 +17,7 @@
       "/SmartDashboard/Reset Angle": "Command",
       "/SmartDashboard/Reset Odometry": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Test Auto": "Command",
       "/SmartDashboard/Zero Steer": "Command"
     },
     "windows": {
@@ -31,6 +32,11 @@
         }
       },
       "/SmartDashboard/Reset Odometry": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Test Auto": {
         "window": {
           "visible": true
         }
@@ -50,16 +56,21 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 338,
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 253,
           "series": [
             {
               "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Current"
+              "id": "NT:/SmartDashboard/Odometry X"
             },
             {
               "color": [
@@ -68,24 +79,122 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Desired"
+              "id": "NT:/SmartDashboard/Path X"
             }
           ]
         }
-      ],
-      "window": {
-        "visible": false
-      }
+      ]
     },
     "Plot <1>": {
       "plots": [
         {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 267,
+          "series": [
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Odometry Y"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Y"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "height": 288,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Robot Velocity X"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Velocity"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Velocity X"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <3>": {
+      "plots": [
+        {
+          "height": 309,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Robot Velocity Y"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Velocity"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Velocity Y"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <4>": {
+      "plots": [
+        {
           "height": 338
         }
-      ],
-      "window": {
-        "visible": false
-      }
+      ]
     }
   }
 }

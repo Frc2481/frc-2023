@@ -56,8 +56,10 @@ class FollowPathCommand
     auto desiredState = m_trajectory.Sample(curTime);
     frc::SmartDashboard::PutNumber("Path X", units::inch_t(desiredState.pose.X()).value());
     frc::SmartDashboard::PutNumber("Path Y", units::inch_t(desiredState.pose.Y()).value());
+    frc::SmartDashboard::PutNumber("Path Velocity X", units::feet_per_second_t(desiredState.velocity).value() * desiredState.pose.Rotation().Cos());
+    frc::SmartDashboard::PutNumber("Path Velocity Y", units::feet_per_second_t(desiredState.velocity).value() * desiredState.pose.Rotation().Sin());
     auto desiredRotation = m_trajectory.States().back().pose.Rotation();
-    auto targetChassisSpeeds = m_swerveController.Calculate(m_drivetrain->GetOdometryPosition(), desiredState, desiredRotation);
+    auto targetChassisSpeeds = m_swerveController.Calculate(m_drivetrain->GetOdometryPosition(), desiredState.pose, (desiredState.velocity * RobotParameters::k_driveMotorControllerKv) * 10 , desiredRotation);
     auto targetModuleStates = m_drivetrain->GetKinematics().ToSwerveModuleStates(targetChassisSpeeds);
     m_drivetrain->SetModuleStates(targetModuleStates);
   }
