@@ -25,6 +25,12 @@
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
 
+// Aquire Game Piece
+#include "commands/AcquireGamePieceCommand.h"
+
+// Score Game Piece
+#include "commands/ScoreGamePieceCommand.h"
+
 class InstantDisabledCommand : public frc2::InstantCommand {
 public:
 
@@ -60,6 +66,16 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
 void RobotContainer::ConfigureButtonBindings() {
     m_drivetrain.SetDefaultCommand(std::move(DriveWithJoystickCommand(&m_drivetrain, &m_driverController)));
     m_lBumperDriver.OnTrue(new frc2::InstantCommand([this]{m_drivetrain.toggleFieldCentricForJoystick();},{&m_drivetrain}));
+
+    // Driver Acquire Game Piece TODO finish
+    m_rTriggerDriver.WhenActive(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
+
+    // Operator Low Score Game Piece Command
+    m_bButtonAux.OnTrue(new ScoreGamePieceCommand(FLOOR, &m_elevator, &m_gripper, &m_slide));
+    // Operator Mid Score Game Piece Command
+    m_xButtonAux.Ontrue(new ScoreGamePieceCommand(MID, &m_elevator, &m_gripper, &m_slide));
+    // Operator High Score Game Piece Command
+    m_yButtonaux.Ontrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
 }
 
