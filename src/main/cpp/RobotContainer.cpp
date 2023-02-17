@@ -64,18 +64,21 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("Test Auto", new TestCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
 }
 void RobotContainer::ConfigureButtonBindings() {
+    // Driver Buttons
+    // Driver Driving
     m_drivetrain.SetDefaultCommand(std::move(DriveWithJoystickCommand(&m_drivetrain, &m_driverController)));
     m_lBumperDriver.OnTrue(new frc2::InstantCommand([this]{m_drivetrain.toggleFieldCentricForJoystick();},{&m_drivetrain}));
 
     // Driver Acquire Game Piece TODO finish
     m_rTriggerDriver.WhenActive(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
 
+    // Operator Buttons
     // Operator Low Score Game Piece Command
-    m_bButtonAux.OnTrue(new ScoreGamePieceCommand(FLOOR, &m_elevator, &m_gripper, &m_slide));
+    m_aButtonAux.OnTrue(new ScoreGamePieceCommand(FLOOR, &m_elevator, &m_gripper, &m_slide));
     // Operator Mid Score Game Piece Command
-    m_xButtonAux.Ontrue(new ScoreGamePieceCommand(MID, &m_elevator, &m_gripper, &m_slide));
+    m_xButtonAux.OnTrue(new ScoreGamePieceCommand(MID, &m_elevator, &m_gripper, &m_slide));
     // Operator High Score Game Piece Command
-    m_yButtonaux.Ontrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
+    m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
 }
 
