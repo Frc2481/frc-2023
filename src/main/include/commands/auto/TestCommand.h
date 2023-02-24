@@ -64,15 +64,15 @@ class TestCommand
       frc2::SequentialCommandGroup{
         FollowPathCommand(
           frc::Pose2d{0_in, 0_in, 0_deg}, 
-          {frc::Translation2d{8_in, 1_in}, frc::Translation2d{16_in, 3_in}},
-          frc::Pose2d{24_in, 5_in, 0_deg},
-          forwardConfig, m_pDrive),
+          {frc::Translation2d{60_in, 0_in}, frc::Translation2d{60_in, 60_in}},
+          frc::Pose2d{0_in, 60_in, 0_deg},
+          forwardConfig, m_pDrive)
 
-        FollowPathCommand(
-          frc::Pose2d{24_in, 5_in, 0_deg}, 
-          {frc::Translation2d{16_in, 3_in}, frc::Translation2d{8_in, 1_in}},
-          frc::Pose2d{0_in, 0_in, 0_deg},
-          reverseConfig, m_pDrive)  
+        // FollowPathCommand(
+        //   frc::Pose2d{24_in, 5_in, 0_deg}, 
+        //   {frc::Translation2d{16_in, 3_in}, frc::Translation2d{8_in, 1_in}},
+        //   frc::Pose2d{0_in, 0_in, 0_deg},
+        //   reverseConfig, m_pDrive)  
   });
 
             // Balance???

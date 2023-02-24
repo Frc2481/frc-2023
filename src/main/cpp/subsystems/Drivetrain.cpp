@@ -32,7 +32,9 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   m_kinematics.DesaturateWheelSpeeds(&states, RobotParameters::k_maxSpeed);
 
   auto [fl, fr, bl, br] = states;
-  frc::SmartDashboard::PutNumber("fl angle", (double)fl.angle.Degrees());
+  frc::SmartDashboard::PutNumber("fl angle target", (double)fl.angle.Degrees());
+
+  frc::SmartDashboard::PutNumber("fl angle actual", (m_frontLeft.GetState().angle.Degrees().value()));
 
   m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);
@@ -43,6 +45,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
 }
 
 void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates){
+  printf("%f ", desiredStates[0].speed.value());
   m_kinematics.DesaturateWheelSpeeds(&desiredStates, RobotParameters::k_maxSpeed);
   auto [fl, fr, bl, br] = desiredStates;
   m_frontLeft.SetDesiredState(fl);
@@ -74,6 +77,7 @@ void Drivetrain::UpdateOdometry() {
   frc::SmartDashboard::PutNumber("Front Right", units::inch_t(m_frontRight.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Left", units::inch_t(m_backLeft.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Right", units::inch_t(m_backRight.GetPosition().distance).value());
+
 
 
   m_field.SetRobotPose(pose);
