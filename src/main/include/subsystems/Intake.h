@@ -10,6 +10,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/WaitUntilCommand.h>
+#include <frc/DigitalInput.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -21,6 +22,7 @@ class Intake : public frc2::SubsystemBase {
   frc2::InstantCommand TurnOnBarfCommand();
   frc2::InstantCommand TurnOffCommand();
   frc2::WaitUntilCommand WaitForGamePieceCommand();
+
   
 
   /**
@@ -45,8 +47,10 @@ class Intake : public frc2::SubsystemBase {
  private:
   TalonFX * m_pHorizontalMotor;
   TalonFX * m_pVerticalMotor;
-  frc::DoubleSolenoid * m_ExtendSolenoid;
+  frc::DoubleSolenoid * m_ExtendFirstSolenoid;
+  frc::DoubleSolenoid * m_ExtendSecondSolenoid;
   bool m_isExtended;
+  frc::DigitalInput * m_intakeBeambreak;
 
  
   // Components (e.g. motor controllers and sensors) should generally be

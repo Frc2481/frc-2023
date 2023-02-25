@@ -30,11 +30,19 @@ frc2::WaitUntilCommand Intake::WaitForGamePieceCommand(){
 }
 
 Intake::Intake(){
-    m_ExtendSolenoid = new frc::DoubleSolenoid(
+    m_ExtendFirstSolenoid = new frc::DoubleSolenoid(
         0, 
         frc::PneumaticsModuleType::CTREPCM, 
-        SolenoidPorts::kIntakeSolenoidPort, 
-        SolenoidPorts::kIntakeSolenoidReversePort);
+        SolenoidPorts::kIntakeFirstSolenoidPort, 
+        SolenoidPorts::kIntakeFirstSolenoidReversePort);
+    
+    m_ExtendSecondSolenoid = new frc::DoubleSolenoid(
+        0, 
+        frc::PneumaticsModuleType::CTREPCM, 
+        SolenoidPorts::kIntakeSecondSolenoidPort, 
+        SolenoidPorts::kIntakeSecondSolenoidReversePort);
+
+    m_intakeBeambreak = new frc::DigitalInput(DigitalInputs::k_IntakeBeambreakPort);
 
     m_pHorizontalMotor = new TalonFX(FalconIDs::kIntakeHorizontalMotor);
     m_pHorizontalMotor->ConfigFactoryDefault();
@@ -96,12 +104,14 @@ void Intake::TurnOff(){
 }
 
 void Intake::Extend(){
-    m_ExtendSolenoid->Set(m_ExtendSolenoid->kForward);
+    m_ExtendFirstSolenoid->Set(m_ExtendFirstSolenoid->kForward);
+    m_ExtendSecondSolenoid->Set(m_ExtendSecondSolenoid->kForward);
     m_isExtended = true;
 }
 
 void Intake::Retract(){
-    m_ExtendSolenoid->Set(m_ExtendSolenoid->kReverse);
+    m_ExtendFirstSolenoid->Set(m_ExtendFirstSolenoid->kReverse);
+    m_ExtendSecondSolenoid->Set(m_ExtendSecondSolenoid->kReverse);
     m_isExtended = false;
 }
 
@@ -110,7 +120,7 @@ bool Intake::IsExtended(){
 }
 
 bool Intake::HasGamePiece(){
-    return false;
+  return !m_intakeBeambreak->Get();
 }
 
 // This method will be called once per scheduler run

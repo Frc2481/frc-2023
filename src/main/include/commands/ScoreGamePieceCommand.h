@@ -85,7 +85,7 @@ public:
         m_pSlide->WaitForSlideOnTargetCommand(),
         m_pElevator->WaitForElevatorOnTargetCommand(),
         m_pGripper->OpenCommand(),
-        frc2::WaitCommand(0.25_s),  // Time for cone/cube to fall
+        frc2::WaitCommand(0.5_s),  // Time for cone/cube to fall
         m_pSlide->GoToCenterPositionCommand(),
         m_pElevator->StowCommand()
       }

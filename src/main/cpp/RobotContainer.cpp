@@ -70,7 +70,9 @@ void RobotContainer::ConfigureButtonBindings() {
     m_lBumperDriver.OnTrue(new frc2::InstantCommand([this]{m_drivetrain.toggleFieldCentricForJoystick();},{&m_drivetrain}));
 
     // Driver Acquire Game Piece TODO finish
-    m_rTriggerDriver.WhenActive(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
+    m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
+
+    m_startDriver.OnTrue(new InstantDisabledCommand([this]{m_drivetrain.ZeroHeading();}));
 
     // Operator Buttons
     // Operator Low Score Game Piece Command

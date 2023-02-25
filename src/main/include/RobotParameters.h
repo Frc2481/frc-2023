@@ -68,19 +68,15 @@ namespace CANCoderIDs
 
 namespace SolenoidPorts{
  
-    static constexpr int kIntakeSolenoidPort = 0;
-    static constexpr int kIntakeSolenoidReversePort = 1;
-    static constexpr int kGripperSolenoidPort = 2;
-    static constexpr int kGripperSolenoidReversePort = 3;
-    static constexpr int kFlipperSolenoidPort = 4;
-    static constexpr int kFlipperSolenoidReversePort = 5;
+    static constexpr int kIntakeFirstSolenoidPort = 0;
+    static constexpr int kIntakeSecondSolenoidPort = 2;
+    static constexpr int kIntakeFirstSolenoidReversePort = 1;
+    static constexpr int kIntakeSecondSolenoidReversePort = 3;
+    static constexpr int kGripperSolenoidPort = 4;
+    static constexpr int kGripperSolenoidReversePort = 5;
+    static constexpr int kFlipperSolenoidPort = 6;
+    static constexpr int kFlipperSolenoidReversePort = 7;
    
-    static constexpr int kFloorClimberSolenoidPort = 2;
-    static constexpr int kFloorClimberSolenoidReversePort = 3;
-    static constexpr int kTrussClimberSolenoidPort = 5; //We don't actuallly know if these are the right IDs
-    static constexpr int kTrussClimberSolenoidReversePort = 4; //We don't actuallly know if these are the right IDs
-    static constexpr int kJavelinSolenoidPort = 7;
-    static constexpr int kJavelinReverseSolenoidPort = 6;
 }
 
 namespace DriveConstants {
@@ -160,6 +156,10 @@ enum class CommonModes{
     MotionProfileArc = 11,
     Disabled = 15
 };
+
+namespace DigitalInputs{
+    static constexpr int k_IntakeBeambreakPort = 0;
+}
 namespace PathConstants{ // TODO check
     static constexpr double kMinLookAhead = 6*.0254;
     static constexpr double kMaxLookAhead = 24*.0254;
@@ -290,7 +290,7 @@ namespace RobotParametersTest {
     static constexpr double k_wheelTrack = 1; // in
     static constexpr double k_wheelLeverArm = sqrt(std::pow(k_wheelBase/2,2) + std::pow(k_wheelTrack/2,2));
     static constexpr double k_wheelRad = (4.25/2)*.0254; // in TODO find actual size
-    static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(15); //TODO change also in driveWithJoystickCommand
+    static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(10.0); //TODO change also in driveWithJoystickCommand
     static constexpr double k_maxAccel = 3;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
