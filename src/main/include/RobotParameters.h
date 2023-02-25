@@ -58,12 +58,12 @@ namespace FalconIDs{
 } 
 
 namespace CANCoderIDs
-{
-    static constexpr int kFrontRightSteerCANCoderID = 3;
-    static constexpr int kFrontLeftSteerCANCoderID = 1;
-    static constexpr int kRearRightSteerCANCoderID = 4;
-    static constexpr int kRearLeftSteerCANCoderID = 2;
-    static constexpr int kRearMiddleSteerCANCoderID = 5;
+{ // bot used
+    // static constexpr int kFrontRightSteerCANCoderID = 3;
+    // static constexpr int kFrontLeftSteerCANCoderID = 1;
+    // static constexpr int kRearRightSteerCANCoderID = 4;
+    // static constexpr int kRearLeftSteerCANCoderID = 2;
+    // static constexpr int kRearMiddleSteerCANCoderID = 5; // no middle
 }
 
 namespace SolenoidPorts{
@@ -79,27 +79,27 @@ namespace SolenoidPorts{
    
 }
 
-namespace DriveConstants {
+namespace DriveConstants { // not used
 
-constexpr bool kFrontLeftTurningEncoderReversed = false;
-constexpr bool kRearLeftTurningEncoderReversed = false;
-constexpr bool kFrontRightTurningEncoderReversed = false;
-constexpr bool kRearRightTurningEncoderReversed = false;
-constexpr bool kRearMiddleTurningEncoderReversed = false;
+// constexpr bool kFrontLeftTurningEncoderReversed = false;
+// constexpr bool kRearLeftTurningEncoderReversed = false;
+// constexpr bool kFrontRightTurningEncoderReversed = false;
+// constexpr bool kRearRightTurningEncoderReversed = false;
+// constexpr bool kRearMiddleTurningEncoderReversed = false; // no middle
 
-static constexpr units::meters_per_second_t  kAutoDriveSpeed = 0.5_mps; //TODO fix
+// static constexpr units::meters_per_second_t  kAutoDriveSpeed = 0.5_mps; //TODO fix
 
-constexpr bool kFrontLeftDriveEncoderReversed = true;
-constexpr bool kRearLeftDriveEncoderReversed = true;
-constexpr bool kFrontRightDriveEncoderReversed = true;
-constexpr bool kRearRightDriveEncoderReversed = true;
-constexpr bool kRearMiddleDriveEncoderReversed = true;
+// constexpr bool kFrontLeftDriveEncoderReversed = true;
+// constexpr bool kRearLeftDriveEncoderReversed = true;
+// constexpr bool kFrontRightDriveEncoderReversed = true;
+// constexpr bool kRearRightDriveEncoderReversed = true;
+// constexpr bool kRearMiddleDriveEncoderReversed = true; // no middle
 
-constexpr bool kGyroReversed = false;
+// constexpr bool kGyroReversed = false;
 
-constexpr units::meters_per_second_t kDriveClimbSpeed = 0.5_mps;
+// constexpr units::meters_per_second_t kDriveClimbSpeed = 0.5_mps;
 
-}  // namespace DriveConstants
+}  // // namespace DriveConstants
 
 namespace ModuleConstants {
 constexpr int kEncoderCPR = 4096;
@@ -116,30 +116,25 @@ constexpr double kPModuleTurningController = 1;
 constexpr double kPModuleDriveController = 1;
 }  // namespace ModuleConstants
 
-namespace AutoConstants {
-using radians_per_second_squared_t =
-    units::compound_unit<units::radians,
-                         units::inverse<units::squared<units::second>>>;
+namespace AutoConstants { // // not used
+// using radians_per_second_squared_t =
+    // units::compound_unit<units::radians,
+                        //  units::inverse<units::squared<units::second>>>;
 
-// constexpr auto kMaxSpeed = units::meters_per_second_t(3);
-constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(3);
-constexpr auto kMaxAngularSpeed = units::radians_per_second_t(3.142);
-constexpr auto kMaxAngularAcceleration =
-    units::unit_t<radians_per_second_squared_t>(3.142);
+// // constexpr auto kMaxSpeed = units::meters_per_second_t(3);
+// constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(3);
+// constexpr auto kMaxAngularSpeed = units::radians_per_second_t(3.142);
+// constexpr auto kMaxAngularAcceleration =
+    // units::unit_t<radians_per_second_squared_t>(3.142);
 
-constexpr double kPXController = 0.5;
-constexpr double kPYController = 0.5;
-constexpr double kPThetaController = 0.5;
+// constexpr double kPXController = 0.5;
+// constexpr double kPYController = 0.5;
+// constexpr double kPThetaController = 0.5;
 
-extern const frc::TrapezoidProfile<units::radians>::Constraints
-    kThetaControllerConstraints;
+// extern const frc::TrapezoidProfile<units::radians>::Constraints
+    // kThetaControllerConstraints;
 
-}  // namespace AutoConstants
-
-namespace OIConstants {
-constexpr int kDriverControllerPort = 0;
-}  // namespace OIConstants
-
+}  // // namespace AutoConstants
 
 enum class CommonModes{
     DutyCycle = 0,
@@ -160,16 +155,7 @@ enum class CommonModes{
 namespace DigitalInputs{
     static constexpr int k_IntakeBeambreakPort = 0;
 }
-namespace PathConstants{ // TODO check
-    static constexpr double kMinLookAhead = 6*.0254;
-    static constexpr double kMaxLookAhead = 24*.0254;
-}
-namespace FieldConstants{
-    static constexpr double kDistanceTargetToOriginY = 324;
-    static constexpr double kDistanceTargetToOriginX = 162;
-    // static constexpr double kRedAllianceOrigin = ;
-    // static constexpr double kBlueAllianceOrigin = ;
-    }
+
 namespace IntakeConstants{
     static constexpr double k_DefaultIntakeRollerSpeed = 1; //TODO: Find out
     static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
@@ -180,12 +166,6 @@ namespace IntakeConstants{
     static constexpr double k_IntakeHorizontalCurrentLimit = 0;
     static constexpr double k_IntakeVerticalCurrentLimit = 0;
     static constexpr double k_IntakeCurrentDuration = 0;
-}
-namespace FeederConstants{ //TODO figure out
-    static constexpr double kDefaultFeederSpeed = .7;
-    static constexpr double kShootingSpeed = .47;
-    static constexpr double kIndexerSpeed = 1.0;
-    static constexpr double kShootingIndexerSpeed = 0.47/0.7;
 }
 
 namespace LimeLightConstants{
