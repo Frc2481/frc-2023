@@ -41,6 +41,7 @@ class TestCommand
       Gripper* m_pGripper;
       Intake* m_pIntake;
       Slide* m_pSlide;
+      frc::Pose2d m_initialPosition;
 
  public:
   TestCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
@@ -50,6 +51,7 @@ class TestCommand
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pSlide = slide;
+    m_initialPosition = frc::Pose2d{0_in, 0_in, 0_deg};
     frc::TrajectoryConfig forwardConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     forwardConfig.SetKinematics(m_pDrive->GetKinematics());
@@ -62,15 +64,17 @@ class TestCommand
 
     AddCommands(
       frc2::SequentialCommandGroup{
+        frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
         FollowPathCommand(
-          frc::Pose2d{0_in, 0_in, 0_deg}, 
-          {frc::Translation2d{60_in, 0_in}, frc::Translation2d{60_in, 60_in}},
-          frc::Pose2d{0_in, 60_in, 0_deg},
+          m_initialPosition,
+          {frc::Translation2d{120_in, 0_in}},
+          frc::Pose2d{240_in, 0_in, 0_deg},
           forwardConfig, m_pDrive)
 
         // FollowPathCommand(
         //   frc::Pose2d{24_in, 5_in, 0_deg}, 
         //   {frc::Translation2d{16_in, 3_in}, frc::Translation2d{8_in, 1_in}},
+
         //   frc::Pose2d{0_in, 0_in, 0_deg},
         //   reverseConfig, m_pDrive)  
   });
