@@ -105,7 +105,6 @@ return {units::meter_t{m_pDriveMotor->GetSelectedSensorPosition() * RobotParamet
 
 void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
   m_pTurningEncoder->update();
-  
   // Calculate the drive output from the drive PID controller.
   // const auto driveOutput = m_drivePIDController.Calculate(
   //     m_driveMotor->GetEncoder().GetVelocity(), state.speed.to<double>());

@@ -93,7 +93,7 @@
               "autoFit": true
             }
           ],
-          "height": 267,
+          "height": 253,
           "series": [
             {
               "color": [
@@ -120,7 +120,12 @@
     "Plot <2>": {
       "plots": [
         {
-          "height": 288,
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 239,
           "series": [
             {
               "color": [
@@ -130,15 +135,6 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/Robot Velocity X"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Path Velocity"
             },
             {
               "color": [
@@ -156,7 +152,12 @@
     "Plot <3>": {
       "plots": [
         {
-          "height": 309,
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 257,
           "series": [
             {
               "color": [
@@ -166,15 +167,6 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/Robot Velocity Y"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Path Velocity"
             },
             {
               "color": [
@@ -192,7 +184,12 @@
     "Plot <4>": {
       "plots": [
         {
-          "height": 338,
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 259,
           "series": [
             {
               "color": [
@@ -201,11 +198,46 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/fl Speed"
+              "id": "NT:/SmartDashboard/Path Error X"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Error Y"
             }
           ]
         }
       ]
+    },
+    "Plot <5>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 274,
+          "series": [
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Error X"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

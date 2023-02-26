@@ -78,6 +78,8 @@ void Drivetrain::UpdateOdometry() {
   frc::SmartDashboard::PutNumber("Back Left", units::inch_t(m_backLeft.GetPosition().distance).value());
   frc::SmartDashboard::PutNumber("Back Right", units::inch_t(m_backRight.GetPosition().distance).value());
 
+  // frc::SmartDashboard::PutNumber("FLVel", units::feet_per_second_t(m_frontLeft.GetState().speed).value());
+
 
 
   m_field.SetRobotPose(pose);
