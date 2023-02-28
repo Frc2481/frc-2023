@@ -272,7 +272,7 @@ namespace RobotParametersTest {
     static constexpr double k_wheelRad = (3.8/2)*.0254; // in TODO find actual size
     static constexpr double k_wheelCirc = k_wheelRad * std::numbers::pi * 2;
     static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(12.6); //TODO change also in driveWithJoystickCommand 
-    static constexpr double k_maxAccel = 10 / 2.0;
+    static constexpr double k_maxAccel = 10;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
     static constexpr double k_driveMotorGearRatio = (11.0/30.0)*(1.0/3.0);
@@ -292,10 +292,10 @@ namespace RobotParametersTest {
     static constexpr units::radians_per_second_squared_t k_maxYawAccel = units::radians_per_second_squared_t(k_maxAccel / k_wheelLeverArm);
     static constexpr double k_maxYawDeccel = k_maxDeccel / k_wheelLeverArm*180/std::numbers::pi;
     static constexpr double k_minYawRate = k_minRobotVelocity / k_wheelLeverArm *180/std::numbers::pi;
-    static constexpr double k_yawKp = 0;
+    static constexpr double k_yawKp = 10;
     static constexpr double k_yawKi = 0;
     static constexpr double k_yawKd = 0;
-    static constexpr double k_xyKp = 1.5;
+    static constexpr double k_xyKp = 2;
     static constexpr double k_xyKi = 0;
     static constexpr double k_xyKd = 0;
     // static constexpr double k_driveMotorEncoderMPSToRPM  = (RobotParameters::k_driveMotorGearRatio/(RobotParameters::k_wheelRad*3.14159265*2))*60;

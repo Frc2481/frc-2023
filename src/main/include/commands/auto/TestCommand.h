@@ -67,9 +67,29 @@ class TestCommand
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
         FollowPathCommand(
           m_initialPosition,
-          {frc::Translation2d{120_in, 0_in}, frc::Translation2d{120_in, 60_in}},
-          frc::Pose2d{0_in, 60_in, 0_deg},
-          forwardConfig, m_pDrive)
+          {frc::Translation2d{135_in, 0_in}, frc::Translation2d{150_in, 0_in}},
+          frc::Pose2d{200_in, 0_in, 0_deg},
+          forwardConfig, m_pDrive),
+
+        FollowPathCommand(
+          frc::Pose2d{200_in, 0_in, 0_deg},
+          {frc::Translation2d{150_in, 0_in}, frc::Translation2d{135_in, 0_in}},
+          m_initialPosition,
+          reverseConfig, m_pDrive),
+
+        FollowPathCommand(
+          m_initialPosition,
+          {frc::Translation2d{135_in, -20_in}, frc::Translation2d{150_in, -40_in}},
+          frc::Pose2d{200_in, -60_in, 0_deg},
+          forwardConfig, m_pDrive),
+
+        FollowPathCommand(
+          frc::Pose2d{200_in, -60_in, 0_deg},
+          {frc::Translation2d{150_in, -40_in}, frc::Translation2d{135_in, -20_in}},
+          m_initialPosition,
+          reverseConfig, m_pDrive)
+
+          
 
         // FollowPathCommand(
         //   frc::Pose2d{24_in, 5_in, 0_deg}, 
