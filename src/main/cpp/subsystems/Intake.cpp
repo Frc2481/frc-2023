@@ -30,17 +30,13 @@ frc2::WaitUntilCommand Intake::WaitForGamePieceCommand(){
 }
 
 Intake::Intake(){
-    m_ExtendFirstSolenoid = new frc::DoubleSolenoid(
-        0, 
-        frc::PneumaticsModuleType::CTREPCM, 
-        SolenoidPorts::kIntakeFirstSolenoidPort, 
-        SolenoidPorts::kIntakeFirstSolenoidReversePort);
+    m_ExtendFirstSolenoid = new frc::Solenoid(
+        frc::PneumaticsModuleType::REVPH, 
+        SolenoidPorts::kIntakeFirstSolenoidPort);
     
-    m_ExtendSecondSolenoid = new frc::DoubleSolenoid(
-        0, 
-        frc::PneumaticsModuleType::CTREPCM, 
-        SolenoidPorts::kIntakeSecondSolenoidPort, 
-        SolenoidPorts::kIntakeSecondSolenoidReversePort);
+    m_ExtendSecondSolenoid = new frc::Solenoid(
+        frc::PneumaticsModuleType::REVPH, 
+        SolenoidPorts::kIntakeSecondSolenoidPort);
 
     m_intakeBeambreak = new frc::DigitalInput(DigitalInputs::k_IntakeBeambreakPort);
 
@@ -104,14 +100,14 @@ void Intake::TurnOff(){
 }
 
 void Intake::Extend(){
-    m_ExtendFirstSolenoid->Set(m_ExtendFirstSolenoid->kForward);
-    m_ExtendSecondSolenoid->Set(m_ExtendSecondSolenoid->kForward);
+    m_ExtendFirstSolenoid->Set(true);
+    m_ExtendSecondSolenoid->Set(true);
     m_isExtended = true;
 }
 
 void Intake::Retract(){
-    m_ExtendFirstSolenoid->Set(m_ExtendFirstSolenoid->kReverse);
-    m_ExtendSecondSolenoid->Set(m_ExtendSecondSolenoid->kReverse);
+    m_ExtendFirstSolenoid->Set(false);
+    m_ExtendSecondSolenoid->Set(false);
     m_isExtended = false;
 }
 

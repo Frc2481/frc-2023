@@ -57,18 +57,33 @@ class Drivetrain : public frc2::SubsystemBase{
   frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
   frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
 
+#ifdef COMP
   SwerveModule m_frontLeft{FalconIDs::kFrontLeftDriveMotorID, 
                            FalconIDs::kFrontLeftDriveMotorFollowerID, 
-                           3, 1, false, true, "FRONT_LEFT"};
+                           TalonSRXIDs::kFrontLeftTurningMotorID, 1, false, true, "FRONT_LEFT"};
   SwerveModule m_frontRight{FalconIDs::kFrontRightDriveMotorID, 
                             FalconIDs::kFrontRightDriveMotorFollowerID, 
-                            6, 2, false, true, "FRONT_RIGHT"};
+                            TalonSRXIDs::kFrontRightTurningMotorID, 2, false, true, "FRONT_RIGHT"};
   SwerveModule m_backLeft{FalconIDs::kBackLeftDriveMotorID, 
                           FalconIDs::kBackLeftDriveMotorFollowerID, 
-                          9, 3, false, true, "BACK_LEFT"};
+                          TalonSRXIDs::kBackLeftTurningMotorID, 3, false, true, "BACK_LEFT"};
   SwerveModule m_backRight{FalconIDs::kBackRightDriveMotorID, 
                            FalconIDs::kBackRightDriveMotorFollowerID, 
-                           12, 4, false, true, "BACK_RIGHT"};
+                           TalonSRXIDs::kBackRightTurningMotorID, 4, false, true, "BACK_RIGHT"};
+#else
+ SwerveModule m_frontLeft{FalconIDs::kFrontLeftDriveMotorID, 
+                           FalconIDs::kFrontLeftDriveMotorFollowerID, 
+                           TalonSRXIDs::kFrontLeftTurningMotorID, 1, false, true, "FRONT_LEFT"};
+  SwerveModule m_frontRight{FalconIDs::kFrontRightDriveMotorID, 
+                            FalconIDs::kFrontRightDriveMotorFollowerID, 
+                            TalonSRXIDs::kFrontRightTurningMotorID, 2, false, true, "FRONT_RIGHT"};
+  SwerveModule m_backLeft{FalconIDs::kBackLeftDriveMotorID, 
+                          FalconIDs::kBackLeftDriveMotorFollowerID, 
+                          TalonSRXIDs::kBackLeftTurningMotorID, 3, false, true, "BACK_LEFT"};
+  SwerveModule m_backRight{FalconIDs::kBackRightDriveMotorID, 
+                           FalconIDs::kBackRightDriveMotorFollowerID, 
+                           TalonSRXIDs::kBackRightTurningMotorID, 4, false, true, "BACK_RIGHT"};
+#endif
 
   AHRS m_IMU{
     frc::SPI::kMXP

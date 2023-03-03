@@ -15,19 +15,17 @@ frc2::InstantCommand Flipper::DownCommand(){
 }
 
 Flipper::Flipper(){
-    m_pSolenoid = new frc::DoubleSolenoid(
-        0, 
-        frc::PneumaticsModuleType::CTREPCM, 
-        SolenoidPorts::kFlipperSolenoidPort, 
-        SolenoidPorts::kFlipperSolenoidReversePort);
+    m_pSolenoid = new frc::Solenoid( 
+        frc::PneumaticsModuleType::REVPH, 
+        SolenoidPorts::kFlipperSolenoidPort);
 }
 
 void Flipper::Up(){
-    m_pSolenoid->Set(m_pSolenoid->kForward);
+    m_pSolenoid->Set(true);
  }
 
  void Flipper::Down(){
-    m_pSolenoid->Set(m_pSolenoid->kReverse);
+    m_pSolenoid->Set(false);
  }
 
 // This method will be called once per scheduler run

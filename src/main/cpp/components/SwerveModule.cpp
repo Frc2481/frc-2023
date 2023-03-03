@@ -30,15 +30,20 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_reverseTurningEncoder(turningEncoderReversed),  
       m_name(name){
       m_pDriveMotor = new TalonFX(driveMotorID);
+      m_pDriveMotorFollower = new TalonFX(driveMotorFollowerID);
       m_pTurningMotor = new TalonSRX(turningMotorID);
       // m_pTurningMotor = new VictorSPX(turningMotorID);
       
       m_pDriveMotor->ConfigFactoryDefault();
       m_pTurningMotor->ConfigFactoryDefault();
-      // m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      
+      #ifdef COMP
+      m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      #else
       m_pTurningEncoder = new CTREMagEncoder(m_pTurningMotor, name);
-      // m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
-      // m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
+      #endif
+      m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
+      m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
       
       m_pTurningMotor->SelectProfileSlot(0, 0);
 	
@@ -70,6 +75,8 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pDriveMotor->ConfigOpenloopRamp(0.5, 10);
       m_pDriveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
       m_pDriveMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
+
+      m_pDriveMotorFollower->Follow(*m_pDriveMotor);
   // // Set the distance per pulse for the drive encoder. We can simply use the
   // // distance traveled for one rotation of the wheel divided by the encoder
   // // resolution.
@@ -195,5 +202,7 @@ void SwerveModule::DriveArc(double arcLength, double wheelAngle){
 }
 
 void SwerveModule::SyncCANcoders(){
-  // m_pTurningEncoder->getCANCoder()->SetPositionToAbsolute();
+  #ifdef COMP
+  m_pTurningEncoder->getCANCoder()->SetPositionToAbsolute();
+  #endif
 }

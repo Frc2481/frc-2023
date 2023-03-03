@@ -8,6 +8,7 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc/Solenoid.h>
 
 
 class Flipper : public frc2::SubsystemBase {
@@ -28,7 +29,7 @@ class Flipper : public frc2::SubsystemBase {
 
  private:
 
-  frc::DoubleSolenoid * m_pSolenoid;
+  frc::Solenoid * m_pSolenoid;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

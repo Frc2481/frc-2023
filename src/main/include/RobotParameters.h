@@ -12,6 +12,8 @@
 #include <units/angular_velocity.h>
 #include <numbers>
 
+#define COMP
+
 #pragma once
 
 /**
@@ -30,16 +32,13 @@ namespace TalonIDs{
     
 }
 
-namespace VictorIDs{
+namespace TalonSRXIDs{
     
     // static constexpr int kIndexerRollerMotorID = 12;
-    static constexpr int kFrontRightTurningMotorID = 33;
-    static constexpr int kFrontLeftTurningMotorID = 31;
-    static constexpr int kRearRightTurningMotorID = 34;
-    static constexpr int kRearLeftTurningMotorID = 32;
-    static constexpr int kRearMiddleTurningMotorID = 35;
-    static constexpr int kFeederMotorID = 11;
-    static constexpr int kIndexerMotorID = 12;
+    static constexpr int kFrontRightTurningMotorID = 6;
+    static constexpr int kFrontLeftTurningMotorID = 3;
+    static constexpr int kBackRightTurningMotorID = 12;
+    static constexpr int kBackLeftTurningMotorID = 9;
 }
 
 namespace FalconIDs{
@@ -53,8 +52,8 @@ namespace FalconIDs{
     static constexpr int kBackLeftDriveMotorFollowerID = 8;
     static constexpr int kElevatorMotor = 13;
     static constexpr int kSlideMotor = 14;
-    static constexpr int kIntakeHorizontalMotor = 1;
-    static constexpr int kIntakeVerticalMotor = 1;
+    static constexpr int kIntakeHorizontalMotor = 20;
+    static constexpr int kIntakeVerticalMotor = 21;
 } 
 
 namespace CANCoderIDs
@@ -68,15 +67,14 @@ namespace CANCoderIDs
 
 namespace SolenoidPorts{
  
-    static constexpr int kIntakeFirstSolenoidPort = 0;
-    static constexpr int kIntakeSecondSolenoidPort = 2;
-    static constexpr int kIntakeFirstSolenoidReversePort = 1;
-    static constexpr int kIntakeSecondSolenoidReversePort = 3;
-    static constexpr int kGripperSolenoidPort = 4;
-    static constexpr int kGripperSolenoidReversePort = 5;
-    static constexpr int kFlipperSolenoidPort = 6;
-    static constexpr int kFlipperSolenoidReversePort = 7;
-   
+    static constexpr int kIntakeFirstSolenoidPort = 12;
+    static constexpr int kIntakeSecondSolenoidPort = 11;
+    static constexpr int kGripperSolenoidPort = 0;
+    static constexpr int kGripperSolenoidReversePort = 15;
+    static constexpr int kFlipperSolenoidPort = 13;
+    static constexpr int kElevatorEngageBrakePort = 1;
+    static constexpr int kElevatorReleaseBrakePort = 14;
+
 }
 
 namespace DriveConstants { // not used
@@ -222,23 +220,32 @@ namespace RobotParametersCompetition {
     static constexpr double k_wheelTrack = 1; // in
     static constexpr double k_wheelLeverArm = sqrt(std::pow(k_wheelBase/2,2) + std::pow(k_wheelTrack/2,2));
     static constexpr double k_wheelRad = (4.25 / 2) *.0254; // in TODO find actual size
-    static constexpr double k_maxSpeed = 9001; //TODO change also in driveWithJoystickCommand
+    static constexpr double k_wheelCirc = k_wheelRad * std::numbers::pi * 2;
+    static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(12.6); //TODO change also in driveWithJoystickCommand 
     static constexpr double k_maxAccel = 1;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
     static constexpr double k_driveMotorGearRatio = (11.0/30.0)*(1.0/3.0);
-    static constexpr double k_ticksPerRev= 2048.0;//ticks per 100ms TODO check
-    static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(k_driveMotorGearRatio)*k_wheelRad*3.14159265*2/10;
-    static constexpr double k_driveMotorEncoderTicksToMeters = (1/k_ticksPerRev)*(k_driveMotorGearRatio)*k_wheelRad*3.14159265*2;
+    static constexpr double k_ticksPerRev = 2048.0;//ticks per 100ms TODO check
+    static constexpr double k_ticksPerWheelRev = k_ticksPerRev / k_driveMotorGearRatio;
+    static constexpr double k_distancePerTick = k_wheelCirc / k_ticksPerWheelRev;
+    static constexpr double k_driveMotorEncoderTicksToMPS = k_distancePerTick * 10 * 0.983;
+    static constexpr double k_driveMotorEncoderTicksToMeters = k_distancePerTick * 0.983; //0.983 is percent error to scale
     static constexpr double k_minRobotVelocity = 1;
     static constexpr double k_minRobotYawRate = 1;
     static constexpr double k_driveWheelSlotError = 1;
     static constexpr double k_robotWidth = 1;
     static constexpr double k_robotLength = 1;
-    static constexpr double k_maxYawRate = k_maxSpeed / k_wheelLeverArm *180/std::numbers::pi;
-    static constexpr double k_maxYawAccel = k_maxAccel / k_wheelLeverArm*180/std::numbers::pi;
+    static constexpr units::radians_per_second_t k_maxYawRate = units::radians_per_second_t(k_maxSpeed.value() / k_wheelLeverArm);
+    static constexpr units::radians_per_second_squared_t k_maxYawAccel = units::radians_per_second_squared_t(k_maxAccel / k_wheelLeverArm);
     static constexpr double k_maxYawDeccel = k_maxDeccel / k_wheelLeverArm*180/std::numbers::pi;
     static constexpr double k_minYawRate = k_minRobotVelocity / k_wheelLeverArm *180/std::numbers::pi;
+    static constexpr double k_yawKp = 10;
+    static constexpr double k_yawKi = 0;
+    static constexpr double k_yawKd = 0;
+    static constexpr double k_xyKp = 2;
+    static constexpr double k_xyKi = 0;
+    static constexpr double k_xyKd = 0;
     // static constexpr double k_driveMotorEncoderMPSToRPM  = (RobotParameters::k_driveMotorGearRatio/(RobotParameters::k_wheelRad*3.14159265*2))*60;
 
     // TODO check rest
@@ -254,6 +261,15 @@ namespace RobotParametersCompetition {
     static constexpr double k_steerMotorControllerKv = 0;
     static constexpr double k_steerMotorControllerKap = 0;
     static constexpr double k_steerMotorControllerKan = 0;
+
+    // drive motors
+    static constexpr double k_driveMotorControllerKp = 0.1;
+    static constexpr double k_driveMotorControllerKi = 0;
+    static constexpr double k_driveMotorControllerKd = 0;
+    static constexpr double k_driveMotorControllerKv = 0.06666;
+    static constexpr double k_driveMotorControllerKs = 0.12032;
+    static constexpr double k_driveMotorControllerKa = 0.0049351;
+
 
 
     // encoders
@@ -329,6 +345,11 @@ namespace RobotParametersTest {
     static constexpr unsigned k_falconFXEncoderTicksPerRev = 2048;
     
 }
+#ifdef COMP
+#define RobotParameters RobotParametersCompetition
+#else
 #define RobotParameters RobotParametersTest
+#endif
+
 
 #endif // ROBOT_PARAMETERS_H

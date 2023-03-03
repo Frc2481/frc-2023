@@ -68,7 +68,7 @@ void RobotContainer::ConfigureButtonBindings() {
     // Driver Driving
     m_drivetrain.SetDefaultCommand(std::move(DriveWithJoystickCommand(&m_drivetrain, &m_driverController)));
     m_lBumperDriver.OnTrue(new frc2::InstantCommand([this]{m_drivetrain.toggleFieldCentricForJoystick();},{&m_drivetrain}));
-
+    
     // Driver Acquire Game Piece TODO finish
     m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
 
@@ -82,6 +82,7 @@ void RobotContainer::ConfigureButtonBindings() {
     // Operator High Score Game Piece Command
     m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
+    // m_rTriggerAux.OnTrue(frc2::ParallelDeadlineGroup(std::move(Intake::ExtendCommand()), std::move(Intake::TurnOnIntakeCommand()));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand(){

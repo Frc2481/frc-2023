@@ -27,8 +27,7 @@
  
 Gripper::Gripper(){
    m_pSolenoid = new frc::DoubleSolenoid(
-        0, 
-        frc::PneumaticsModuleType::CTREPCM, 
+        frc::PneumaticsModuleType::REVPH, 
         SolenoidPorts::kGripperSolenoidPort, 
         SolenoidPorts::kGripperSolenoidReversePort);
 }

@@ -11,6 +11,7 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/WaitUntilCommand.h>
 #include <frc/DigitalInput.h>
+#include <frc/Solenoid.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -47,8 +48,8 @@ class Intake : public frc2::SubsystemBase {
  private:
   TalonFX * m_pHorizontalMotor;
   TalonFX * m_pVerticalMotor;
-  frc::DoubleSolenoid * m_ExtendFirstSolenoid;
-  frc::DoubleSolenoid * m_ExtendSecondSolenoid;
+  frc::Solenoid * m_ExtendFirstSolenoid;
+  frc::Solenoid * m_ExtendSecondSolenoid;
   bool m_isExtended;
   frc::DigitalInput * m_intakeBeambreak;
 
