@@ -18,7 +18,9 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Engage Elevator Brake": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Release Elevator Brake": "Command",
       "/SmartDashboard/Reset Angle": "Command",
       "/SmartDashboard/Reset Odometry": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
@@ -26,7 +28,17 @@
       "/SmartDashboard/Zero Steer": "Command"
     },
     "windows": {
+      "/SmartDashboard/Engage Elevator Brake": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Release Elevator Brake": {
         "window": {
           "visible": true
         }

@@ -62,8 +62,12 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pTurningMotor->ConfigPeakOutputForward(1.0, 0.0);
       m_pTurningMotor->ConfigPeakOutputReverse(-1.0, 0.0);
       m_pTurningMotor->SetSensorPhase(turningEncoderReversed);	
+      
+      #ifdef COMP
       m_pTurningMotor->SetInverted(true);
-
+      #else 
+      m_pTurningMotor->SetInverted(false); 
+      #endif
 
       
       m_pDriveMotor->ConfigFactoryDefault();

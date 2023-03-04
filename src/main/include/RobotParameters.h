@@ -152,6 +152,7 @@ namespace SolenoidPorts{
 
 namespace DigitalInputs{
     static constexpr int k_IntakeBeambreakPort = 9;
+    static constexpr int k_ElevatorBeambreakPort = 8;
 }
 
 namespace IntakeConstants{

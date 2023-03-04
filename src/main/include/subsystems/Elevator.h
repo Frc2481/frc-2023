@@ -5,6 +5,10 @@
 #include <ctre/Phoenix.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/WaitUntilCommand.h>
+#include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
+#include <frc/DigitalInput.h>
+
 
 class Elevator : public frc2::SubsystemBase {
 public:
@@ -18,6 +22,9 @@ public:
     frc2::InstantCommand GoToTopShelfCommand();
     frc2::InstantCommand GoToPositionCommand(double pos);
     frc2::WaitUntilCommand WaitForElevatorOnTargetCommand();
+    frc2::InstantCommand EngageBrakeCommand();
+    frc2::InstantCommand ReleaseBrakeCommand();
+
     void Periodic() override;
 
     void SetTargetPosition(double pos);
@@ -29,9 +36,15 @@ public:
     void Zero();
 
     bool IsOnTarget();
+
+    void EngageBrake();
+
+    void ReleaseBrake();
         
 private:
 
  TalonFX* m_pMotor;
  double m_desiredPosition;
+ frc::DoubleSolenoid * m_brakeSolenoid;
+ frc::DigitalInput * m_elevatorBeambreak;
 };

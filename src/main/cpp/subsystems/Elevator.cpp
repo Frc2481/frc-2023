@@ -36,7 +36,23 @@ frc2::WaitUntilCommand Elevator::WaitForElevatorOnTargetCommand(){
     return frc2::WaitUntilCommand([this] {return IsOnTarget();});
 }
 
+frc2::InstantCommand Elevator::EngageBrakeCommand(){
+    return frc2::InstantCommand([this] {EngageBrake();},{this});
+}
+
+frc2::InstantCommand Elevator::ReleaseBrakeCommand(){
+    return frc2::InstantCommand([this] {ReleaseBrake();},{this});
+}
+
 Elevator::Elevator(){
+
+     m_brakeSolenoid = new frc::DoubleSolenoid(
+        frc::PneumaticsModuleType::REVPH, 
+        SolenoidPorts::kElevatorEngageBrakePort, 
+        SolenoidPorts::kElevatorReleaseBrakePort);
+
+    m_elevatorBeambreak = new frc::DigitalInput(DigitalInputs::k_ElevatorBeambreakPort);
+
     m_pMotor = new TalonFX(FalconIDs::kElevatorMotor);
     m_pMotor->ConfigFactoryDefault();
     m_pMotor->Config_kP(0, ElevatorConstants::k_ElevatorkP, 10);
@@ -56,7 +72,7 @@ Elevator::Elevator(){
     m_pMotor->ConfigNominalOutputReverse(0.0, 0.0);
     m_pMotor->ConfigPeakOutputForward(1.0, 0.0);
     m_pMotor->ConfigPeakOutputReverse(-1.0, 0.0);
-    m_pMotor->SetSensorPhase(false);	
+    // m_pMotor->SetSensorPhase(true);	
     m_pMotor->SetInverted(false);
     m_pMotor->ConfigForwardSoftLimitThreshold(ElevatorConstants::k_ElevatorTopSoftLimit, 10);
     m_pMotor->ConfigReverseSoftLimitThreshold(ElevatorConstants::k_ElevatorBottomSoftLimit, 10);
@@ -91,4 +107,12 @@ void Elevator::Zero(){
 
 bool Elevator::IsOnTarget(){
     return abs(GetActualPosition() - GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold;
+}
+
+void Elevator::EngageBrake(){
+    m_brakeSolenoid->Set(m_brakeSolenoid->kForward);
+}
+
+void Elevator::ReleaseBrake(){
+    m_brakeSolenoid->Set(m_brakeSolenoid->kReverse);
 }
