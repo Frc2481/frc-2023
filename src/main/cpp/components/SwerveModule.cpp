@@ -39,11 +39,12 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       
       #ifdef COMP
       m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
+      m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
       #else
       m_pTurningEncoder = new CTREMagEncoder(m_pTurningMotor, name);
       #endif
-      m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
-      m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
+    
       
       m_pTurningMotor->SelectProfileSlot(0, 0);
 	
@@ -61,7 +62,7 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pTurningMotor->ConfigPeakOutputForward(1.0, 0.0);
       m_pTurningMotor->ConfigPeakOutputReverse(-1.0, 0.0);
       m_pTurningMotor->SetSensorPhase(turningEncoderReversed);	
-      m_pTurningMotor->SetInverted(false);
+      m_pTurningMotor->SetInverted(true);
 
 
       
@@ -157,6 +158,9 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& state) {
   // m_turningMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnOutput);
 
   double desiredTicks = m_pTurningEncoder->convertAngleToTickSetpoint(desiredAngle);
+  frc::SmartDashboard::PutNumber("br target angle", desiredAngle);
+  frc::SmartDashboard::PutNumber("br target ticks", desiredTicks);
+  frc::SmartDashboard::PutNumber("br actual ticks", m_pTurningEncoder->getTicks());
   m_pTurningMotor->Set(ControlMode::Position, desiredTicks);
 
   

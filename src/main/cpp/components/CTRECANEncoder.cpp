@@ -77,6 +77,21 @@ int CTRECANEncoder::convertAngleToTicks(double angle) const {
 }
 
 int CTRECANEncoder::convertAngleToTickSetpoint(double angle) const {
+    // int ticks = angle / 360.0 * 4096;
+    // int encoderTicks = getTicks();
+
+    // ticks += (getTicks() / 4096) * 4096;
+    
+    // int error = (encoderTicks - ticks);
+
+    // if (error < -2048) {
+    //     ticks -= 4096;
+    // }
+    // else if (error > 2048) {
+    //     ticks += 4096;
+    // }
+
+    // return ticks;
     double error = normalizeToRange::RangedDifference(angle - getAngle(), -180, 180);
     return getTicks() + convertAngleToTicks(error) + m_encoderTicksZero;
 }

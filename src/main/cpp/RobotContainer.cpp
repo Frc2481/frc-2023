@@ -74,14 +74,27 @@ void RobotContainer::ConfigureButtonBindings() {
 
     m_startDriver.OnTrue(new InstantDisabledCommand([this]{m_drivetrain.ZeroHeading();}));
 
-    // Operator Buttons
+  //gripper
+    m_aButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Open();},{&m_gripper}));
+    m_bButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Close();},{&m_gripper}));
+
+  // Operator Buttons
     // Operator Low Score Game Piece Command
-    m_aButtonAux.OnTrue(new ScoreGamePieceCommand(FLOOR, &m_elevator, &m_gripper, &m_slide));
-    // Operator Mid Score Game Piece Command
-    m_xButtonAux.OnTrue(new ScoreGamePieceCommand(MID, &m_elevator, &m_gripper, &m_slide));
-    // Operator High Score Game Piece Command
-    m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
+    // m_aButtonAux.OnTrue(new ScoreGamePieceCommand(FLOOR, &m_elevator, &m_gripper, &m_slide));
+    // // Operator Mid Score Game Piece Command
+    // m_xButtonAux.OnTrue(new ScoreGamePieceCommand(MID, &m_elevator, &m_gripper, &m_slide));
+    // // Operator High Score Game Piece Command
+    // m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
+  //flipper
+    m_lBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Up();},{&m_flipper}));
+    m_rBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Down();},{&m_flipper}));
+
+  //intake
+    m_aButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Extend();},{&m_intake}));
+    m_bButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Retract();},{&m_intake}));
+    m_xButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.TurnOnIntake();},{&m_intake}));
+    m_yButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.TurnOff();},{&m_intake}));
     // m_rTriggerAux.OnTrue(frc2::ParallelDeadlineGroup(std::move(Intake::ExtendCommand()), std::move(Intake::TurnOnIntakeCommand()));
 }
 

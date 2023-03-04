@@ -32,9 +32,11 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   m_kinematics.DesaturateWheelSpeeds(&states, RobotParameters::k_maxSpeed);
 
   auto [fl, fr, bl, br] = states;
-  frc::SmartDashboard::PutNumber("fl angle target", (double)fl.angle.Degrees());
+  // frc::SmartDashboard::PutNumber("fl angle target", (double)fl.angle.Degrees());
+  // frc::SmartDashboard::PutNumber("fl angle actual", (m_frontLeft.GetState().angle.Degrees().value()));
 
-  frc::SmartDashboard::PutNumber("fl angle actual", (m_frontLeft.GetState().angle.Degrees().value()));
+  // frc::SmartDashboard::PutNumber("br angle target", (double)br.angle.Degrees());
+  // frc::SmartDashboard::PutNumber("br angle actual", (m_backRight.GetState().angle.Degrees().value()));
 
   m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);

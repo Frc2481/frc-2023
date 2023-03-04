@@ -77,7 +77,7 @@ namespace SolenoidPorts{
 
 }
 
-namespace DriveConstants { // not used
+// namespace DriveConstants { // not used
 
 // constexpr bool kFrontLeftTurningEncoderReversed = false;
 // constexpr bool kRearLeftTurningEncoderReversed = false;
@@ -97,24 +97,24 @@ namespace DriveConstants { // not used
 
 // constexpr units::meters_per_second_t kDriveClimbSpeed = 0.5_mps;
 
-}  // // namespace DriveConstants
+// }  // // namespace DriveConstants
 
-namespace ModuleConstants {
-constexpr int kEncoderCPR = 4096;
-constexpr double kWheelDiameterMeters = .15;
-constexpr double kDriveEncoderDistancePerPulse =
-    // Assumes the encoders are directly mounted on the wheel shafts
-    (kWheelDiameterMeters * std::numbers::pi) / static_cast<double>(kEncoderCPR);
+// namespace ModuleConstants {
+// constexpr int kEncoderCPR = 4096;
+// constexpr double kWheelDiameterMeters = .15;
+// constexpr double kDriveEncoderDistancePerPulse =
+//     // Assumes the encoders are directly mounted on the wheel shafts
+//     (kWheelDiameterMeters * std::numbers::pi) / static_cast<double>(kEncoderCPR);
 
-constexpr double kTurningEncoderDistancePerPulse =
-    // Assumes the encoders are directly mounted on the wheel shafts
-    (std::numbers::pi * 2) / static_cast<double>(kEncoderCPR);
+// constexpr double kTurningEncoderDistancePerPulse =
+//     // Assumes the encoders are directly mounted on the wheel shafts
+//     (std::numbers::pi * 2) / static_cast<double>(kEncoderCPR);
 
-constexpr double kPModuleTurningController = 1;
-constexpr double kPModuleDriveController = 1;
-}  // namespace ModuleConstants
+// constexpr double kPModuleTurningController = 1;
+// constexpr double kPModuleDriveController = 1;
+// }  // namespace ModuleConstants
 
-namespace AutoConstants { // // not used
+// namespace AutoConstants { // // not used
 // using radians_per_second_squared_t =
     // units::compound_unit<units::radians,
                         //  units::inverse<units::squared<units::second>>>;
@@ -132,35 +132,35 @@ namespace AutoConstants { // // not used
 // extern const frc::TrapezoidProfile<units::radians>::Constraints
     // kThetaControllerConstraints;
 
-}  // // namespace AutoConstants
+// }  // // namespace AutoConstants
 
-enum class CommonModes{
-    DutyCycle = 0,
-    Velocity = 1,
-    Voltage = 2,
-    Position = 3,
-    SmartMotion = 4,
-    Current = 5,
-    SmartVelocity = 6,
-    PercentOutput = 7,
-    Follower = 8,
-    MotionProfile = 9,
-    MotionMagic = 10,
-    MotionProfileArc = 11,
-    Disabled = 15
-};
+// enum class CommonModes{
+//     DutyCycle = 0,
+//     Velocity = 1,
+//     Voltage = 2,
+//     Position = 3,
+//     SmartMotion = 4,
+//     Current = 5,
+//     SmartVelocity = 6,
+//     PercentOutput = 7,
+//     Follower = 8,
+//     MotionProfile = 9,
+//     MotionMagic = 10,
+//     MotionProfileArc = 11,
+//     Disabled = 15
+// };
 
 namespace DigitalInputs{
-    static constexpr int k_IntakeBeambreakPort = 0;
+    static constexpr int k_IntakeBeambreakPort = 9;
 }
 
 namespace IntakeConstants{
     static constexpr double k_DefaultIntakeRollerSpeed = 1; //TODO: Find out
     static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
-    static constexpr double k_IntakeHorizontalRollerSpeed = 1;
-    static constexpr double k_IntakeVerticalRollerSpeed = 1;
-    static constexpr double k_IntakeBarfHorizontalRollerSpeed = -1;
-    static constexpr double k_IntakeBarfVerticalRollerSpeed = -1;
+    static constexpr double k_IntakeHorizontalRollerSpeed = -1;
+    static constexpr double k_IntakeVerticalRollerSpeed = -0.5;
+    static constexpr double k_IntakeBarfHorizontalRollerSpeed = 1;
+    static constexpr double k_IntakeBarfVerticalRollerSpeed = 1;
     static constexpr double k_IntakeHorizontalCurrentLimit = 0;
     static constexpr double k_IntakeVerticalCurrentLimit = 0;
     static constexpr double k_IntakeCurrentDuration = 0;

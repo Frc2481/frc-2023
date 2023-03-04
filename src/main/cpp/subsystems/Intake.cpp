@@ -4,6 +4,7 @@
 
 #include "subsystems/Intake.h"
 #include "RobotParameters.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 frc2::InstantCommand Intake::ExtendCommand(){
     return frc2::InstantCommand([this] {Extend();},{this});
@@ -120,4 +121,6 @@ bool Intake::HasGamePiece(){
 }
 
 // This method will be called once per scheduler run
-void Intake::Periodic() {}
+void Intake::Periodic() {
+    frc::SmartDashboard::PutBoolean("Intake Beam Break", HasGamePiece());
+}
