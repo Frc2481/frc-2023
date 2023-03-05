@@ -55,6 +55,7 @@ Elevator::Elevator(){
 
     m_pMotor = new TalonFX(FalconIDs::kElevatorMotor);
     m_pMotor->ConfigFactoryDefault();
+    m_pMotor->SelectProfileSlot(0, 0);
     m_pMotor->Config_kP(0, ElevatorConstants::k_ElevatorkP, 10);
     m_pMotor->Config_kI(0, ElevatorConstants::k_ElevatorkI, 10);
     m_pMotor->Config_kD(0, ElevatorConstants::k_ElevatorkD, 10);
@@ -78,19 +79,26 @@ Elevator::Elevator(){
     m_pMotor->ConfigReverseSoftLimitThreshold(ElevatorConstants::k_ElevatorBottomSoftLimit, 10);
     m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
     m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
+    m_pMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
 }
 
 void Elevator::Periodic(){
     frc::SmartDashboard::PutNumber("Elevator Target Position", GetTargetPosition());
     frc::SmartDashboard::PutNumber("Elevator Actual Position", GetActualPosition());
     frc::SmartDashboard::PutBoolean("Elevator On Target", IsOnTarget());
+    if (m_elevatorBeambreak->Get() == true) {
+        m_pMotor->SetSelectedSensorPosition(0);
+    }
+    frc::SmartDashboard::PutBoolean("Elevator Beam Break",m_elevatorBeambreak->Get());
+}
+
+void Elevator::Stop(){
+    m_pMotor->Set(TalonFXControlMode::PercentOutput, 0);
 }
 
 void Elevator::SetTargetPosition(double pos){
     m_desiredPosition = pos;
-    double ticks = pos * ElevatorConstants::k_ElevatorTicksPerInch;
-    m_pMotor->Set(TalonFXControlMode::MotionMagic, ticks);
-
+    m_pMotor->Set(ControlMode::MotionMagic, pos);
 }
 
 double Elevator::GetTargetPosition(){
@@ -98,7 +106,7 @@ double Elevator::GetTargetPosition(){
 }
 
 double Elevator::GetActualPosition(){
-    return m_pMotor->GetSelectedSensorPosition() / ElevatorConstants::k_ElevatorTicksPerInch;
+    return m_pMotor->GetSelectedSensorPosition();
 }
 
 void Elevator::Zero(){
@@ -106,7 +114,7 @@ void Elevator::Zero(){
 }
 
 bool Elevator::IsOnTarget(){
-    return abs(GetActualPosition() - GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold;
+    return abs(m_pMotor->GetActiveTrajectoryPosition() - GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold;
 }
 
 void Elevator::EngageBrake(){
@@ -115,4 +123,8 @@ void Elevator::EngageBrake(){
 
 void Elevator::ReleaseBrake(){
     m_brakeSolenoid->Set(m_brakeSolenoid->kReverse);
+}
+
+bool Elevator::IsInAllTheWay(){
+    return m_elevatorBeambreak->Get();
 }

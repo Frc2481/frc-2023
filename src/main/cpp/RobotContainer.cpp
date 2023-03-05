@@ -31,6 +31,10 @@
 // Score Game Piece
 #include "commands/ScoreGamePieceCommand.h"
 
+//Elevator
+#include "commands/ElevatorGoToPositionCommand.h"
+
+
 class InstantDisabledCommand : public frc2::InstantCommand {
 public:
 
@@ -65,7 +69,11 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("Engage Elevator Brake", new InstantDisabledCommand([this] {m_elevator.EngageBrake();}));
         frc::SmartDashboard::PutData("Release Elevator Brake", new InstantDisabledCommand([this]{m_elevator.ReleaseBrake();}));
         frc::SmartDashboard::PutData("Zero Elevator", new InstantDisabledCommand([this]{m_elevator.Zero();}));
+        frc::SmartDashboard::PutData("Elevator Pos 235000", new ElevatorGoToPositionCommand(&m_elevator, 235000));
+        frc::SmartDashboard::PutData("Elevator Pos 100000", new ElevatorGoToPositionCommand(&m_elevator, 100000));
+        frc::SmartDashboard::PutData("Elevator Pos 0", new ElevatorGoToPositionCommand(&m_elevator, 0));
 }
+
 void RobotContainer::ConfigureButtonBindings() {
     // Driver Buttons
     // Driver Driving

@@ -72,8 +72,8 @@ namespace SolenoidPorts{
     static constexpr int kGripperSolenoidPort = 0;
     static constexpr int kGripperSolenoidReversePort = 15;
     static constexpr int kFlipperSolenoidPort = 13;
-    static constexpr int kElevatorEngageBrakePort = 1;
-    static constexpr int kElevatorReleaseBrakePort = 14;
+    static constexpr int kElevatorEngageBrakePort = 14;
+    static constexpr int kElevatorReleaseBrakePort = 1;
 
 }
 
@@ -151,8 +151,8 @@ namespace SolenoidPorts{
 // };
 
 namespace DigitalInputs{
-    static constexpr int k_IntakeBeambreakPort = 9;
-    static constexpr int k_ElevatorBeambreakPort = 8;
+    static constexpr int k_IntakeBeambreakPort = 8;
+    static constexpr int k_ElevatorBeambreakPort = 9;
 }
 
 namespace IntakeConstants{
@@ -178,17 +178,17 @@ namespace LimeLightConstants{
 }
 
 namespace ElevatorConstants{
-    static constexpr double k_ElevatorkP = 0;
+    static constexpr double k_ElevatorkP = 0.025;
     static constexpr double k_ElevatorkI = 0;
     static constexpr double k_ElevatorkD = 0;
-    static constexpr double k_ElevatorkF = 0;
-    static constexpr double k_ElevatorAcceleration = 0; //36000
-    static constexpr double k_ElevatorMaxSpeed = 0; //24000
+    static constexpr double k_ElevatorkF = 0.047;
+    static constexpr double k_ElevatorAcceleration = 21600; //36000
+    static constexpr double k_ElevatorMaxSpeed = 21600; //24000
     static constexpr double k_ElevatorSCurveStrength = 6;
     static constexpr double k_ElevatorTicksPerInch = 0;
-    static constexpr double k_ElevatorTopSoftLimit = 0;
+    static constexpr double k_ElevatorTopSoftLimit = 235000;
     static constexpr double k_ElevatorBottomSoftLimit = 0;
-    static constexpr double k_ElevatorOnTargetThreshold = 0;
+    static constexpr double k_ElevatorOnTargetThreshold = 1000;
     static constexpr double k_ElevatorTopPostPosition = 0;
     static constexpr double k_ElevatorBottomPostPosition = 0;
     static constexpr double k_ElevatorFloorPosition = 0;

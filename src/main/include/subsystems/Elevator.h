@@ -27,6 +27,8 @@ public:
 
     void Periodic() override;
 
+    void Stop();
+    
     void SetTargetPosition(double pos);
 
     double GetTargetPosition();
@@ -40,6 +42,8 @@ public:
     void EngageBrake();
 
     void ReleaseBrake();
+
+    bool IsInAllTheWay();
         
 private:
 

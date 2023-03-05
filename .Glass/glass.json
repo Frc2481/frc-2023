@@ -25,6 +25,7 @@
       "/SmartDashboard/Reset Odometry": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Test Auto": "Command",
+      "/SmartDashboard/Zero Elevator": "Command",
       "/SmartDashboard/Zero Steer": "Command"
     },
     "windows": {
