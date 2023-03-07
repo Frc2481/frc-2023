@@ -72,7 +72,9 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("Elevator Pos 235000", new ElevatorGoToPositionCommand(&m_elevator, 235000));
         frc::SmartDashboard::PutData("Elevator Pos 100000", new ElevatorGoToPositionCommand(&m_elevator, 100000));
         frc::SmartDashboard::PutData("Elevator Pos 0", new ElevatorGoToPositionCommand(&m_elevator, 0));
+        frc::SmartDashboard::PutData("Scheduler", &m_drivetrain);
 }
+
 
 void RobotContainer::ConfigureButtonBindings() {
     // Driver Buttons

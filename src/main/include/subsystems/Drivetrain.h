@@ -39,6 +39,8 @@ class Drivetrain : public frc2::SubsystemBase{
 
   frc::Rotation2d GetHeading();
 
+  frc::Rotation2d GetPitch();
+
   void ZeroHeading(double offset = 0);
 
   void ResetOdometry(frc::Pose2d pose);

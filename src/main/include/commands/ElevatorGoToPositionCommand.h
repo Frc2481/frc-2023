@@ -43,11 +43,12 @@ class ElevatorGoToPositionCommand
   }
 
   bool IsFinished(){
-    if(m_pos == 0){
-      return m_pElevator->IsInAllTheWay();
-    }
-    else{
-      return m_pElevator->IsOnTarget() || m_pElevator->IsInAllTheWay();
-    }
+    // if(m_pos == 0){
+    //   return m_pElevator->IsInAllTheWay();
+    // }
+    // else{
+    //   return m_pElevator->IsOnTarget() || (m_pElevator->IsInAllTheWay() && (m_pElevator->GetActualPosition() > m_pElevator->GetTargetPosition()));
+    // }
+    return(abs(m_pElevator->GetActualPosition() - m_pElevator->GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold);
   }
 };

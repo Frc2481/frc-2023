@@ -70,7 +70,7 @@ Elevator::Elevator(){
     m_pMotor->ConfigVoltageCompSaturation(12.0, 0);
     m_pMotor->ConfigNeutralDeadband(0.04, 0);
     m_pMotor->ConfigNominalOutputForward(0.0, 0.0);
-    m_pMotor->ConfigNominalOutputReverse(0.0, 0.0);
+    m_pMotor->ConfigNominalOutputReverse(-0.3, 0.0);
     m_pMotor->ConfigPeakOutputForward(1.0, 0.0);
     m_pMotor->ConfigPeakOutputReverse(-1.0, 0.0);
     // m_pMotor->SetSensorPhase(true);	
@@ -86,9 +86,9 @@ void Elevator::Periodic(){
     frc::SmartDashboard::PutNumber("Elevator Target Position", GetTargetPosition());
     frc::SmartDashboard::PutNumber("Elevator Actual Position", GetActualPosition());
     frc::SmartDashboard::PutBoolean("Elevator On Target", IsOnTarget());
-    if (m_elevatorBeambreak->Get() == true) {
-        m_pMotor->SetSelectedSensorPosition(0);
-    }
+    // if (m_elevatorBeambreak->Get() == true) {
+    //     m_pMotor->SetSelectedSensorPosition(0);
+    // }
     frc::SmartDashboard::PutBoolean("Elevator Beam Break",m_elevatorBeambreak->Get());
 }
 

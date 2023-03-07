@@ -18,6 +18,7 @@ Drivetrain::Drivetrain(){
 void Drivetrain::Periodic() {
   // Drive(units::meters_per_second_t(0.0), units::meters_per_second_t(0.0), units::radians_per_second_t(0));
   frc::SmartDashboard::PutNumber("IMU heading", (double)GetHeading().Degrees());
+  frc::SmartDashboard::PutNumber("Pitch", GetPitch().Degrees().value());
   UpdateOdometry();
 }
 
@@ -122,6 +123,10 @@ bool Drivetrain::getFieldCentricForJoystick(){
 
 frc::Rotation2d Drivetrain::GetHeading(){
   return frc::Rotation2d(units::degree_t(-normalizeToRange::NormalizeToRange(m_IMU.GetYaw() - m_yawOffset, -180, 180, true)));
+}
+
+frc::Rotation2d Drivetrain::GetPitch(){
+  return frc::Rotation2d(units::degree_t(m_IMU.GetPitch()));
 }
 
 void Drivetrain::ZeroHeading(double offset){
