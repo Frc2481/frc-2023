@@ -12,7 +12,7 @@ frc2::InstantCommand Flipper::UpCommand(){
 
 frc2::InstantCommand Flipper::DownCommand(){
     return frc2::InstantCommand([this] {Down();});
-}
+}   
 
 Flipper::Flipper(){
     m_pSolenoid = new frc::Solenoid( 
@@ -21,11 +21,17 @@ Flipper::Flipper(){
 }
 
 void Flipper::Up(){
+    m_up = true;
     m_pSolenoid->Set(true);
  }
 
  void Flipper::Down(){
+    m_up = false;
     m_pSolenoid->Set(false);
+ }
+
+ bool Flipper::IsUp() {
+    return m_up;
  }
 
 // This method will be called once per scheduler run

@@ -3,6 +3,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/WaitUntilCommand.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc/Preferences.h>
 
 frc2::InstantCommand Elevator::StowCommand(){
     return GoToPositionCommand(ElevatorConstants::k_ElevatorStowPosition);
@@ -78,7 +79,7 @@ Elevator::Elevator(){
     m_pMotor->ConfigForwardSoftLimitThreshold(ElevatorConstants::k_ElevatorTopSoftLimit, 10);
     m_pMotor->ConfigReverseSoftLimitThreshold(ElevatorConstants::k_ElevatorBottomSoftLimit, 10);
     m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
-    m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
+    m_pMotor->ConfigReverseSoftLimitEnable(false, 10);
     m_pMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
 }
 
@@ -89,6 +90,11 @@ void Elevator::Periodic(){
     // if (m_elevatorBeambreak->Get() == true) {
     //     m_pMotor->SetSelectedSensorPosition(0);
     // }
+
+    if (IsInAllTheWay()) {
+        Zero();
+    }
+
     frc::SmartDashboard::PutBoolean("Elevator Beam Break",m_elevatorBeambreak->Get());
 }
 
@@ -99,6 +105,10 @@ void Elevator::Stop(){
 void Elevator::SetTargetPosition(double pos){
     m_desiredPosition = pos;
     m_pMotor->Set(ControlMode::MotionMagic, pos);
+}
+
+void Elevator::SetPerceptOutput(double pct) {
+    m_pMotor->Set(ControlMode::PercentOutput, pct);
 }
 
 double Elevator::GetTargetPosition(){
@@ -126,5 +136,12 @@ void Elevator::ReleaseBrake(){
 }
 
 bool Elevator::IsInAllTheWay(){
-    return m_elevatorBeambreak->Get();
+    static int stalled_count = 0;
+    if (m_pMotor->GetSupplyCurrent() >  frc::Preferences::GetDouble("ELEVATOR_STALLED_CURRENT", 20)) {
+        stalled_count++;
+    } else {
+        stalled_count = 0;
+    }
+    return stalled_count > 10;
+    
 }

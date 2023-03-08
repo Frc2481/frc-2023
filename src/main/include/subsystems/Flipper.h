@@ -27,7 +27,11 @@ class Flipper : public frc2::SubsystemBase {
 
   void Down();
 
+  bool IsUp();
+
  private:
+
+  bool m_up;
 
   frc::Solenoid * m_pSolenoid;
 

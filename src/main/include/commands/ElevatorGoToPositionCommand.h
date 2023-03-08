@@ -35,7 +35,11 @@ class ElevatorGoToPositionCommand
     m_pElevator->SetTargetPosition(m_pos);
   }
 
-  void Execute() {}
+  void Execute() {
+    if (m_pos == 0 && m_pElevator->GetActualPosition() < 50000) {
+      m_pElevator->SetPerceptOutput(-0.4);
+    }
+  }
 
   void End(bool interrupted){
     m_pElevator->Stop();
@@ -43,12 +47,12 @@ class ElevatorGoToPositionCommand
   }
 
   bool IsFinished(){
-    // if(m_pos == 0){
-    //   return m_pElevator->IsInAllTheWay();
-    // }
-    // else{
-    //   return m_pElevator->IsOnTarget() || (m_pElevator->IsInAllTheWay() && (m_pElevator->GetActualPosition() > m_pElevator->GetTargetPosition()));
-    // }
-    return(abs(m_pElevator->GetActualPosition() - m_pElevator->GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold);
+    if(m_pos == 0){
+       return m_pElevator->IsInAllTheWay();
+    }
+    else{
+       return m_pElevator->IsOnTarget() || (m_pElevator->IsInAllTheWay() && (m_pElevator->GetActualPosition() > m_pElevator->GetTargetPosition()));
+     }
+    // return(abs(m_pElevator->GetActualPosition() - m_pElevator->GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold);
   }
 };

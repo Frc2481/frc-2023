@@ -14,6 +14,7 @@
 #include <frc2/command/InstantCommand.h>
 #include "RobotParameters.h"
 #include <frc2/command/WaitCommand.h>
+#include <frc2/command/ConditionalCommand.h>
 
 
 class AcquireGamePieceCommand
@@ -34,14 +35,35 @@ class AcquireGamePieceCommand
   AddCommands(
 
     frc2::SequentialCommandGroup{
+
+        // Make sure the gripper is open
+        m_pGripper->OpenCommand(),
+        
+        // If the gripper is up then put it down and add an additiona 0.5 second delay to allow it to go down.
+        frc2::ConditionalCommand(frc2::SequentialCommandGroup{
+            m_pFlipper->DownCommand(),
+            frc2::WaitCommand(0.5_s)  
+          }, 
+          frc2::InstantCommand([]{}),
+          [this] {return m_pFlipper->IsUp();}),
+
+        m_pFlipper->DownCommand(),
         m_pIntake->ExtendCommand(),
         m_pIntake->TurnOnIntakeCommand(),
         m_pIntake->WaitForGamePieceCommand(),
-        m_pIntake->TurnOffCommand(),
-        m_pIntake->RetractCommand(),
+        frc2::WaitCommand(1.0_s),
+        frc2::InstantCommand([this] {m_pIntake->TurnOnIntake(
+          IntakeConstants::k_IntakeHorizontalRollerSpeed / 5.0, 
+          IntakeConstants::k_IntakeVerticalRollerSpeed / 5.0);},{m_pIntake}),
+        // m_pIntake->TurnOffCommand(),
         m_pFlipper->UpCommand(),
+        frc2::WaitCommand(2.0_s),
+        m_pIntake->TurnOffCommand(),
         m_pGripper->CloseCommand(),
-        m_pFlipper->DownCommand()
+        m_pIntake->RetractCommand(),
+        
+        // m_pGripper->CloseCommand(),
+        // m_pFlipper->DownCommand()
     }
   );
   }  

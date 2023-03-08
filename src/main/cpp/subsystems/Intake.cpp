@@ -81,11 +81,11 @@ Intake::Intake(){
     
 }
 
-void Intake::TurnOnIntake(){
+void Intake::TurnOnIntake(double horiz, double vert){
     m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 
-                            IntakeConstants::k_IntakeHorizontalRollerSpeed);
+                            horiz);
     m_pVerticalMotor->Set(TalonFXControlMode::PercentOutput, 
-                          IntakeConstants::k_IntakeVerticalRollerSpeed);
+                          vert);
 }
 
 void Intake::TurnOnBarf(){

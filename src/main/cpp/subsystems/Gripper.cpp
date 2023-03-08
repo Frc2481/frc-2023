@@ -10,7 +10,7 @@
  }
 
  frc2::InstantCommand Gripper::CloseCommand(){
-    return frc2::InstantCommand([this] {Close();});
+    return frc2::InstantCommand([this] {Close();}, {this});
  }
 
  frc2::InstantCommand Gripper::PickedUpCubeCommand(){

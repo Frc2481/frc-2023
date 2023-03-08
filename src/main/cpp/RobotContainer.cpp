@@ -69,10 +69,15 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("Engage Elevator Brake", new InstantDisabledCommand([this] {m_elevator.EngageBrake();}));
         frc::SmartDashboard::PutData("Release Elevator Brake", new InstantDisabledCommand([this]{m_elevator.ReleaseBrake();}));
         frc::SmartDashboard::PutData("Zero Elevator", new InstantDisabledCommand([this]{m_elevator.Zero();}));
-        frc::SmartDashboard::PutData("Elevator Pos 235000", new ElevatorGoToPositionCommand(&m_elevator, 235000));
-        frc::SmartDashboard::PutData("Elevator Pos 100000", new ElevatorGoToPositionCommand(&m_elevator, 100000));
+        // Cone Positions
+        frc::SmartDashboard::PutData("Elevator Pos 255000", new ElevatorGoToPositionCommand(&m_elevator, 255000));
+        frc::SmartDashboard::PutData("Elevator Pos 145000", new ElevatorGoToPositionCommand(&m_elevator, 145000));
+        frc::SmartDashboard::PutData("Elevator Pos 80000", new ElevatorGoToPositionCommand(&m_elevator, 80000));
+        
+        
         frc::SmartDashboard::PutData("Elevator Pos 0", new ElevatorGoToPositionCommand(&m_elevator, 0));
-        frc::SmartDashboard::PutData("Scheduler", &m_drivetrain);
+        frc::SmartDashboard::PutData("DriveTrain", &m_drivetrain);
+        frc::SmartDashboard::PutData("Intake", &m_intake);
 }
 
 
@@ -88,8 +93,12 @@ void RobotContainer::ConfigureButtonBindings() {
     m_startDriver.OnTrue(new InstantDisabledCommand([this]{m_drivetrain.ZeroHeading();}));
 
   //gripper
-    m_aButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Open();},{&m_gripper}));
-    m_bButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Close();},{&m_gripper}));
+    // m_aButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Open();},{&m_gripper}));
+    // m_bButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Close();},{&m_gripper}));
+    m_aButtonDriver.ToggleOnTrue(frc2::StartEndCommand(
+      [this] {m_gripper.Close();},
+      [this] {m_gripper.Open();}
+    ).ToPtr());
 
   // Operator Buttons
     // Operator Low Score Game Piece Command
@@ -100,8 +109,13 @@ void RobotContainer::ConfigureButtonBindings() {
     // m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
   //flipper
-    m_lBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Up();},{&m_flipper}));
-    m_rBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Down();},{&m_flipper}));
+    // m_lBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Up();},{&m_flipper}));
+    // m_rBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Down();},{&m_flipper}));
+
+    m_lBumperAux.ToggleOnTrue(frc2::StartEndCommand(
+      [this] {m_flipper.Up();},
+      [this] {m_flipper.Down();}
+    ).ToPtr());
 
   //intake
     m_aButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Extend();},{&m_intake}));

@@ -31,6 +31,8 @@ public:
     
     void SetTargetPosition(double pos);
 
+    void SetPerceptOutput(double pct);
+
     double GetTargetPosition();
 
     double GetActualPosition();

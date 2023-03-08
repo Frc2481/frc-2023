@@ -186,7 +186,7 @@ namespace ElevatorConstants{
     static constexpr double k_ElevatorMaxSpeed = 20479; //24000
     static constexpr double k_ElevatorSCurveStrength = 6;
     static constexpr double k_ElevatorTicksPerInch = 0;
-    static constexpr double k_ElevatorTopSoftLimit = 235000;
+    static constexpr double k_ElevatorTopSoftLimit = 255000;
     static constexpr double k_ElevatorBottomSoftLimit = 0;
     static constexpr double k_ElevatorOnTargetThreshold = 1000;
     static constexpr double k_ElevatorTopPostPosition = 0;

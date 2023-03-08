@@ -12,6 +12,7 @@
 #include <frc2/command/WaitUntilCommand.h>
 #include <frc/DigitalInput.h>
 #include <frc/Solenoid.h>
+#include "RobotParameters.h"
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -31,7 +32,7 @@ class Intake : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  void TurnOnIntake();
+  void TurnOnIntake(double horiz = IntakeConstants::k_IntakeHorizontalRollerSpeed, double vert = IntakeConstants::k_IntakeVerticalRollerSpeed);
 
   void TurnOnBarf();
 
