@@ -36,8 +36,8 @@ class ElevatorGoToPositionCommand
   }
 
   void Execute() {
-    if (m_pos == 0 && m_pElevator->GetActualPosition() < 100000) {
-      m_pElevator->SetPerceptOutput(-0.4);
+    if (m_pos == 0) {
+      m_pElevator->SetPerceptOutput(-0.8);
     }
   }
 

@@ -14,19 +14,11 @@ frc2::InstantCommand Elevator::GoToFloorCommand(){
 }
 
 frc2::InstantCommand Elevator::GoToBottomPostCommand(){
-    return GoToPositionCommand(ElevatorConstants::k_ElevatorBottomPostPosition);
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorMidPosition);
 }
 
 frc2::InstantCommand Elevator::GoToTopPostCommand(){
-    return GoToPositionCommand(ElevatorConstants::k_ElevatorTopPostPosition);
-}
-
-frc2::InstantCommand Elevator::GoToMidShelfCommand(){
-    return GoToPositionCommand(ElevatorConstants::k_ElevatorMidShelfPosition);
-}
-
-frc2::InstantCommand Elevator::GoToTopShelfCommand(){
-    return GoToPositionCommand(ElevatorConstants::k_ElevatorTopShelfPosition);
+    return GoToPositionCommand(ElevatorConstants::k_ElevatorTopPosition);
 }
 
 frc2::InstantCommand Elevator::GoToPositionCommand(double pos){
@@ -124,7 +116,8 @@ void Elevator::Zero(){
 }
 
 bool Elevator::IsOnTarget(){
-    return abs(m_pMotor->GetActiveTrajectoryPosition() - GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold;
+    return (abs(m_pMotor->GetActiveTrajectoryPosition() - GetTargetPosition()) < ElevatorConstants::k_ElevatorOnTargetThreshold) &&
+    ((abs(GetTargetPosition() - GetActualPosition())) < (ElevatorConstants::k_ElevatorOnTargetThreshold * 2));
 }
 
 void Elevator::EngageBrake(){

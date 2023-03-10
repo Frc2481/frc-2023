@@ -49,12 +49,12 @@ public:
                                   },
                               },
                               std::pair{MID, frc2::SequentialCommandGroup{
-                                    m_pElevator->GoToMidShelfCommand(),
+                                    m_pElevator->GoToBottomPostCommand(),
                                     m_pSlide->TrackAprilTagsMidShelfCommand(),
                                 },
                               },
                               std::pair{TOP, frc2::SequentialCommandGroup{
-                                    m_pElevator->GoToTopShelfCommand(),
+                                    m_pElevator->GoToTopPostCommand(),
                                     m_pSlide->TrackAprilTagsTopShelfCommand(),
                                 },
                               },

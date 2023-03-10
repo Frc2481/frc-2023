@@ -22,6 +22,7 @@
 #include "commands/AcquireGamePieceCommand.h"
 #include "commands/ScoreGamePieceCommand.h"
 #include "commands/ElevatorGoToPositionCommand.h"
+#include <frc2/command/ParallelCommandGroup.h>
 
 
 /**
@@ -72,33 +73,46 @@ class TestCommand
       frc2::SequentialCommandGroup{
         
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
-        ElevatorGoToPositionCommand(m_pElevator, 255000),
+        ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition), // Elevator goes out
         m_pGripper->OpenCommand(),
         frc2::WaitCommand(0.25_s),
 
         frc2::ParallelDeadlineGroup{
-          frc2::SequentialCommandGroup{
-            ElevatorGoToPositionCommand(m_pElevator, 0),
-            AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper),
-          },
-            FollowPathCommand(
+           FollowPathCommand(
             m_initialPosition,
-            {frc::Translation2d{135_in, -6_in}, frc::Translation2d{150_in, -12_in}},
+            {frc::Translation2d{135_in, -6_in}, frc::Translation2d{175_in, -14_in}},
             frc::Pose2d{200_in, -16_in, 0_deg},
-            forwardConfig, m_pDrive)
+            forwardConfig, m_pDrive),
+          frc2::SequentialCommandGroup{
+            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
+            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)), // geting 1st game piece
+          }
         },
+        m_pIntake->WaitForGamePieceCommand(),
+        frc2::ParallelCommandGroup{
+          FollowPathCommand(
+            frc::Pose2d{200_in, -16_in, 0_deg},
+            {frc::Translation2d{150_in, -18_in}, frc::Translation2d{50_in, -22_in}},
+            frc::Pose2d{0_in, -24_in, 0_deg},
+            reverseConfig, m_pDrive),
+          frc2::SequentialCommandGroup{
+            m_pGripper->WaitForGamePieceCommand(),
+            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition), // Elevator goes out
+        }
+        },
+        m_pElevator->WaitForElevatorOnTargetCommand(),
+        m_pGripper->OpenCommand(),
+        frc2::WaitCommand(0.5_s),
+        m_pGripper->DroppedGamePieceCommand(),
 
-        FollowPathCommand(
-          frc::Pose2d{200_in, -16_in, 0_deg},
-          {frc::Translation2d{150_in, -12_in}, frc::Translation2d{135_in, -6_in}},
-          m_initialPosition,
-          reverseConfig, m_pDrive),
-
-        FollowPathCommand(
-          m_initialPosition,
-          {frc::Translation2d{135_in, -20_in}, frc::Translation2d{175_in, -40_in}},
-          frc::Pose2d{200_in, -60_in, 0_deg},
-          forwardConfig, m_pDrive),
+        frc2::ParallelDeadlineGroup{
+          FollowPathCommand(
+            frc::Pose2d{0_in, -24_in, 0_deg},
+            {frc::Translation2d{135_in, -30_in}, frc::Translation2d{175_in, -40_in}},
+            frc::Pose2d{200_in, -60_in, 0_deg},
+            forwardConfig, m_pDrive),
+            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
+        },
 
         FollowPathCommand(
           frc::Pose2d{200_in, -60_in, 0_deg},

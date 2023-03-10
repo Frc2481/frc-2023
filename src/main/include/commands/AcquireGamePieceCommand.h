@@ -61,6 +61,8 @@ class AcquireGamePieceCommand
         m_pIntake->TurnOffCommand(),
         m_pGripper->CloseCommand(),
         m_pIntake->RetractCommand(),
+        frc2::WaitCommand(0.5_s),
+        m_pGripper->PickedUpConeCommand(),
         
         // m_pGripper->CloseCommand(),
         // m_pFlipper->DownCommand()

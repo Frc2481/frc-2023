@@ -182,18 +182,16 @@ namespace ElevatorConstants{
     static constexpr double k_ElevatorkI = 0;
     static constexpr double k_ElevatorkD = 0;
     static constexpr double k_ElevatorkF = 0.047;
-    static constexpr double k_ElevatorAcceleration = 20479; //36000
+    static constexpr double k_ElevatorAcceleration = 120000; //36000
     static constexpr double k_ElevatorMaxSpeed = 20479; //24000
     static constexpr double k_ElevatorSCurveStrength = 6;
     static constexpr double k_ElevatorTicksPerInch = 0;
-    static constexpr double k_ElevatorTopSoftLimit = 255000;
+    static constexpr double k_ElevatorTopSoftLimit = 255000 / 2.91666;
     static constexpr double k_ElevatorBottomSoftLimit = 0;
     static constexpr double k_ElevatorOnTargetThreshold = 1000;
-    static constexpr double k_ElevatorTopPostPosition = 0;
-    static constexpr double k_ElevatorBottomPostPosition = 0;
-    static constexpr double k_ElevatorFloorPosition = 0;
-    static constexpr double k_ElevatorMidShelfPosition = 0;
-    static constexpr double k_ElevatorTopShelfPosition = 0;
+    static constexpr double k_ElevatorTopPosition = 255000 / 2.91666;
+    static constexpr double k_ElevatorMidPosition = 145000 / 2.91666;
+    static constexpr double k_ElevatorFloorPosition = 80000 / 2.91666;
     static constexpr double k_ElevatorStowPosition = 0;
 }
 

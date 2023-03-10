@@ -8,6 +8,8 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/WaitUntilCommand.h>
+
 
 enum GamePieceType{CUBE, CONE, NONE};
 class Gripper : public frc2::SubsystemBase {
@@ -19,6 +21,8 @@ class Gripper : public frc2::SubsystemBase {
    frc2::InstantCommand PickedUpCubeCommand();
    frc2::InstantCommand PickedUpConeCommand();
    frc2::InstantCommand DroppedGamePieceCommand();
+   frc2::WaitUntilCommand WaitForGamePieceCommand();
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -33,7 +37,9 @@ class Gripper : public frc2::SubsystemBase {
  private:
 
  frc::DoubleSolenoid * m_pSolenoid;
- GamePieceType m_GamePiece;
+ GamePieceType m_GamePiece = NONE;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
+  bool m_HasGamePiece;
 };

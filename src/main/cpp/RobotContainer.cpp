@@ -111,10 +111,10 @@ void RobotContainer::ConfigureButtonBindings() {
 
 
   //elevator
-    m_aButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 0).ToPtr());
-    m_xButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 80000).ToPtr());
-    m_yButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 255000).ToPtr());
-    m_bButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 145000).ToPtr());
+    m_aButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorStowPosition).ToPtr());
+    m_xButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorFloorPosition).ToPtr());
+    m_yButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorTopPosition).ToPtr());
+    m_bButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorMidPosition).ToPtr());
 
 
   //intake

@@ -5,12 +5,13 @@
 #include "subsystems/Gripper.h"
 #include "RobotParameters.h"
 
- frc2::InstantCommand Gripper::OpenCommand(){
+ frc2::InstantCommand Gripper::
+ OpenCommand(){
     return frc2::InstantCommand([this] {Open();});
  }
 
  frc2::InstantCommand Gripper::CloseCommand(){
-    return frc2::InstantCommand([this] {Close();}, {this});
+    return frc2::InstantCommand([this] {Close();});
  }
 
  frc2::InstantCommand Gripper::PickedUpCubeCommand(){
@@ -24,6 +25,10 @@
  frc2::InstantCommand Gripper::DroppedGamePieceCommand(){
    return frc2::InstantCommand([this] {m_GamePiece = NONE;});
  }
+
+ frc2::WaitUntilCommand Gripper::WaitForGamePieceCommand(){
+    return frc2::WaitUntilCommand([this] {return GetGamePieceType() != NONE;});
+}
  
 Gripper::Gripper(){
    m_pSolenoid = new frc::DoubleSolenoid(
