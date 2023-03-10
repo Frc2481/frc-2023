@@ -88,17 +88,12 @@ void RobotContainer::ConfigureButtonBindings() {
     m_lBumperDriver.OnTrue(new frc2::InstantCommand([this]{m_drivetrain.toggleFieldCentricForJoystick();},{&m_drivetrain}));
     
     // Driver Acquire Game Piece TODO finish
-    m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
 
     m_startDriver.OnTrue(new InstantDisabledCommand([this]{m_drivetrain.ZeroHeading();}));
 
-  //gripper
-    // m_aButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Open();},{&m_gripper}));
-    // m_bButtonDriver.OnTrue(new frc2::InstantCommand([this] {m_gripper.Close();},{&m_gripper}));
-    m_aButtonDriver.ToggleOnTrue(frc2::StartEndCommand(
-      [this] {m_gripper.Close();},
-      [this] {m_gripper.Open();}
-    ).ToPtr());
+  //intake
+    m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
+   
 
   // Operator Buttons
     // Operator Low Score Game Piece Command
@@ -109,20 +104,46 @@ void RobotContainer::ConfigureButtonBindings() {
     // m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
   //flipper
-    // m_lBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Up();},{&m_flipper}));
-    // m_rBumperAux.OnTrue(new frc2::InstantCommand([this] {m_flipper.Down();},{&m_flipper}));
-
     m_lBumperAux.ToggleOnTrue(frc2::StartEndCommand(
       [this] {m_flipper.Up();},
       [this] {m_flipper.Down();}
     ).ToPtr());
 
+
+  //elevator
+    m_aButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 0).ToPtr());
+    m_xButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 80000).ToPtr());
+    m_yButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 255000).ToPtr());
+    m_bButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, 145000).ToPtr());
+
+
   //intake
-    m_aButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Extend();},{&m_intake}));
-    m_bButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Retract();},{&m_intake}));
-    m_xButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.TurnOnIntake();},{&m_intake}));
-    m_yButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.TurnOff();},{&m_intake}));
-    // m_rTriggerAux.OnTrue(frc2::ParallelDeadlineGroup(std::move(Intake::ExtendCommand()), std::move(Intake::TurnOnIntakeCommand()));
+    // m_aButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Extend();},{&m_intake}));
+    // m_bButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.Retract();},{&m_intake}));
+    // m_xButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.TurnOnIntake();},{&m_intake}));
+    // m_yButtonAux.OnTrue(new frc2::InstantCommand([this] {m_intake.TurnOff();},{&m_intake}));
+   
+
+    m_tDpadAux.OnTrue(frc2::InstantCommand(
+      [this]{
+        m_intake.TurnOff();
+        m_intake.Retract();
+      }
+      ).ToPtr());
+
+    m_bDpadAux.WhileTrue(frc2::StartEndCommand(
+      [this] {m_intake.TurnOnBarf();},
+      [this] {m_intake.TurnOff();},{&m_intake}
+      ).ToPtr());
+
+  //gripper
+    m_rBumperAux.ToggleOnTrue(frc2::StartEndCommand(
+      [this] {m_gripper.Close();},
+      [this] {m_gripper.Open();}
+    ).ToPtr());
+
+
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand(){

@@ -21,6 +21,7 @@
 #include "commands/FollowPathCommand.h"
 #include "commands/AcquireGamePieceCommand.h"
 #include "commands/ScoreGamePieceCommand.h"
+#include "commands/ElevatorGoToPositionCommand.h"
 
 
 /**
@@ -62,32 +63,50 @@ class TestCommand
     reverseConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseConfig.SetReversed(true);
 
+    frc::TrajectoryConfig reverseChargeStationConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel / 2)};
+    reverseChargeStationConfig.SetKinematics(m_pDrive->GetKinematics());
+    reverseChargeStationConfig.SetReversed(true);
+
     AddCommands(
       frc2::SequentialCommandGroup{
+        
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
-        FollowPathCommand(
-          m_initialPosition,
-          {frc::Translation2d{135_in, 0_in}, frc::Translation2d{150_in, 0_in}},
-          frc::Pose2d{200_in, 0_in, 0_deg},
-          forwardConfig, m_pDrive),
+        ElevatorGoToPositionCommand(m_pElevator, 255000),
+        m_pGripper->OpenCommand(),
+        frc2::WaitCommand(0.25_s),
+
+        frc2::ParallelDeadlineGroup{
+          frc2::SequentialCommandGroup{
+            ElevatorGoToPositionCommand(m_pElevator, 0),
+            AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper),
+          },
+            FollowPathCommand(
+            m_initialPosition,
+            {frc::Translation2d{135_in, -6_in}, frc::Translation2d{150_in, -12_in}},
+            frc::Pose2d{200_in, -16_in, 0_deg},
+            forwardConfig, m_pDrive)
+        },
 
         FollowPathCommand(
-          frc::Pose2d{200_in, 0_in, 0_deg},
-          {frc::Translation2d{150_in, 0_in}, frc::Translation2d{135_in, 0_in}},
+          frc::Pose2d{200_in, -16_in, 0_deg},
+          {frc::Translation2d{150_in, -12_in}, frc::Translation2d{135_in, -6_in}},
           m_initialPosition,
           reverseConfig, m_pDrive),
 
         FollowPathCommand(
           m_initialPosition,
-          {frc::Translation2d{135_in, -20_in}, frc::Translation2d{150_in, -40_in}},
+          {frc::Translation2d{135_in, -20_in}, frc::Translation2d{175_in, -40_in}},
           frc::Pose2d{200_in, -60_in, 0_deg},
           forwardConfig, m_pDrive),
 
         FollowPathCommand(
           frc::Pose2d{200_in, -60_in, 0_deg},
-          {frc::Translation2d{150_in, -40_in}, frc::Translation2d{135_in, -20_in}},
-          m_initialPosition,
-          reverseConfig, m_pDrive)
+          {frc::Translation2d{160_in, -65_in}, frc::Translation2d{120_in, -75_in}},
+          frc::Pose2d{65_in, -85_in, 0_deg},
+          reverseChargeStationConfig, m_pDrive),
+
+      
 
           
 

@@ -220,13 +220,13 @@ namespace RobotParametersCompetition {
     static constexpr double k_wheelBase = 1; // in
     static constexpr double k_wheelTrack = 1; // in
     static constexpr double k_wheelLeverArm = sqrt(std::pow(k_wheelBase/2,2) + std::pow(k_wheelTrack/2,2));
-    static constexpr double k_wheelRad = (4.25 / 2) *.0254; // in TODO find actual size
+    static constexpr double k_wheelRad = (3.875 / 2) *.0254; // in TODO find actual size
     static constexpr double k_wheelCirc = k_wheelRad * std::numbers::pi * 2;
-    static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(12.6); //TODO change also in driveWithJoystickCommand 
-    static constexpr double k_maxAccel = 1;
+    static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(15.58); //TODO change also in driveWithJoystickCommand 
+    static constexpr double k_maxAccel = 5;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
-    static constexpr double k_driveMotorGearRatio = (11.0/30.0)*(1.0/3.0);
+    static constexpr double k_driveMotorGearRatio = 1 / ((50 / 16.0) * (17 / 27.0) * (45 / 15.0)); //38250/6480 or 425/72 // 1 / 7.714 (11.0/30.0)*(1.0/3.0);  // 14 -> 16  6.75:1  
     static constexpr double k_ticksPerRev = 2048.0;//ticks per 100ms TODO check
     static constexpr double k_ticksPerWheelRev = k_ticksPerRev / k_driveMotorGearRatio;
     static constexpr double k_distancePerTick = k_wheelCirc / k_ticksPerWheelRev;
@@ -267,9 +267,9 @@ namespace RobotParametersCompetition {
     static constexpr double k_driveMotorControllerKp = 0.1;
     static constexpr double k_driveMotorControllerKi = 0;
     static constexpr double k_driveMotorControllerKd = 0;
-    static constexpr double k_driveMotorControllerKv = 0.06666;
-    static constexpr double k_driveMotorControllerKs = 0.12032;
-    static constexpr double k_driveMotorControllerKa = 0.0049351;
+    static constexpr double k_driveMotorControllerKv = 0.061143;
+    static constexpr double k_driveMotorControllerKs = 0.5913;
+    static constexpr double k_driveMotorControllerKa = 0.037762;
 
 
 
