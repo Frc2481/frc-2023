@@ -22,6 +22,7 @@ public:
     frc2::InstantCommand GoToTopShelfCommand();
     frc2::InstantCommand GoToPositionCommand(double pos);
     frc2::WaitUntilCommand WaitForElevatorOnTargetCommand();
+    frc2::WaitUntilCommand WaitForElevatorPastPositionCommand(double pos);
     frc2::InstantCommand EngageBrakeCommand();
     frc2::InstantCommand ReleaseBrakeCommand();
 

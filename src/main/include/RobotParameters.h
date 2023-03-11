@@ -221,7 +221,7 @@ namespace RobotParametersCompetition {
     static constexpr double k_wheelRad = (3.875 / 2) *.0254; // in TODO find actual size
     static constexpr double k_wheelCirc = k_wheelRad * std::numbers::pi * 2;
     static constexpr units::feet_per_second_t k_maxSpeed = units::feet_per_second_t(15.58); //TODO change also in driveWithJoystickCommand 
-    static constexpr double k_maxAccel = 5;
+    static constexpr double k_maxAccel = 8;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; 
     static constexpr double k_driveMotorGearRatio = 1 / ((50 / 16.0) * (17 / 27.0) * (45 / 15.0)); //38250/6480 or 425/72 // 1 / 7.714 (11.0/30.0)*(1.0/3.0);  // 14 -> 16  6.75:1  

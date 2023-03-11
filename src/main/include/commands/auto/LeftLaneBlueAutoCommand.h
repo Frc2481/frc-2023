@@ -69,10 +69,21 @@ class LeftLaneBlueAutoCommand
     reverseConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseConfig.SetReversed(true);
 
-    frc::TrajectoryConfig reverseChargeStationConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel / 2)};
+  
+    frc::TrajectoryConfig reverseChargeStationApproachConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    reverseChargeStationApproachConfig.SetKinematics(m_pDrive->GetKinematics());
+    reverseChargeStationApproachConfig.SetReversed(true);
+    reverseChargeStationApproachConfig.SetEndVelocity(units::velocity::feet_per_second_t(8));
+
+
+    frc::TrajectoryConfig reverseChargeStationConfig{units::velocity::feet_per_second_t(8),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     reverseChargeStationConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseChargeStationConfig.SetReversed(true);
+    reverseChargeStationConfig.SetStartVelocity(units::velocity::feet_per_second_t(8));
+
+
 
     AddCommands(
       
@@ -80,35 +91,37 @@ class LeftLaneBlueAutoCommand
         
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
         m_pGripper->CloseCommand(),
-        ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition), // Elevator goes out
-        m_pElevator->WaitForElevatorOnTargetCommand(),
+        frc2::ScheduleCommand(new ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
+        m_pElevator->WaitForElevatorPastPositionCommand(ElevatorConstants::k_ElevatorTopPosition * 0.90),
         m_pGripper->OpenCommand(),
-        frc2::WaitCommand(0.25_s),
+        frc2::WaitCommand(0.5_s),
+        m_pGripper->DroppedGamePieceCommand(),
 
         frc2::ParallelDeadlineGroup{
            FollowPathCommand(
             m_initialPosition,
-            {frc::Translation2d{135_in, -6_in}, frc::Translation2d{175_in, -14_in}},
-            frc::Pose2d{200_in, -16_in, 0_deg},
+            {frc::Translation2d{135_in, -6_in}, frc::Translation2d{160_in, -14_in}},
+            frc::Pose2d{188_in, -16_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
-            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)), // geting 1st game piece
+            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true)), // geting 1st game piece
           }
         },
-        m_pIntake->WaitForGamePieceCommand(),
-        frc2::ParallelCommandGroup{
+        // m_pIntake->WaitForGamePieceCommand(),
+        // frc2::ParallelCommandGroup{
+        frc2::ScheduleCommand(new frc2::SequentialCommandGroup{
+            m_pGripper->WaitForGamePieceCommand(),
+            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true), // Elevator goes out
+        }
+        ),
           FollowPathCommand(
-            frc::Pose2d{200_in, -16_in, 0_deg},
-            {frc::Translation2d{150_in, -18_in}, frc::Translation2d{50_in, -22_in}},
+            frc::Pose2d{188_in, -16_in, 0_deg},
+            {frc::Translation2d{100_in, -18_in}, frc::Translation2d{50_in, -22_in}},
             frc::Pose2d{0_in, -24_in, 0_deg},
             reverseConfig, m_pDrive),
-          frc2::SequentialCommandGroup{
-            m_pGripper->WaitForGamePieceCommand(),
-            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition), // Elevator goes out
-        }
-        },
-        m_pElevator->WaitForElevatorOnTargetCommand(),
+        // },
+        m_pElevator->WaitForElevatorPastPositionCommand(ElevatorConstants::k_ElevatorTopPosition * 0.90),
         m_pGripper->OpenCommand(),
         frc2::WaitCommand(0.5_s),
         m_pGripper->DroppedGamePieceCommand(),
@@ -116,15 +129,24 @@ class LeftLaneBlueAutoCommand
         frc2::ParallelDeadlineGroup{
           FollowPathCommand(
             frc::Pose2d{0_in, -24_in, 0_deg},
-            {frc::Translation2d{135_in, -30_in}, frc::Translation2d{175_in, -40_in}},
-            frc::Pose2d{200_in, -60_in, 0_deg},
+            {frc::Translation2d{135_in, -30_in}, frc::Translation2d{155_in, -60_in}},
+            frc::Pose2d{188_in, -60_in, 0_deg},
             forwardConfig, m_pDrive),
+          frc2::SequentialCommandGroup{
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
+            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true)), // geting 2nd game piece
+          }
         },
 
         FollowPathCommand(
-          frc::Pose2d{200_in, -60_in, 0_deg},
-          {frc::Translation2d{160_in, -65_in}, frc::Translation2d{120_in, -75_in}},
+          frc::Pose2d{188_in, -60_in, 0_deg},
+          {},
+          frc::Pose2d{146_in, -85_in, 0_deg},
+          reverseChargeStationApproachConfig, m_pDrive),
+
+        FollowPathCommand(
+          frc::Pose2d{146_in, -85_in, 0_deg},
+          {},
           frc::Pose2d{65_in, -85_in, 0_deg},
           reverseChargeStationConfig, m_pDrive),
 

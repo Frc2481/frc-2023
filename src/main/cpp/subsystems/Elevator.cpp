@@ -29,6 +29,10 @@ frc2::WaitUntilCommand Elevator::WaitForElevatorOnTargetCommand(){
     return frc2::WaitUntilCommand([this] {return IsOnTarget();});
 }
 
+frc2::WaitUntilCommand Elevator::WaitForElevatorPastPositionCommand(double pos){
+    return frc2::WaitUntilCommand([this, pos] {return GetActualPosition() > (ElevatorConstants::k_ElevatorTopPosition * 0.90);});
+}
+
 frc2::InstantCommand Elevator::EngageBrakeCommand(){
     return frc2::InstantCommand([this] {EngageBrake();},{this});
 }
@@ -79,6 +83,8 @@ void Elevator::Periodic(){
     frc::SmartDashboard::PutNumber("Elevator Target Position", GetTargetPosition());
     frc::SmartDashboard::PutNumber("Elevator Actual Position", GetActualPosition());
     frc::SmartDashboard::PutBoolean("Elevator On Target", IsOnTarget());
+    frc::SmartDashboard::PutNumber("Elevator Stator Current", m_pMotor->GetStatorCurrent());
+    frc::SmartDashboard::PutNumber("Elevator Supply Current", m_pMotor->GetSupplyCurrent());
     // if (m_elevatorBeambreak->Get() == true) {
     //     m_pMotor->SetSelectedSensorPosition(0);
     // }

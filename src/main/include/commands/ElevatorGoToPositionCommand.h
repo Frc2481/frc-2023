@@ -21,23 +21,33 @@ class ElevatorGoToPositionCommand
       private:
       Elevator * m_pElevator;
       double m_pos;
+      int m_endCount;
 
  public:
-  ElevatorGoToPositionCommand(Elevator * elevator, double pos){
+  ElevatorGoToPositionCommand(Elevator * elevator, double pos, bool fork = false){
     m_pElevator = elevator;
     m_pos = pos;
-
+  if(fork == false){
     AddRequirements(m_pElevator);
+  }
   }
 
   void Initialize(){
     m_pElevator->ReleaseBrake();
     m_pElevator->SetTargetPosition(m_pos);
+    m_endCount = 0;
   }
 
   void Execute() {
     if (m_pos == 0) {
       m_pElevator->SetPerceptOutput(-0.8);
+      if(m_pElevator->IsInAllTheWay()){
+        m_pElevator->EngageBrake();
+        m_endCount++;
+      }
+      else if(m_endCount > 0){
+        m_endCount++;
+      }
     }
   }
 
@@ -48,7 +58,7 @@ class ElevatorGoToPositionCommand
 
   bool IsFinished(){
     if(m_pos == 0){
-       return m_pElevator->IsInAllTheWay();
+       return m_endCount > 25;
     }
     else{
        return m_pElevator->IsOnTarget() || (m_pElevator->IsInAllTheWay() && (m_pElevator->GetActualPosition() > m_pElevator->GetTargetPosition()));

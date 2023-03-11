@@ -128,7 +128,7 @@ void RobotContainer::ConfigureButtonBindings() {
       [this]{
         m_intake.TurnOff();
         m_intake.Retract();
-      }
+      },{&m_intake}
       ).ToPtr());
 
     m_bDpadAux.WhileTrue(frc2::StartEndCommand(

@@ -27,11 +27,12 @@ class AcquireGamePieceCommand
       Flipper* m_pFlipper;  
 
  public:
-  AcquireGamePieceCommand(Gripper* gripper, Intake* intake, Flipper* flipper){
+  AcquireGamePieceCommand(Gripper* gripper, Intake* intake, Flipper* flipper, bool fastMode = false){
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pFlipper = flipper;
 
+  AddRequirements({m_pGripper, m_pIntake, m_pFlipper});
   AddCommands(
 
     frc2::SequentialCommandGroup{
@@ -57,7 +58,7 @@ class AcquireGamePieceCommand
           IntakeConstants::k_IntakeVerticalRollerSpeed / 5.0);},{m_pIntake}),
         // m_pIntake->TurnOffCommand(),
         m_pFlipper->UpCommand(),
-        frc2::WaitCommand(2.0_s),
+        frc2::WaitCommand(fastMode ? 1.0_s : 2.0_s),
         m_pIntake->TurnOffCommand(),
         m_pGripper->CloseCommand(),
         m_pIntake->RetractCommand(),
