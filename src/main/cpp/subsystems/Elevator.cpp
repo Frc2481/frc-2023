@@ -29,8 +29,8 @@ frc2::WaitUntilCommand Elevator::WaitForElevatorOnTargetCommand(){
     return frc2::WaitUntilCommand([this] {return IsOnTarget();});
 }
 
-frc2::WaitUntilCommand Elevator::WaitForElevatorPastPositionCommand(double pos){
-    return frc2::WaitUntilCommand([this, pos] {return GetActualPosition() > (ElevatorConstants::k_ElevatorTopPosition * 0.90);});
+frc2::WaitUntilCommand Elevator::WaitForElevatorPastPositionCommand(){
+    return frc2::WaitUntilCommand([this] {return GetActualPosition() > (ElevatorConstants::k_ElevatorTopPosition * 0.99);});
 }
 
 frc2::InstantCommand Elevator::EngageBrakeCommand(){
@@ -136,7 +136,8 @@ void Elevator::ReleaseBrake(){
 
 bool Elevator::IsInAllTheWay(){
     static int stalled_count = 0;
-    if (m_pMotor->GetSupplyCurrent() >  frc::Preferences::GetDouble("ELEVATOR_STALLED_CURRENT", 20)) {
+    // if (m_pMotor->GetSupplyCurrent() >  frc::Preferences::GetDouble("ELEVATOR_STALLED_CURRENT", 20)) {
+    if(abs(m_pMotor->GetSelectedSensorVelocity()) < 5000 && (abs(m_pMotor->GetMotorOutputPercent()) > 0.5) && (m_pMotor->GetSupplyCurrent() > 80)){
         stalled_count++;
     } else {
         stalled_count = 0;

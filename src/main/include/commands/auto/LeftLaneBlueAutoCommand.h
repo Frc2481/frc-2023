@@ -92,9 +92,8 @@ class LeftLaneBlueAutoCommand
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
         m_pGripper->CloseCommand(),
         frc2::ScheduleCommand(new ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
-        m_pElevator->WaitForElevatorPastPositionCommand(ElevatorConstants::k_ElevatorTopPosition * 0.90),
+        m_pElevator->WaitForElevatorPastPositionCommand(),
         m_pGripper->OpenCommand(),
-        frc2::WaitCommand(0.5_s),
         m_pGripper->DroppedGamePieceCommand(),
 
         frc2::ParallelDeadlineGroup{
@@ -104,6 +103,7 @@ class LeftLaneBlueAutoCommand
             frc::Pose2d{188_in, -16_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{
+            frc2::WaitCommand(0.5_s),
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
             frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true)), // geting 1st game piece
           }
@@ -121,7 +121,7 @@ class LeftLaneBlueAutoCommand
             frc::Pose2d{0_in, -24_in, 0_deg},
             reverseConfig, m_pDrive),
         // },
-        m_pElevator->WaitForElevatorPastPositionCommand(ElevatorConstants::k_ElevatorTopPosition * 0.90),
+        m_pElevator->WaitForElevatorPastPositionCommand(),
         m_pGripper->OpenCommand(),
         frc2::WaitCommand(0.5_s),
         m_pGripper->DroppedGamePieceCommand(),
@@ -130,7 +130,7 @@ class LeftLaneBlueAutoCommand
           FollowPathCommand(
             frc::Pose2d{0_in, -24_in, 0_deg},
             {frc::Translation2d{135_in, -30_in}, frc::Translation2d{155_in, -60_in}},
-            frc::Pose2d{188_in, -60_in, 0_deg},
+            frc::Pose2d{194_in, -60_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
@@ -139,7 +139,7 @@ class LeftLaneBlueAutoCommand
         },
 
         FollowPathCommand(
-          frc::Pose2d{188_in, -60_in, 0_deg},
+          frc::Pose2d{194_in, -60_in, 0_deg},
           {},
           frc::Pose2d{146_in, -85_in, 0_deg},
           reverseChargeStationApproachConfig, m_pDrive),
@@ -147,8 +147,8 @@ class LeftLaneBlueAutoCommand
         FollowPathCommand(
           frc::Pose2d{146_in, -85_in, 0_deg},
           {},
-          frc::Pose2d{65_in, -85_in, 0_deg},
-          reverseChargeStationConfig, m_pDrive),
+          frc::Pose2d{48_in, -85_in, 0_deg},
+          reverseChargeStationConfig, m_pDrive), // Balence
 
       
 
