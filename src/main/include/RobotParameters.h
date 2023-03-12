@@ -72,6 +72,7 @@ namespace SolenoidPorts{
     static constexpr int kGripperSolenoidPort = 0;
     static constexpr int kGripperSolenoidReversePort = 15;
     static constexpr int kFlipperSolenoidPort = 13;
+    static constexpr int kFlipperSolenoidFloatPort = 2;
     static constexpr int kElevatorEngageBrakePort = 14;
     static constexpr int kElevatorReleaseBrakePort = 1;
 

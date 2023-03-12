@@ -19,6 +19,10 @@ class Robot : public frc::TimedRobot {
     }
   }
 
+  void DisabledInit() override {
+    frc2::CommandScheduler::GetInstance().CancelAll();
+  }
+
   void AutonomousPeriodic() override {
     // m_swerve.UpdateOdometry();
   }

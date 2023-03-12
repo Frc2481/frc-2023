@@ -14,24 +14,38 @@ frc2::InstantCommand Flipper::DownCommand(){
     return frc2::InstantCommand([this] {Down();});
 }   
 
+frc2::InstantCommand Flipper::FloatCommand() {
+    return frc2::InstantCommand([this] {Float();});
+}
+
 Flipper::Flipper(){
     m_pSolenoid = new frc::Solenoid( 
         frc::PneumaticsModuleType::REVPH, 
         SolenoidPorts::kFlipperSolenoidPort);
+
+    m_pSolenoidFloat = new frc::Solenoid( 
+        frc::PneumaticsModuleType::REVPH, 
+        SolenoidPorts::kFlipperSolenoidFloatPort);
 }
 
 void Flipper::Up(){
     m_up = true;
-    m_pSolenoid->Set(true);
+    m_pSolenoidFloat->Set(false);
+    m_pSolenoid->Set(true);   
  }
 
  void Flipper::Down(){
     m_up = false;
+    m_pSolenoidFloat->Set(false);
     m_pSolenoid->Set(false);
  }
 
  bool Flipper::IsUp() {
     return m_up;
+ }
+
+ void Flipper::Float() {
+    m_pSolenoidFloat->Set(true);
  }
 
 // This method will be called once per scheduler run

@@ -17,6 +17,7 @@ class Flipper : public frc2::SubsystemBase {
 
     frc2::InstantCommand UpCommand();
     frc2::InstantCommand DownCommand();
+    frc2::InstantCommand FloatCommand();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -29,11 +30,14 @@ class Flipper : public frc2::SubsystemBase {
 
   bool IsUp();
 
+  void Float();
+
  private:
 
   bool m_up;
 
   frc::Solenoid * m_pSolenoid;
+  frc::Solenoid * m_pSolenoidFloat;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

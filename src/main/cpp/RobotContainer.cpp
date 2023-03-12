@@ -12,6 +12,7 @@
 #include <frc/DataLogManager.h>
 #include <frc2/command/StartEndCommand.h>
 #include "frc/DriverStation.h"
+#include "frc2/command/SequentialCommandGroup.h"
 
 //auto
 #include "commands/auto/CenterLaneBlueAutoCommand.h"
@@ -112,9 +113,18 @@ void RobotContainer::ConfigureButtonBindings() {
 
   //elevator
     m_aButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorStowPosition).ToPtr());
-    m_xButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorFloorPosition).ToPtr());
-    m_yButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorTopPosition).ToPtr());
-    m_bButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorMidPosition).ToPtr());
+    m_xButtonAux.OnTrue(new frc2::SequentialCommandGroup{
+      ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorFloorPosition),
+      m_flipper.DownCommand()
+    });
+    m_yButtonAux.OnTrue(new frc2::SequentialCommandGroup{
+      ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorTopPosition),
+      m_flipper.DownCommand()
+    });
+    m_bButtonAux.OnTrue(new frc2::SequentialCommandGroup{
+      ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorMidPosition),
+      m_flipper.DownCommand()
+    });
 
 
   //intake

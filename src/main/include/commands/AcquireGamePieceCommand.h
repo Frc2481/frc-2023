@@ -66,7 +66,7 @@ class AcquireGamePieceCommand
         m_pGripper->PickedUpConeCommand(),
         
         // m_pGripper->CloseCommand(),
-        // m_pFlipper->DownCommand()
+        m_pFlipper->FloatCommand()
     }
   );
   }  

@@ -25,6 +25,7 @@
 #include <frc2/command/InstantCommand.h>
 
 
+
 /**
  * An example command.
  *
@@ -67,17 +68,19 @@ class CenterLaneBlueAutoCommand
       frc2::SequentialCommandGroup{
         // ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide),
         //   std::move(AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)),
-          frc2::InstantCommand([this]{m_pDrive->Drive(1_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //drive onto charge station
-          WaitForPitchCommand(m_pDrive, 23),
-          WaitForPitchCommand(m_pDrive, 17),
-          WaitForPitchCommand(m_pDrive, 0),
-          frc2::InstantCommand([this]{m_pDrive->Drive(-1_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
-          WaitForPitchCommand(m_pDrive, 23),
-          WaitForPitchCommand(m_pDrive, 17),
-          frc2::InstantCommand([this]{m_pDrive->Drive(-1_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
-          WaitForPitchCommand(m_pDrive, 11),
-          frc2::InstantCommand([this]{m_pDrive->Drive(0.25_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
-          WaitForPitchCommand(m_pDrive, 5)
+          // frc2::InstantCommand([this]{m_pDrive->Drive(1_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //drive onto charge station
+          // WaitForPitchCommand(m_pDrive, 23),
+          // WaitForPitchCommand(m_pDrive, 17),
+          // WaitForPitchCommand(m_pDrive, 0),
+          frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, -17),
+          frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          WaitForPitchCommand(m_pDrive, -14),
+          frc2::InstantCommand([this]{m_pDrive->Drive(-0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          WaitForPitchCommand(m_pDrive, -9),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          frc2::WaitCommand(0.25_s),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
       }
     );
   }
