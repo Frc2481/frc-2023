@@ -26,6 +26,7 @@
 #include <frc2/command/ParallelCommandGroup.h>
 #include <frc2/command/ConditionalCommand.h>
 
+#include <frc2/command/ProxyCommand.h>
 
 
 
@@ -104,7 +105,8 @@ class LeftLaneBlueAutoCommand
             {frc::Translation2d{135_in, -6_in}, frc::Translation2d{160_in, -14_in}},
             frc::Pose2d{188_in, -16_in, 0_deg},
             forwardConfig, m_pDrive),
-          frc2::SequentialCommandGroup{    
+          frc2::SequentialCommandGroup{   
+            m_pGripper->CloseCommand(), 
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
             frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true)), // geting 1st game piece
           }
@@ -142,8 +144,9 @@ class LeftLaneBlueAutoCommand
             frc::Pose2d{194_in, -60_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{
+            m_pGripper->CloseCommand(),
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
-            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true)), // geting 2nd game piece
+            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, false)), // geting 2nd game piece
           }
         },
 
@@ -152,6 +155,12 @@ class LeftLaneBlueAutoCommand
           {},
           frc::Pose2d{175_in, -85_in, 0_deg},
           reverseChargeStationApproachConfig, m_pDrive),
+
+          frc2::InstantCommand([this] {
+            m_pIntake->Retract();
+            m_pIntake->TurnOff();
+          }),
+
 
         //balance
           frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),

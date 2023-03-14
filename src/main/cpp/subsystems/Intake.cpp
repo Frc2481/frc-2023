@@ -26,20 +26,33 @@ frc2::InstantCommand Intake::TurnOffCommand(){
     return frc2::InstantCommand([this] {TurnOff();},{this});
 }
 
-frc2::WaitUntilCommand Intake::WaitForGamePieceCommand(){
+
+frc2::InstantCommand Intake::TurnOffVerticalCommand(){
+    return frc2::InstantCommand([this] {TurnOffVertical();},{this});
+}
+
+frc2::InstantCommand Intake::TurnOffHorizontalCommand(){
+    return frc2::InstantCommand([this] {TurnOffHorizontal();},{this});
+}
+
+frc2::WaitUntilCommand Intake:: WaitForGamePieceCommand(){
     return frc2::WaitUntilCommand([this] {return HasGamePiece();});
 }
 
 Intake::Intake(){
-    m_ExtendFirstSolenoid = new frc::Solenoid(
+    m_ExtendFirstSolenoid = new frc::DoubleSolenoid(
         frc::PneumaticsModuleType::REVPH, 
-        SolenoidPorts::kIntakeFirstSolenoidPort);
+        SolenoidPorts::kIntakeFirstSolenoidPort,
+        SolenoidPorts::kIntakeFirstSolenoidPortIn);
     
     m_ExtendSecondSolenoid = new frc::Solenoid(
         frc::PneumaticsModuleType::REVPH, 
         SolenoidPorts::kIntakeSecondSolenoidPort);
 
     m_intakeBeambreak = new frc::DigitalInput(DigitalInputs::k_IntakeBeambreakPort);
+
+    m_compressor.EnableAnalog(units::pressure::pounds_per_square_inch_t(90),
+                            units::pressure::pounds_per_square_inch_t(120));
 
     m_pHorizontalMotor = new TalonFX(FalconIDs::kIntakeHorizontalMotor);
     m_pHorizontalMotor->ConfigFactoryDefault();
@@ -96,19 +109,27 @@ void Intake::TurnOnBarf(){
 }
 
 void Intake::TurnOff(){
-    m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 0);
+    TurnOffHorizontal();
+    TurnOffVertical();
+}
+
+void Intake::TurnOffVertical() {
     m_pVerticalMotor->Set(TalonFXControlMode::PercentOutput, 0);
 }
 
+void Intake::TurnOffHorizontal() {
+    m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 0);
+}
+
 void Intake::Extend(){
-    m_ExtendFirstSolenoid->Set(true);
-    m_ExtendSecondSolenoid->Set(true);
+    m_ExtendFirstSolenoid->Set(frc::DoubleSolenoid::kForward);
+    // m_ExtendSecondSolenoid->Set(true);
     m_isExtended = true;
 }
 
 void Intake::Retract(){
-    m_ExtendFirstSolenoid->Set(false);
-    m_ExtendSecondSolenoid->Set(false);
+    m_ExtendFirstSolenoid->Set(frc::DoubleSolenoid::kReverse);
+    // m_ExtendSecondSolenoid->Set(false);
     m_isExtended = false;
 }
 
@@ -123,4 +144,5 @@ bool Intake::HasGamePiece(){
 // This method will be called once per scheduler run
 void Intake::Periodic() {
     frc::SmartDashboard::PutBoolean("Intake Beam Break", HasGamePiece());
-}
+    frc::SmartDashboard::GetNumber("Pressure", m_compressor.GetPressure().value());
+}   

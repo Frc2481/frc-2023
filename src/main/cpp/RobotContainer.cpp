@@ -54,6 +54,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
                                   m_rDpadAux(&m_auxController, XBOX_DPAD_RIGHT)
 
 {
+    
     ConfigureButtonBindings();
         m_chooser.SetDefaultOption("Center Lane Blue", new CenterLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Center Lane Red", new CenterLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
@@ -79,6 +80,9 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("Elevator Pos 0", new ElevatorGoToPositionCommand(&m_elevator, 0));
         frc::SmartDashboard::PutData("DriveTrain", &m_drivetrain);
         frc::SmartDashboard::PutData("Intake", &m_intake);
+        frc::SmartDashboard::PutData("Elevator", &m_elevator);
+
+        // frc::SmartDashboard::PutData("Compressor", &m_compressor);
 }
 
 
@@ -94,7 +98,6 @@ void RobotContainer::ConfigureButtonBindings() {
 
   //intake
     m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
-   
 
   // Operator Buttons
     // Operator Low Score Game Piece Command
@@ -105,26 +108,34 @@ void RobotContainer::ConfigureButtonBindings() {
     // m_yButtonAux.OnTrue(new ScoreGamePieceCommand(TOP, &m_elevator, &m_gripper, &m_slide));
     
   //flipper
-    m_lBumperAux.ToggleOnTrue(frc2::StartEndCommand(
-      [this] {m_flipper.Up();},
-      [this] {m_flipper.Down();}
+    m_lBumperAux.OnTrue(frc2::InstantCommand(
+      [this] {m_flipper.Down();},{&m_flipper}
+    ).ToPtr());
+
+    m_lTriggerAux.OnTrue(frc2::InstantCommand(
+      [this] {m_flipper.Up();},{&m_flipper}
     ).ToPtr());
 
 
+
   //elevator
-    m_aButtonAux.OnTrue(ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorStowPosition).ToPtr());
-    m_xButtonAux.OnTrue(new frc2::SequentialCommandGroup{
+    m_aButtonAux.OnTrue(
+      frc2::SequentialCommandGroup{
+        m_gripper.CloseCommand(),
+        ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorStowPosition)      
+    }.WithTimeout(3.0_s));
+    m_xButtonAux.OnTrue(frc2::SequentialCommandGroup{
       ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorFloorPosition),
       m_flipper.DownCommand()
-    });
-    m_yButtonAux.OnTrue(new frc2::SequentialCommandGroup{
+    }.WithTimeout(3.0_s));
+    m_yButtonAux.OnTrue(frc2::SequentialCommandGroup{
       ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorTopPosition),
       m_flipper.DownCommand()
-    });
-    m_bButtonAux.OnTrue(new frc2::SequentialCommandGroup{
+    }.WithTimeout(3.0_s));
+    m_bButtonAux.OnTrue(frc2::SequentialCommandGroup{
       ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorMidPosition),
       m_flipper.DownCommand()
-    });
+    }.WithTimeout(3.0_s));
 
 
   //intake
@@ -147,10 +158,18 @@ void RobotContainer::ConfigureButtonBindings() {
       ).ToPtr());
 
   //gripper
-    m_rBumperAux.ToggleOnTrue(frc2::StartEndCommand(
-      [this] {m_gripper.Close();},
+    m_rBumperAux.OnTrue(frc2::InstantCommand(
       [this] {m_gripper.Open();}
     ).ToPtr());
+
+    m_rTriggerAux.OnTrue(frc2::InstantCommand(
+      [this] {
+        if (m_flipper.IsUp()) {
+          m_gripper.Close();
+          m_intake.TurnOff();
+          m_intake.Retract();
+        }
+      }, {&m_intake, &m_flipper, &m_gripper}).ToPtr());
 
 
 

@@ -11,6 +11,7 @@
 #include "components/XboxController2481.h"
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/button/Trigger.h>
+#include <frc/Compressor.h>
 
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Elevator.h"

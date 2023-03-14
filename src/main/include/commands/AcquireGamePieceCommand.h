@@ -31,7 +31,7 @@ class AcquireGamePieceCommand
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pFlipper = flipper;
-
+  
   AddRequirements({m_pGripper, m_pIntake, m_pFlipper});
   AddCommands(
 
@@ -52,21 +52,38 @@ class AcquireGamePieceCommand
         m_pIntake->ExtendCommand(),
         m_pIntake->TurnOnIntakeCommand(),
         m_pIntake->WaitForGamePieceCommand(),
-        frc2::WaitCommand(1.0_s),
+        m_pIntake->TurnOffHorizontalCommand(),
+        frc2::WaitCommand(0.25_s),
         frc2::InstantCommand([this] {m_pIntake->TurnOnIntake(
-          IntakeConstants::k_IntakeHorizontalRollerSpeed / 5.0, 
-          IntakeConstants::k_IntakeVerticalRollerSpeed / 5.0);},{m_pIntake}),
+          0, 
+          0 /*IntakeConstants::k_IntakeVerticalRollerSpeed / 5.0*/);},{m_pIntake}),
         // m_pIntake->TurnOffCommand(),
-        m_pFlipper->UpCommand(),
-        frc2::WaitCommand(fastMode ? 1.0_s : 2.0_s),
-        m_pIntake->TurnOffCommand(),
-        m_pGripper->CloseCommand(),
-        m_pIntake->RetractCommand(),
-        frc2::WaitCommand(0.5_s),
-        m_pGripper->PickedUpConeCommand(),
+        frc2::ConditionalCommand(
+          frc2::SequentialCommandGroup{
+             m_pFlipper->UpCommand(),
+             frc2::WaitCommand(0.25_s),
+             m_pIntake->TurnOffVerticalCommand(),
+             m_pGripper->CloseCommand(),
+             m_pIntake->RetractCommand(),
+             frc2::WaitCommand(0.5_s),
+             m_pGripper->PickedUpConeCommand(),
+             m_pFlipper->FloatCommand()
+          },
+          
+          frc2::InstantCommand([]{}),  
+          [fastMode] {return fastMode;}
+        ),
+          
+        
+        // frc2::WaitCommand(fastMode ? 1.0_s : 2.0_s),
+        // m_pIntake->TurnOffCommand(),
+        // m_pGripper->CloseCommand(),
+        // m_pIntake->RetractCommand(),
+        // frc2::WaitCommand(0.5_s),
+        // m_pGripper->PickedUpConeCommand(),
         
         // m_pGripper->CloseCommand(),
-        m_pFlipper->FloatCommand()
+        // m_pFlipper->FloatCommand()
     }
   );
   }  

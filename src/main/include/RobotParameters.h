@@ -68,6 +68,7 @@ namespace CANCoderIDs
 namespace SolenoidPorts{
  
     static constexpr int kIntakeFirstSolenoidPort = 12;
+    static constexpr int kIntakeFirstSolenoidPortIn = 3;
     static constexpr int kIntakeSecondSolenoidPort = 11;
     static constexpr int kGripperSolenoidPort = 0;
     static constexpr int kGripperSolenoidReversePort = 15;

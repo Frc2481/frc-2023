@@ -62,6 +62,12 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pTurningMotor->ConfigPeakOutputForward(1.0, 0.0);
       m_pTurningMotor->ConfigPeakOutputReverse(-1.0, 0.0);
       m_pTurningMotor->SetSensorPhase(turningEncoderReversed);	
+
+      m_pTurningMotor->SetStatusFramePeriod(Status_9_MotProfBuffer, 255, 10);
+      m_pTurningMotor->SetStatusFramePeriod(Status_10_MotionMagic, 255, 10);
+      m_pTurningMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
+      m_pTurningMotor->SetStatusFramePeriod(Status_13_Base_PIDF0, 255, 10);
+      m_pTurningMotor->SetStatusFramePeriod(Status_14_Turn_PIDF1, 255, 10);
       
       #ifdef COMP
       m_pTurningMotor->SetInverted(true);
@@ -80,8 +86,32 @@ SwerveModule::SwerveModule(int driveMotorID, int driveMotorFollowerID, int turni
       m_pDriveMotor->ConfigOpenloopRamp(0.5, 10);
       m_pDriveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
       m_pDriveMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
+      m_pDriveMotor->SetStatusFramePeriod(Status_9_MotProfBuffer, 255, 10);
+      m_pDriveMotor->SetStatusFramePeriod(Status_10_MotionMagic, 255, 10);
+      m_pDriveMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
+      m_pDriveMotor->SetStatusFramePeriod(Status_13_Base_PIDF0, 255, 10);
+      m_pDriveMotor->SetStatusFramePeriod(Status_14_Turn_PIDF1, 255, 10);
 
       m_pDriveMotorFollower->Follow(*m_pDriveMotor);
+      m_pDriveMotorFollower->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_1_General, 100, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_2_Feedback0, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_4_AinTempVbat, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_6_Misc, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_7_CommStatus, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_9_MotProfBuffer, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_10_MotionMagic, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_10_Targets, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_12_Feedback1, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_13_Base_PIDF0, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_14_Turn_PIDF1, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_15_FirmareApiStatus, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_17_Targets1, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_3_Quadrature, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_8_PulseWidth, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
+      m_pDriveMotorFollower->SetStatusFramePeriod(Status_Brushless_Current, 255, 10);
+
   // // Set the distance per pulse for the drive encoder. We can simply use the
   // // distance traveled for one rotation of the wheel divided by the encoder
   // // resolution.

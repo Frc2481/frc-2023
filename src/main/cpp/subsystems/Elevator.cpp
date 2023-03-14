@@ -30,7 +30,7 @@ frc2::WaitUntilCommand Elevator::WaitForElevatorOnTargetCommand(){
 }
 
 frc2::WaitUntilCommand Elevator::WaitForElevatorPastPositionCommand(){
-    return frc2::WaitUntilCommand([this] {return GetActualPosition() > (ElevatorConstants::k_ElevatorTopPosition * 0.99);});
+    return frc2::WaitUntilCommand([this] {return GetActualPosition() > (ElevatorConstants::k_ElevatorTopPosition * 0.90);});
 }
 
 frc2::InstantCommand Elevator::EngageBrakeCommand(){
@@ -93,7 +93,7 @@ void Elevator::Periodic(){
         Zero();
     }
 
-    frc::SmartDashboard::PutBoolean("Elevator Beam Break",m_elevatorBeambreak->Get());
+    frc::SmartDashboard::PutBoolean("Elevator Beam Break",m_elevatorBeambreak->Get());    
 }
 
 void Elevator::Stop(){

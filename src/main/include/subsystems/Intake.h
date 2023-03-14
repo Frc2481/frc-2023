@@ -13,6 +13,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/Solenoid.h>
 #include "RobotParameters.h"
+#include <frc/Compressor.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -23,6 +24,9 @@ class Intake : public frc2::SubsystemBase {
   frc2::InstantCommand TurnOnIntakeCommand();
   frc2::InstantCommand TurnOnBarfCommand();
   frc2::InstantCommand TurnOffCommand();
+  frc2::InstantCommand TurnOffHorizontalCommand();
+  frc2::InstantCommand TurnOffVerticalCommand();
+  
   frc2::WaitUntilCommand WaitForGamePieceCommand();
 
   
@@ -37,6 +41,8 @@ class Intake : public frc2::SubsystemBase {
   void TurnOnBarf();
 
   void TurnOff();
+  void TurnOffVertical();
+  void TurnOffHorizontal();
 
   void Extend();
 
@@ -49,10 +55,11 @@ class Intake : public frc2::SubsystemBase {
  private:
   TalonFX * m_pHorizontalMotor;
   TalonFX * m_pVerticalMotor;
-  frc::Solenoid * m_ExtendFirstSolenoid;
+  frc::DoubleSolenoid * m_ExtendFirstSolenoid;
   frc::Solenoid * m_ExtendSecondSolenoid;
   bool m_isExtended;
   frc::DigitalInput * m_intakeBeambreak;
+  frc::Compressor m_compressor{frc::PneumaticsModuleType::REVPH};
 
  
   // Components (e.g. motor controllers and sensors) should generally be
