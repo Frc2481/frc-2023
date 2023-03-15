@@ -160,8 +160,11 @@ namespace DigitalInputs{
 namespace IntakeConstants{
     static constexpr double k_DefaultIntakeRollerSpeed = 1; //TODO: Find out
     static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
-    static constexpr double k_IntakeHorizontalRollerSpeed = -1;
-    static constexpr double k_IntakeVerticalRollerSpeed = -0.5;
+    static constexpr double k_IntakeHorizontalRollerSpeed = -1;//-0.5;
+    static constexpr double k_IntakeVerticalRollerSpeed = -0.5;//-0.35;
+    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.5;//-0.5;
+    static constexpr double k_IntakeVerticalRollerSpeedCube = -0.35;//-0.35;
+    
     static constexpr double k_IntakeBarfHorizontalRollerSpeed = 1;
     static constexpr double k_IntakeBarfVerticalRollerSpeed = 1;
     static constexpr double k_IntakeHorizontalCurrentLimit = 0;

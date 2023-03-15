@@ -36,7 +36,7 @@ class ElevatorGoToPositionCommand
   void Initialize(){
     m_pElevator->ReleaseBrake();
     m_startCount = 0;
-    // m_pElevator->SetTargetPosition(m_pos);
+    // m_pElevator->\[]SetTargetPosition(m_pos);
     m_endCount = 0;
   }
 
@@ -75,7 +75,7 @@ class ElevatorGoToPositionCommand
     }
     
     if(m_pos == 0){
-       return m_endCount > 25;
+       return m_endCount > 12;
     }
     else{
        return m_pElevator->IsOnTarget() || (m_pElevator->IsInAllTheWay() && (m_pElevator->GetActualPosition() ));

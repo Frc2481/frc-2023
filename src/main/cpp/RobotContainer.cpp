@@ -22,6 +22,7 @@
 #include "commands/auto/RightLaneBlueAutoCommand.h"
 #include "commands/auto/RightLaneRedAutoCommand.h"
 #include "commands/auto/TestCommand.h"
+#include "commands/auto/LeftLaneBlueBalanceAutoCommand.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -59,6 +60,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         m_chooser.SetDefaultOption("Center Lane Blue", new CenterLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Center Lane Red", new CenterLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Left Lane Blue", new LeftLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Left Lane Blue Balance", new LeftLaneBlueBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Left Lane Red", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Red", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
@@ -97,7 +99,8 @@ void RobotContainer::ConfigureButtonBindings() {
     m_startDriver.OnTrue(new InstantDisabledCommand([this]{m_drivetrain.ZeroHeading();}));
 
   //intake
-    m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper));
+    m_lTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper, false, true));
+    m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper, false, false));
 
   // Operator Buttons
     // Operator Low Score Game Piece Command
@@ -152,7 +155,9 @@ void RobotContainer::ConfigureButtonBindings() {
       },{&m_intake}
       ).ToPtr());
 
-    m_bDpadAux.WhileTrue(frc2::StartEndCommand(
+    m_bDpadAux.OnTrue(m_intake.ExtendCommand().ToPtr());
+
+    m_lDpadAux.WhileTrue(frc2::StartEndCommand(
       [this] {m_intake.TurnOnBarf();},
       [this] {m_intake.TurnOff();},{&m_intake}
       ).ToPtr());

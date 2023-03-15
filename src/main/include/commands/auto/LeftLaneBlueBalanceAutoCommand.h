@@ -25,6 +25,7 @@
 #include "commands/ElevatorGoToPositionCommand.h"
 #include <frc2/command/ParallelCommandGroup.h>
 #include <frc2/command/ConditionalCommand.h>
+#include "commands/WaitForPitchCommand.h"
 
 #include <frc2/command/ProxyCommand.h>
 
@@ -37,9 +38,9 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class LeftLaneBlueAutoCommand
+class LeftLaneBlueBalanceAutoCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
-    LeftLaneBlueAutoCommand> {
+    LeftLaneBlueBalanceAutoCommand> {
 
       private:
       Drivetrain* m_pDrive;
@@ -52,7 +53,7 @@ class LeftLaneBlueAutoCommand
 
 
  public:
-  LeftLaneBlueAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
+  LeftLaneBlueBalanceAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
     m_pDrive = drive;
     m_pElevator = elevator;
     m_pFlipper = flipper;
@@ -126,12 +127,11 @@ class LeftLaneBlueAutoCommand
           FollowPathCommand(
             frc::Pose2d{188_in, -16_in, 0_deg},
             {frc::Translation2d{100_in, -18_in}, frc::Translation2d{50_in, -22_in}},
-            frc::Pose2d{5_in, -24_in, 0_deg},
+            frc::Pose2d{0_in, -24_in, 0_deg},
             reverseConfig, m_pDrive),
         // },
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
           m_pElevator->WaitForElevatorPastPositionCommand(),
-          frc2::WaitCommand(0.5_s),
           m_pGripper->OpenCommand(),
           frc2::WaitCommand(0.5_s),
           m_pGripper->DroppedGamePieceCommand(),
@@ -140,39 +140,26 @@ class LeftLaneBlueAutoCommand
             [this] {return m_pGripper->GetGamePieceType() != NONE;}),
         frc2::ParallelDeadlineGroup{
           FollowPathCommand(
-            frc::Pose2d{5_in, -24_in, 0_deg},
-            {frc::Translation2d{140_in, -24_in}, frc::Translation2d{155_in, -60_in}},
-            frc::Pose2d{194_in, -60_in, 0_deg},
+            frc::Pose2d{0_in, -24_in, 0_deg},
+            {},
+            frc::Pose2d{30_in, -70_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{
             m_pGripper->CloseCommand(),
-            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
-            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, false)), // geting 2nd game piece
+            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),            
           }
         },
 
-        // FollowPathCommand(
-        //   frc::Pose2d{194_in, -60_in, 0_deg},
-        //   {},
-        //   frc::Pose2d{175_in, -85_in, 0_deg},
-        //   reverseChargeStationApproachConfig, m_pDrive),
-
-        //   frc2::InstantCommand([this] {
-        //     m_pIntake->Retract();
-        //     m_pIntake->TurnOff();
-        //   }),
-
-
         //balance
-          // frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
-          // WaitForPitchCommand(m_pDrive, -17),
-          // frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
-          // WaitForPitchCommand(m_pDrive, -14),
-          // frc2::InstantCommand([this]{m_pDrive->Drive(-0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
-          // WaitForPitchCommand(m_pDrive, -9),
-          // frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
-          // frc2::WaitCommand(0.25_s),
-          // frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, 17),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          WaitForPitchCommand(m_pDrive, 14),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          WaitForPitchCommand(m_pDrive, 9),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, -0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          frc2::WaitCommand(0.25_s),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
         // FollowPathCommand(
         //   frc::Pose2d{146_in, -85_in, 0_deg},
         //   {},

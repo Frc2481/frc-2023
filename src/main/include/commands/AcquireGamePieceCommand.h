@@ -27,7 +27,7 @@ class AcquireGamePieceCommand
       Flipper* m_pFlipper;  
 
  public:
-  AcquireGamePieceCommand(Gripper* gripper, Intake* intake, Flipper* flipper, bool fastMode = false){
+  AcquireGamePieceCommand(Gripper* gripper, Intake* intake, Flipper* flipper, bool fastMode = false, bool cube = false){
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pFlipper = flipper;
@@ -50,13 +50,16 @@ class AcquireGamePieceCommand
 
         m_pFlipper->DownCommand(),
         m_pIntake->ExtendCommand(),
-        m_pIntake->TurnOnIntakeCommand(),
+        // m_pIntake->TurnOnIntakeCommand(),
+         frc2::InstantCommand([this, cube] {m_pIntake->TurnOnIntake(
+          cube ? IntakeConstants::k_IntakeHorizontalRollerSpeedCube : IntakeConstants::k_IntakeHorizontalRollerSpeed, 
+          cube ? IntakeConstants::k_IntakeVerticalRollerSpeedCube :  IntakeConstants::k_IntakeVerticalRollerSpeed);},{m_pIntake}),
         m_pIntake->WaitForGamePieceCommand(),
         m_pIntake->TurnOffHorizontalCommand(),
         frc2::WaitCommand(0.25_s),
         frc2::InstantCommand([this] {m_pIntake->TurnOnIntake(
           0, 
-          0 /*IntakeConstants::k_IntakeVerticalRollerSpeed / 5.0*/);},{m_pIntake}),
+          0);},{m_pIntake}),
         // m_pIntake->TurnOffCommand(),
         frc2::ConditionalCommand(
           frc2::SequentialCommandGroup{

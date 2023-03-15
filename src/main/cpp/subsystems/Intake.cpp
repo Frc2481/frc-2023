@@ -73,6 +73,24 @@ Intake::Intake(){
             IntakeConstants::k_IntakeHorizontalCurrentLimit, 
             IntakeConstants::k_IntakeCurrentDuration), 0);
 
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_1_General, 100, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_2_Feedback0, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_4_AinTempVbat, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_6_Misc, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_7_CommStatus, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_9_MotProfBuffer, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_10_MotionMagic, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_10_Targets, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_12_Feedback1, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_13_Base_PIDF0, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_14_Turn_PIDF1, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_15_FirmareApiStatus, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_17_Targets1, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_3_Quadrature, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_8_PulseWidth, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
+    m_pHorizontalMotor->SetStatusFramePeriod(Status_Brushless_Current, 255, 10);
+
     m_pVerticalMotor = new TalonFX(FalconIDs::kIntakeVerticalMotor);
     m_pVerticalMotor->ConfigFactoryDefault();
     m_pVerticalMotor->SetNeutralMode(NeutralMode::Brake);
@@ -92,6 +110,23 @@ Intake::Intake(){
             IntakeConstants::k_IntakeVerticalCurrentLimit, 
             IntakeConstants::k_IntakeCurrentDuration), 0);
     
+    m_pVerticalMotor->SetStatusFramePeriod(Status_1_General, 100, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_2_Feedback0, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_4_AinTempVbat, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_6_Misc, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_7_CommStatus, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_9_MotProfBuffer, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_10_MotionMagic, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_10_Targets, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_12_Feedback1, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_13_Base_PIDF0, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_14_Turn_PIDF1, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_15_FirmareApiStatus, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_17_Targets1, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_3_Quadrature, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_8_PulseWidth, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
+    m_pVerticalMotor->SetStatusFramePeriod(Status_Brushless_Current, 255, 10);
 }
 
 void Intake::TurnOnIntake(double horiz, double vert){
@@ -144,5 +179,5 @@ bool Intake::HasGamePiece(){
 // This method will be called once per scheduler run
 void Intake::Periodic() {
     frc::SmartDashboard::PutBoolean("Intake Beam Break", HasGamePiece());
-    frc::SmartDashboard::GetNumber("Pressure", m_compressor.GetPressure().value());
+    frc::SmartDashboard::PutNumber("Pressure", m_compressor.GetPressure().value());
 }   
