@@ -126,7 +126,7 @@ frc::Rotation2d Drivetrain::GetHeading(){
 }
 
 frc::Rotation2d Drivetrain::GetPitch(){
-  return frc::Rotation2d(units::degree_t(m_IMU.GetPitch()));
+  return frc::Rotation2d(units::degree_t(m_IMU.GetRoll()));
 }
 
 void Drivetrain::ZeroHeading(double offset){

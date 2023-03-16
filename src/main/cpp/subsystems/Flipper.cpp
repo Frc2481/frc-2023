@@ -20,11 +20,11 @@ frc2::InstantCommand Flipper::FloatCommand() {
 
 Flipper::Flipper(){
     m_pSolenoid = new frc::Solenoid( 
-        frc::PneumaticsModuleType::REVPH, 
+        frc::PneumaticsModuleType::CTREPCM, 
         SolenoidPorts::kFlipperSolenoidPort);
 
     m_pSolenoidFloat = new frc::Solenoid( 
-        frc::PneumaticsModuleType::REVPH, 
+        frc::PneumaticsModuleType::CTREPCM, 
         SolenoidPorts::kFlipperSolenoidFloatPort);
 }
 

@@ -14,6 +14,7 @@
 #include <frc/Solenoid.h>
 #include "RobotParameters.h"
 #include <frc/Compressor.h>
+#include <frc/AnalogInput.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -59,7 +60,8 @@ class Intake : public frc2::SubsystemBase {
   frc::Solenoid * m_ExtendSecondSolenoid;
   bool m_isExtended;
   frc::DigitalInput * m_intakeBeambreak;
-  frc::Compressor m_compressor{frc::PneumaticsModuleType::REVPH};
+  frc::Compressor m_compressor{frc::PneumaticsModuleType::CTREPCM};
+  frc::AnalogInput m_analogPressure{3};
 
  
   // Components (e.g. motor controllers and sensors) should generally be

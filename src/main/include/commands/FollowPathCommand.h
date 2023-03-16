@@ -13,6 +13,7 @@
 #include <frc/controller/HolonomicDriveController.h>
 #include "RobotParameters.h"
 #include <units/length.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 /**
  * An example command.
  *

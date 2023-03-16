@@ -115,6 +115,7 @@ class LeftLaneBlueAutoCommand
         // frc2::ParallelCommandGroup{
         frc2::ScheduleCommand(new frc2::SequentialCommandGroup{
             m_pGripper->WaitForGamePieceCommand(),
+            frc2::WaitCommand(0.25_s),
             frc2::ConditionalCommand(frc2::SequentialCommandGroup{
               (ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
               m_pFlipper->DownCommand(),

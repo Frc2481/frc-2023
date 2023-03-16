@@ -23,6 +23,7 @@
 #include "commands/auto/RightLaneRedAutoCommand.h"
 #include "commands/auto/TestCommand.h"
 #include "commands/auto/LeftLaneBlueBalanceAutoCommand.h"
+#include "commands/auto/RightLaneRedBalanceAutoCommand.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -64,6 +65,8 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         m_chooser.AddOption("Left Lane Red", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Right Lane Red", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Right Lane Red Balance", new RightLaneRedBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+
         // m_chooser.AddOption("Test Auto", new TestCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         frc::SmartDashboard::PutData(&m_chooser);  
         frc::SmartDashboard::PutData("Zero Steer", new InstantDisabledCommand([this]{m_drivetrain.ResetEncoders();}));
@@ -126,19 +129,19 @@ void RobotContainer::ConfigureButtonBindings() {
       frc2::SequentialCommandGroup{
         m_gripper.CloseCommand(),
         ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorStowPosition)      
-    }.WithTimeout(3.0_s));
+    }.WithTimeout(1.5_s));
     m_xButtonAux.OnTrue(frc2::SequentialCommandGroup{
       ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorFloorPosition),
       m_flipper.DownCommand()
-    }.WithTimeout(3.0_s));
+    }.WithTimeout(2.0_s));
     m_yButtonAux.OnTrue(frc2::SequentialCommandGroup{
       ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorTopPosition),
       m_flipper.DownCommand()
-    }.WithTimeout(3.0_s));
+    }.WithTimeout(2.0_s));
     m_bButtonAux.OnTrue(frc2::SequentialCommandGroup{
       ElevatorGoToPositionCommand(&m_elevator, ElevatorConstants::k_ElevatorMidPosition),
       m_flipper.DownCommand()
-    }.WithTimeout(3.0_s));
+    }.WithTimeout(2.0_s));
 
 
   //intake

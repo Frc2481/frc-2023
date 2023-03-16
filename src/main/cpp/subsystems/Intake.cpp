@@ -40,19 +40,24 @@ frc2::WaitUntilCommand Intake:: WaitForGamePieceCommand(){
 }
 
 Intake::Intake(){
+
     m_ExtendFirstSolenoid = new frc::DoubleSolenoid(
-        frc::PneumaticsModuleType::REVPH, 
+        frc::PneumaticsModuleType::CTREPCM, 
         SolenoidPorts::kIntakeFirstSolenoidPort,
         SolenoidPorts::kIntakeFirstSolenoidPortIn);
     
-    m_ExtendSecondSolenoid = new frc::Solenoid(
-        frc::PneumaticsModuleType::REVPH, 
-        SolenoidPorts::kIntakeSecondSolenoidPort);
+    // m_ExtendSecondSolenoid = new frc::Solenoid(
+    //     frc::PneumaticsModuleType::CTREPCM, 
+    //     SolenoidPorts::kIntakeSecondSolenoidPort);
 
     m_intakeBeambreak = new frc::DigitalInput(DigitalInputs::k_IntakeBeambreakPort);
 
-    m_compressor.EnableAnalog(units::pressure::pounds_per_square_inch_t(90),
-                            units::pressure::pounds_per_square_inch_t(120));
+    // m_compressor.EnableDigital();
+    // m_compressor.EnableAnalog(units::pressure::pounds_per_square_inch_t(90),
+    //                         units::pressure::pounds_per_square_inch_t(120));
+    m_compressor.Enabled();
+    
+    // printf("Compressor Mode %d\n", m_compressor.GetConfigType());
 
     m_pHorizontalMotor = new TalonFX(FalconIDs::kIntakeHorizontalMotor);
     m_pHorizontalMotor->ConfigFactoryDefault();
@@ -179,5 +184,14 @@ bool Intake::HasGamePiece(){
 // This method will be called once per scheduler run
 void Intake::Periodic() {
     frc::SmartDashboard::PutBoolean("Intake Beam Break", HasGamePiece());
-    frc::SmartDashboard::PutNumber("Pressure", m_compressor.GetPressure().value());
+    // frc::SmartDashboard::PutNumber("Pressure", m_compressor.GetPressure().value());
+
+    frc::SmartDashboard::PutNumber("Pressure", (250 * (m_analogPressure.GetAverageVoltage() / 5.0)) - 25);
+
+    // static int loop_count = 0;
+    // if (loop_count++ == 50) {
+    //     m_compressor.EnableAnalog(units::pressure::pounds_per_square_inch_t(90),
+    //                         units::pressure::pounds_per_square_inch_t(120));
+    //     loop_count = 0;
+    // }
 }   

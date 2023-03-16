@@ -44,7 +44,7 @@ frc2::InstantCommand Elevator::ReleaseBrakeCommand(){
 Elevator::Elevator(){
 
      m_brakeSolenoid = new frc::DoubleSolenoid(
-        frc::PneumaticsModuleType::REVPH, 
+        frc::PneumaticsModuleType::CTREPCM, 
         SolenoidPorts::kElevatorEngageBrakePort, 
         SolenoidPorts::kElevatorReleaseBrakePort);
 

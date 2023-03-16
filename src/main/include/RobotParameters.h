@@ -67,14 +67,25 @@ namespace CANCoderIDs
 
 namespace SolenoidPorts{
  
-    static constexpr int kIntakeFirstSolenoidPort = 12;
+    // Old PH Ports
+    // static constexpr int kIntakeFirstSolenoidPort = 12;
+    // static constexpr int kIntakeFirstSolenoidPortIn = 3;
+    // static constexpr int kIntakeSecondSolenoidPort = 11;
+    // static constexpr int kGripperSolenoidPort = 0;
+    // static constexpr int kGripperSolenoidReversePort = 15;
+    // static constexpr int kFlipperSolenoidPort = 13;
+    // static constexpr int kFlipperSolenoidFloatPort = 2;
+    // static constexpr int kElevatorEngageBrakePort = 14;
+    // static constexpr int kElevatorReleaseBrakePort = 1;
+
+    static constexpr int kIntakeFirstSolenoidPort = 4;
     static constexpr int kIntakeFirstSolenoidPortIn = 3;
     static constexpr int kIntakeSecondSolenoidPort = 11;
     static constexpr int kGripperSolenoidPort = 0;
-    static constexpr int kGripperSolenoidReversePort = 15;
-    static constexpr int kFlipperSolenoidPort = 13;
+    static constexpr int kGripperSolenoidReversePort = 7;
+    static constexpr int kFlipperSolenoidPort = 5;
     static constexpr int kFlipperSolenoidFloatPort = 2;
-    static constexpr int kElevatorEngageBrakePort = 14;
+    static constexpr int kElevatorEngageBrakePort = 6;
     static constexpr int kElevatorReleaseBrakePort = 1;
 
 }
