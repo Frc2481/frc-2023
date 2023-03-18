@@ -127,7 +127,7 @@ class RightLaneRedAutoCommand
           FollowPathCommand(
             frc::Pose2d{188_in, 16_in, 0_deg},
             {frc::Translation2d{100_in, 18_in}, frc::Translation2d{50_in, 22_in}},
-            frc::Pose2d{5_in, 24_in, 0_deg},
+            frc::Pose2d{4_in, 24_in, 0_deg},
             reverseConfig, m_pDrive),
         // },
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
@@ -141,7 +141,7 @@ class RightLaneRedAutoCommand
             [this] {return m_pGripper->GetGamePieceType() != NONE;}),
         frc2::ParallelDeadlineGroup{
           FollowPathCommand(
-            frc::Pose2d{5_in, 24_in, 0_deg},
+            frc::Pose2d{4_in, 24_in, 0_deg},
             {frc::Translation2d{140_in, 24_in}, frc::Translation2d{155_in, 60_in}},
             frc::Pose2d{194_in, 60_in, 0_deg},
             forwardConfig, m_pDrive),

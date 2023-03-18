@@ -128,7 +128,7 @@ class LeftLaneBlueBalanceAutoCommand
           FollowPathCommand(
             frc::Pose2d{188_in, -16_in, 0_deg},
             {frc::Translation2d{100_in, -18_in}, frc::Translation2d{50_in, -22_in}},
-            frc::Pose2d{5_in, -24_in, 0_deg},
+            frc::Pose2d{4_in, -24_in, 0_deg},
             reverseConfig, m_pDrive),
         // },
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
@@ -140,9 +140,11 @@ class LeftLaneBlueBalanceAutoCommand
             }, 
             frc2::InstantCommand([]{}),
             [this] {return m_pGripper->GetGamePieceType() != NONE;}),
+        
+        frc2::InstantCommand([this] {return m_pIntake->Extend();}),
         frc2::ParallelDeadlineGroup{
           FollowPathCommand(
-            frc::Pose2d{5_in, -24_in, 0_deg},
+            frc::Pose2d{4_in, -24_in, 0_deg},
             {},
             frc::Pose2d{30_in, -64_in, 0_deg},
             forwardConfig, m_pDrive),
