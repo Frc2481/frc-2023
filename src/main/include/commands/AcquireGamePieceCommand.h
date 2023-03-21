@@ -64,7 +64,7 @@ class AcquireGamePieceCommand
         frc2::ConditionalCommand(
           frc2::SequentialCommandGroup{
              m_pFlipper->UpCommand(),
-             frc2::WaitCommand(0.25_s),
+             frc2::WaitCommand(0.5_s),
              m_pIntake->TurnOffVerticalCommand(),
              m_pGripper->CloseCommand(),
              m_pIntake->RetractCommand(),
