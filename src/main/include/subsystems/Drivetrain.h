@@ -61,16 +61,12 @@ class Drivetrain : public frc2::SubsystemBase{
 
 #ifdef COMP
   SwerveModule m_frontLeft{FalconIDs::kFrontLeftDriveMotorID, 
-                           FalconIDs::kFrontLeftDriveMotorFollowerID, 
                            TalonSRXIDs::kFrontLeftTurningMotorID, 1, false, true, "FRONT_LEFT"};
-  SwerveModule m_frontRight{FalconIDs::kFrontRightDriveMotorID, 
-                            FalconIDs::kFrontRightDriveMotorFollowerID, 
+  SwerveModule m_frontRight{FalconIDs::kFrontRightDriveMotorID,
                             TalonSRXIDs::kFrontRightTurningMotorID, 2, false, true, "FRONT_RIGHT"};
   SwerveModule m_backLeft{FalconIDs::kBackLeftDriveMotorID, 
-                          FalconIDs::kBackLeftDriveMotorFollowerID, 
                           TalonSRXIDs::kBackLeftTurningMotorID, 3, false, true, "BACK_LEFT"};
   SwerveModule m_backRight{FalconIDs::kBackRightDriveMotorID, 
-                           FalconIDs::kBackRightDriveMotorFollowerID, 
                            TalonSRXIDs::kBackRightTurningMotorID, 4, false, true, "BACK_RIGHT"};
 #else
  SwerveModule m_frontLeft{FalconIDs::kFrontLeftDriveMotorID, 

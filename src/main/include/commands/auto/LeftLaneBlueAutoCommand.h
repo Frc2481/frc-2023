@@ -62,7 +62,7 @@ frc2::CommandPtr LeftLaneBlueAutoCommand(Drivetrain* m_pDrive, Elevator* m_pElev
 
     // AddCommands(
       
-     frc2::cmd::Sequence(
+     return frc2::cmd::Sequence(
         
         frc2::InstantCommand([&]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}).ToPtr(),
         m_pGripper->CloseCommand().ToPtr(),

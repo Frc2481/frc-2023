@@ -28,7 +28,7 @@ class SwerveModule {
                            units::inverse<units::squared<units::second>>>;
 
  public:
-  SwerveModule(int driveMotorID, int driveMotorFollowerID, int turningMotorID, int turnEncoderID,
+  SwerveModule(int driveMotorID, int turningMotorID, int turnEncoderID,
                bool driveEncoderReversed, bool turningEncoderReversed, const std::string &name);
 
 //   frc::SwerveModuleState GetState();
@@ -59,7 +59,6 @@ class SwerveModule {
               std::numbers::pi * 2.0 * 12.0);  // radians per second squared
 
   TalonFX* m_pDriveMotor;
-  TalonFX* m_pDriveMotorFollower;
   TalonSRX* m_pTurningMotor;
 
  #ifdef COMP

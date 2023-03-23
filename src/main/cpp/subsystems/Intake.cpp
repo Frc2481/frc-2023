@@ -96,6 +96,9 @@ Intake::Intake(){
     m_pHorizontalMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
     m_pHorizontalMotor->SetStatusFramePeriod(Status_Brushless_Current, 255, 10);
 
+    // m_pHorizontalMotorFollower = new TalonFX(FalconIDs::kIntakeHorizontalMotorFollower);
+
+
     m_pVerticalMotor = new TalonFX(FalconIDs::kIntakeVerticalMotor);
     m_pVerticalMotor->ConfigFactoryDefault();
     m_pVerticalMotor->SetNeutralMode(NeutralMode::Brake);

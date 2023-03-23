@@ -55,6 +55,7 @@ class Intake : public frc2::SubsystemBase {
 
  private:
   TalonFX * m_pHorizontalMotor;
+  TalonFX * m_pHorizontalMotorFollower;
   TalonFX * m_pVerticalMotor;
   frc::DoubleSolenoid * m_ExtendFirstSolenoid;
   frc::Solenoid * m_ExtendSecondSolenoid;
