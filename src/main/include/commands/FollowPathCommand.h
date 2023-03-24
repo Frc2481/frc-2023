@@ -76,6 +76,7 @@ class FollowPathCommand
 
   void End(bool interrupted) override{
     m_timer.Stop();
+    m_drivetrain->Drive(0_mps, 0_mps, units::radians_per_second_t(0));
   }
 
   bool IsFinished() override{
