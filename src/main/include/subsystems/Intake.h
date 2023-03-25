@@ -53,6 +53,7 @@ class Intake : public frc2::SubsystemBase {
 
   bool HasGamePiece();
 
+
  private:
   TalonFX * m_pHorizontalMotor;
   TalonFX * m_pHorizontalMotorFollower;

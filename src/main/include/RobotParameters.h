@@ -53,6 +53,7 @@ namespace FalconIDs{
     static constexpr int kElevatorMotor = 13;
     static constexpr int kSlideMotor = 14;
     static constexpr int kIntakeHorizontalMotor = 20;
+    static constexpr int kIntakeHorizontalMotorFollower = 15;
     static constexpr int kIntakeVerticalMotor = 21;
 } 
 

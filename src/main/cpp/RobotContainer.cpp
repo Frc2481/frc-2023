@@ -56,6 +56,9 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
                                   m_rDpadAux(&m_auxController, XBOX_DPAD_RIGHT)
 
 {
+
+    frc::DataLogManager::Start();
+    frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog());
     
     ConfigureButtonBindings();
         // m_chooser.SetDefaultOption("Center Lane Blue", new CenterLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
@@ -87,6 +90,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("DriveTrain", &m_drivetrain);
         frc::SmartDashboard::PutData("Intake", &m_intake);
         frc::SmartDashboard::PutData("Elevator", &m_elevator);
+        frc::SmartDashboard::PutNumber("Alignment Gain", 0);
 
         // frc::SmartDashboard::PutData("Compressor", &m_compressor);
 }
@@ -105,6 +109,26 @@ void RobotContainer::ConfigureButtonBindings() {
   //intake
     m_lTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper, false, true));
     m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper, false, false));
+
+    // in line
+    m_aButtonDriver.WhileTrue(new frc2::FunctionalCommand
+      (
+          [this] {
+          }, 
+          [this]{
+            printf("Auto Align\n");
+            double alignmentGain = frc::SmartDashboard::GetNumber("Alignment Gain", 0);
+            double tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0);
+            double tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+            m_drivetrain.Drive(0_mps, units::feet_per_second_t(tx * alignmentGain), units::radians_per_second_t(0));
+          }, 
+          [this](bool interrupted){
+            m_drivetrain.Drive(0_mps, 0_mps, units::radians_per_second_t(0));
+          },
+          [this]{
+            return false;
+          },{&m_drivetrain}
+    ));
 
   // Operator Buttons
     // Operator Low Score Game Piece Command

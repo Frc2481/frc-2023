@@ -72,11 +72,31 @@ class LeftLaneRedAutoCommand
     forwardEndConfig.SetReversed(false);
     forwardEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
 
-    frc::TrajectoryConfig reverseConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5),
+    frc::TrajectoryConfig forwardMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
-    reverseConfig.SetKinematics(m_pDrive->GetKinematics());
-    reverseConfig.SetReversed(true);
+    forwardMidConfig.SetKinematics(m_pDrive->GetKinematics());
+    forwardMidConfig.SetReversed(false);
+    forwardMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
+    forwardMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
 
+    frc::TrajectoryConfig reverseStartConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    reverseStartConfig.SetKinematics(m_pDrive->GetKinematics());
+    reverseStartConfig.SetReversed(true);
+    reverseStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
+
+    frc::TrajectoryConfig reverseEndConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    reverseEndConfig.SetKinematics(m_pDrive->GetKinematics());
+    reverseEndConfig.SetReversed(true);
+    reverseEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
+
+    frc::TrajectoryConfig reverseMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    reverseMidConfig.SetKinematics(m_pDrive->GetKinematics());
+    reverseMidConfig.SetReversed(true);
+    reverseMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
+    reverseMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5));
   
     frc::TrajectoryConfig reverseChargeStationApproachConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
@@ -106,17 +126,23 @@ class LeftLaneRedAutoCommand
         m_pGripper->DroppedGamePieceCommand(),
         frc2::WaitCommand(0.5_s),
         frc2::ParallelDeadlineGroup{
-          frc2::SequentialCommandGroup{
-          FollowPathCommand(
+         frc2::SequentialCommandGroup{
+          FollowPathCommand( //drive out fast
             m_initialPosition,
             {},
             frc::Pose2d{67_in, 0_in, 0_deg},
             forwardStartConfig, m_pDrive),
-          
-           FollowPathCommand(
+
+          FollowPathCommand( //drive over bump slow
             frc::Pose2d{67_in, 0_in, 0_deg},
+            {},
+            frc::Pose2d{94_in, 0_in, 0_deg},
+            forwardMidConfig, m_pDrive),
+          
+           FollowPathCommand( //keep driving out fast
+            frc::Pose2d{94_in, 0_in, 0_deg},
             {frc::Translation2d{135_in, -6_in}, frc::Translation2d{160_in, -14_in}},
-            frc::Pose2d{188_in, -16_in, 0_deg},
+            frc::Pose2d{191_in, -16_in, 0_deg},
             forwardEndConfig, m_pDrive)
           },
           frc2::SequentialCommandGroup{   
@@ -125,85 +151,113 @@ class LeftLaneRedAutoCommand
             frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true, true)), // geting 1st game piece
           }
         },
-        // // m_pIntake->WaitForGamePieceCommand(),
-        // // frc2::ParallelCommandGroup{
-        // frc2::ScheduleCommand(new frc2::SequentialCommandGroup{
-        //     m_pGripper->WaitForGamePieceCommand(),
-        //     frc2::WaitCommand(0.25_s),
-        //     frc2::ConditionalCommand(frc2::SequentialCommandGroup{
-        //       (ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
-        //       m_pFlipper->DownCommand(),
-        //     }, 
-        //     frc2::InstantCommand([]{}),
-        //     [this] {return m_pGripper->GetGamePieceType() != NONE;}),
-        // }
-        // ),
-        //   FollowPathCommand(
-        //     frc::Pose2d{188_in, -16_in, 0_deg},
-        //     {frc::Translation2d{100_in, -18_in}, frc::Translation2d{50_in, -22_in}},
-        //     frc::Pose2d{4_in, -24_in, 0_deg},
-        //     reverseConfig, m_pDrive),
-        // // },
-        // frc2::ConditionalCommand(frc2::SequentialCommandGroup{
-        //   m_pElevator->WaitForElevatorPastPositionCommand(),
-        //   frc2::WaitCommand(0.5_s),
-        //   m_pGripper->OpenCommand(),
-        //   frc2::WaitCommand(0.5_s),
-        //   m_pGripper->DroppedGamePieceCommand(),
-        //     }, 
-        //     frc2::InstantCommand([]{}),
-        //     [this] {return m_pGripper->GetGamePieceType() != NONE;}),
-        // frc2::ParallelDeadlineGroup{
-        //   FollowPathCommand(
-        //     frc::Pose2d{4_in, -24_in, 0_deg},
-        //     {frc::Translation2d{140_in, -24_in}, frc::Translation2d{155_in, -60_in}},
-        //     frc::Pose2d{194_in, -60_in, 0_deg},
-        //     forwardEndConfig, m_pDrive),
-        //   frc2::SequentialCommandGroup{
-        //     m_pGripper->CloseCommand(),
-        //     ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
-        //     frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, false)), // geting 2nd game piece
-        //   }
+        // m_pIntake->WaitForGamePieceCommand(),
+        // frc2::ParallelCommandGroup{
+        frc2::ScheduleCommand(new frc2::SequentialCommandGroup{
+            m_pGripper->WaitForGamePieceCommand(),
+            frc2::WaitCommand(0.25_s),
+            frc2::ConditionalCommand(frc2::SequentialCommandGroup{
+              (ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
+              m_pFlipper->DownCommand(),
+            }, 
+            frc2::InstantCommand([]{}),
+            [this] {return m_pGripper->GetGamePieceType() != NONE;}),
+        }
+        ),
+        SequentialCommandGroup{
+          FollowPathCommand( //driving back in 
+            frc::Pose2d{191_in, -16_in, 0_deg},
+            {},
+            frc::Pose2d{94_in, -16_in, 0_deg},
+            reverseStartConfig, m_pDrive),
+
+           FollowPathCommand( //slowing down over bump
+            frc::Pose2d{94_in, -16_in, 0_deg},
+            {},
+            frc::Pose2d{67_in, -16_in, 0_deg},
+            reverseMidConfig, m_pDrive),
+
+           FollowPathCommand( //keep driving in fast
+            frc::Pose2d{67_in, -16_in, 0_deg},
+            {frc::Translation2d{60_in, -18_in}, frc::Translation2d{50_in, -22_in}},
+            frc::Pose2d{4_in, -24_in, 0_deg},
+            reverseEndConfig, m_pDrive),
+        },
         // },
+        frc2::ConditionalCommand(frc2::SequentialCommandGroup{
+          m_pElevator->WaitForElevatorPastPositionCommand(),
+          frc2::WaitCommand(0.5_s),
+          m_pGripper->OpenCommand(),
+          frc2::WaitCommand(0.5_s),
+          m_pGripper->DroppedGamePieceCommand(),
+            }, 
+            frc2::InstantCommand([]{}),
+            [this] {return m_pGripper->GetGamePieceType() != NONE;}),
+        frc2::ParallelDeadlineGroup{
+         frc2::SequentialCommandGroup{
+          FollowPathCommand( //drive out fast
+            frc::Pose2d{4_in, -24_in, 0_deg},
+            {frc::Translation2d{50_in, -22_in}, frc::Translation2d{60_in, -18_in}},
+            frc::Pose2d{67_in, -16_in, 0_deg},
+            forwardStartConfig, m_pDrive),
 
-        // // FollowPathCommand(
-        // //   frc::Pose2d{194_in, -60_in, 0_deg},
-        // //   {},
-        // //   frc::Pose2d{175_in, -85_in, 0_deg},
-        // //   reverseChargeStationApproachConfig, m_pDrive),
+          FollowPathCommand( //drive over bump slow
+            frc::Pose2d{67_in, -16_in, 0_deg},
+            {},
+            frc::Pose2d{94_in, -16_in, 0_deg},
+            forwardMidConfig, m_pDrive),
+          
+           FollowPathCommand( //keep driving out fast
+            frc::Pose2d{94_in, -16_in, 0_deg},
+            {frc::Translation2d{145_in, -25_in}, frc::Translation2d{160_in, -45_in}},
+            frc::Pose2d{188_in, -60_in, 0_deg},
+            forwardEndConfig, m_pDrive)
+          },
+          frc2::SequentialCommandGroup{
+            m_pGripper->CloseCommand(),
+            ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
+            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, false)), // geting 2nd game piece
+          }
+        },
 
-        // //   frc2::InstantCommand([this] {
-        // //     m_pIntake->Retract();
-        // //     m_pIntake->TurnOff();
-        // //   }),
+        // FollowPathCommand(
+        //   frc::Pose2d{194_in, -60_in, 0_deg},
+        //   {},
+        //   frc::Pose2d{175_in, -85_in, 0_deg},
+        //   reverseChargeStationApproachConfig, m_pDrive),
+
+        //   frc2::InstantCommand([this] {
+        //     m_pIntake->Retract();
+        //     m_pIntake->TurnOff();
+        //   }),
 
 
-        // //balance
-        //   // frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
-        //   // WaitForPitchCommand(m_pDrive, -17),
-        //   // frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
-        //   // WaitForPitchCommand(m_pDrive, -14),
-        //   // frc2::InstantCommand([this]{m_pDrive->Drive(-0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
-        //   // WaitForPitchCommand(m_pDrive, -9),
-        //   // frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
-        //   // frc2::WaitCommand(0.25_s),
-        //   // frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
-        // // FollowPathCommand(
-        // //   frc::Pose2d{146_in, -85_in, 0_deg},
-        // //   {},
-        // //   frc::Pose2d{45_in, -85_in, 0_deg},
-        // //   reverseChargeStationConfig, m_pDrive), // Balence
+        //balance
+          // frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          // WaitForPitchCommand(m_pDrive, -17),
+          // frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          // WaitForPitchCommand(m_pDrive, -14),
+          // frc2::InstantCommand([this]{m_pDrive->Drive(-0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          // WaitForPitchCommand(m_pDrive, -9),
+          // frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          // frc2::WaitCommand(0.25_s),
+          // frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+        // FollowPathCommand(
+        //   frc::Pose2d{146_in, -85_in, 0_deg},
+        //   {},
+        //   frc::Pose2d{45_in, -85_in, 0_deg},
+        //   reverseChargeStationConfig, m_pDrive), // Balence
 
       
 
           
 
-        // // FollowPathCommand(
-        // //   frc::Pose2d{24_in, 5_in, 0_deg}, 
-        // //   {frc::Translation2d{16_in, 3_in}, frc::Translation2d{8_in, 1_in}},
+        // FollowPathCommand(
+        //   frc::Pose2d{24_in, 5_in, 0_deg}, 
+        //   {frc::Translation2d{16_in, 3_in}, frc::Translation2d{8_in, 1_in}},
 
-        // //   frc::Pose2d{0_in, 0_in, 0_deg},
-        // //   reverseConfig, m_pDrive)  
+        //   frc::Pose2d{0_in, 0_in, 0_deg},
+        //   reverseConfig, m_pDrive)  
   });
 
             // Balance???

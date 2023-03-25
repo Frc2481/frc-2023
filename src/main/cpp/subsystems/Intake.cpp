@@ -71,12 +71,12 @@ Intake::Intake(){
     m_pHorizontalMotor->ConfigPeakOutputReverse(-1.0, 0.0);
     m_pHorizontalMotor->SetSensorPhase(false);	
     m_pHorizontalMotor->SetInverted(false);
-    m_pHorizontalMotor->ConfigSupplyCurrentLimit(
-        ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(
-            true, 
-            IntakeConstants::k_IntakeHorizontalCurrentLimit - 5, 
-            IntakeConstants::k_IntakeHorizontalCurrentLimit, 
-            IntakeConstants::k_IntakeCurrentDuration), 0);
+    // m_pHorizontalMotor->ConfigSupplyCurrentLimit(
+    //     ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(
+    //         true, 
+    //         IntakeConstants::k_IntakeHorizontalCurrentLimit - 5, 
+    //         IntakeConstants::k_IntakeHorizontalCurrentLimit, 
+    //         IntakeConstants::k_IntakeCurrentDuration), 0);
 
     m_pHorizontalMotor->SetStatusFramePeriod(Status_1_General, 100, 10);
     m_pHorizontalMotor->SetStatusFramePeriod(Status_2_Feedback0, 255, 10);
@@ -96,7 +96,10 @@ Intake::Intake(){
     m_pHorizontalMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
     m_pHorizontalMotor->SetStatusFramePeriod(Status_Brushless_Current, 255, 10);
 
-    // m_pHorizontalMotorFollower = new TalonFX(FalconIDs::kIntakeHorizontalMotorFollower);
+    m_pHorizontalMotorFollower = new TalonFX(FalconIDs::kIntakeHorizontalMotorFollower);
+    m_pHorizontalMotorFollower->Follow(*m_pHorizontalMotor);
+    m_pHorizontalMotorFollower->ConfigFactoryDefault();
+    m_pHorizontalMotorFollower->SetInverted(false);
 
 
     m_pVerticalMotor = new TalonFX(FalconIDs::kIntakeVerticalMotor);
@@ -141,8 +144,7 @@ void Intake::TurnOnIntake(double horiz, double vert){
     m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 
                             horiz);
     m_pVerticalMotor->Set(TalonFXControlMode::PercentOutput, 
-                          vert);
-}
+                          vert);}
 
 void Intake::TurnOnBarf(){
      m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 
@@ -163,6 +165,7 @@ void Intake::TurnOffVertical() {
 void Intake::TurnOffHorizontal() {
     m_pHorizontalMotor->Set(TalonFXControlMode::PercentOutput, 0);
 }
+
 
 void Intake::Extend(){
     m_ExtendFirstSolenoid->Set(frc::DoubleSolenoid::kForward);

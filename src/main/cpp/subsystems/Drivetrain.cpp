@@ -92,30 +92,30 @@ void Drivetrain::UpdateOdometry() {
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
   // bot pose type
-  if(nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0)) {
-      std::vector<double> default_bot_pose = {0, 0, 0};
-      std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
-      frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg}; 
-      double tl = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tl", 0) / 1000.0;
-      double cl = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("cl", 0) / 1000.0;
-      int tid = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tid", 0);
+  // if(nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0)) {
+  //     std::vector<double> default_bot_pose = {0, 0, 0};
+  //     std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
+  //     frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg}; 
+  //     double tl = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tl", 0) / 1000.0;
+  //     double cl = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("cl", 0) / 1000.0;
+  //     int tid = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tid", 0);
 
-      // Todo this is likely a terrible idea because it assumes the same start location for all autos...this isn't reality.
-      if (tid > 0 && tid < 4){
-        // Adjust vision measurement for red alliance.
-        global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(6.9088_m, 0_m),frc::Rotation2d()));
-      }
-      else {
-        // Adjust vision measurement for blue alliance.
-        global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(-6.9088_m, 0_m),frc::Rotation2d()));
-      }
+  //     // Todo this is likely a terrible idea because it assumes the same start location for all autos...this isn't reality.
+  //     if (tid > 0 && tid < 4){
+  //       // Adjust vision measurement for red alliance.
+  //       global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(6.9088_m, 0_m),frc::Rotation2d()));
+  //     }
+  //     else {
+  //       // Adjust vision measurement for blue alliance.
+  //       global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(-6.9088_m, 0_m),frc::Rotation2d()));
+  //     }
 
-      m_poseEstimator.AddVisionMeasurement(
-        global_pose, 
-        frc::Timer::GetFPGATimestamp() - units::second_t(tl - cl));
-    printf("Vision Sample\n");
+  //     m_poseEstimator.AddVisionMeasurement(
+  //       global_pose, 
+  //       frc::Timer::GetFPGATimestamp() - units::second_t(tl - cl));
+  //   printf("Vision Sample\n");
 
-  }
+  // }
 }
 
 void Drivetrain::ResetOdometry(frc::Pose2d pose) {
