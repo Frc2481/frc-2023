@@ -189,9 +189,11 @@ namespace LimeLightConstants{
     static constexpr double k_TopPostPipeLine = 1;
     static constexpr double k_BottomPostPipeLine = 2;
     static constexpr double k_TopPostHeight_in = 0;
-    static constexpr double k_BottomPostHeight_in = 0;
-    static constexpr double k_CameraHeight_in = 0;
+    static constexpr double k_BottomPostHeight_in = 24;
+    static constexpr double k_CameraHeight_in = 14.25;
     static constexpr double k_AprilTagHeight_in = 0;
+    static constexpr double k_CameraAngle = 8;
+    static constexpr double k_FinalXOffset_in = 22;
 }
 
 namespace ElevatorConstants{
@@ -200,15 +202,15 @@ namespace ElevatorConstants{
     static constexpr double k_ElevatorkD = 0;
     static constexpr double k_ElevatorkF = 0.047;
     static constexpr double k_ElevatorAcceleration = 120000; //36000
-    static constexpr double k_ElevatorMaxSpeed = 20479; //24000
+    static constexpr double k_ElevatorMaxSpeed = 20479 / 1.07; //24000
     static constexpr double k_ElevatorSCurveStrength = 6;
     static constexpr double k_ElevatorTicksPerInch = 0;
-    static constexpr double k_ElevatorTopSoftLimit = 255000 / 2.91666;
+    static constexpr double k_ElevatorTopSoftLimit = 255000 / 2.9166 / 1.071;
     static constexpr double k_ElevatorBottomSoftLimit = 0;
     static constexpr double k_ElevatorOnTargetThreshold = 1000;
-    static constexpr double k_ElevatorTopPosition = 255000 / 2.91666;
-    static constexpr double k_ElevatorMidPosition = 145000 / 2.91666;
-    static constexpr double k_ElevatorFloorPosition = 80000 / 2.91666;
+    static constexpr double k_ElevatorTopPosition = 255000 / 2.91666 / 1.071;
+    static constexpr double k_ElevatorMidPosition = 135000 / 2.91666 / 1.071;
+    static constexpr double k_ElevatorFloorPosition = 70000 / 2.91666 / 1.071;
     static constexpr double k_ElevatorStowPosition = 0;
 }
 

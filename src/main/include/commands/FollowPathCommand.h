@@ -50,9 +50,11 @@ class FollowPathCommand
     m_timer.Reset();
     m_timer.Start();
     m_drivetrain->GetField()->GetObject("traj")->SetTrajectory(m_trajectory);
+    printf("Init\n");
   }
 
   void Execute() override{
+    printf("Exe\n");
     auto curTime = m_timer.Get();
     auto desiredState = m_trajectory.Sample(curTime);
     frc::SmartDashboard::PutNumber("Path X", units::inch_t(desiredState.pose.X()).value());
@@ -71,15 +73,17 @@ class FollowPathCommand
     frc::SmartDashboard::PutNumber("Path Error X", units::inch_t(m_drivetrain->GetOdometryPosition().X() - desiredState.pose.X()).value());
     frc::SmartDashboard::PutNumber("Path Error Y", units::inch_t(m_drivetrain->GetOdometryPosition().Y() - desiredState.pose.Y()).value());
     frc::SmartDashboard::PutNumber("Chassis Speed X", units::feet_per_second_t(targetChassisSpeeds.vx).value());
-    frc::SmartDashboard::PutNumber("Module Speed X", units::feet_per_second_t(targetModuleStates[0].speed).value());
+    frc::SmartDashboard::PutNumber("Module Speed X", units::feet_per_second_t(targetModuleStates[0].speed).value()); 
   }
 
   void End(bool interrupted) override{
+    printf("End\n");
     m_timer.Stop();
     m_drivetrain->Drive(0_mps, 0_mps, units::radians_per_second_t(0));
   }
 
   bool IsFinished() override{
+    printf("IsFin\n");
     return m_timer.HasElapsed(m_trajectory.TotalTime());
   }
 };

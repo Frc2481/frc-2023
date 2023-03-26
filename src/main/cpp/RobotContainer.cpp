@@ -87,10 +87,11 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         
         
         frc::SmartDashboard::PutData("Elevator Pos 0", new ElevatorGoToPositionCommand(&m_elevator, 0));
-        frc::SmartDashboard::PutData("DriveTrain", &m_drivetrain);
+        frc::SmartDashboard::PutData(&m_drivetrain);
         frc::SmartDashboard::PutData("Intake", &m_intake);
         frc::SmartDashboard::PutData("Elevator", &m_elevator);
-        frc::SmartDashboard::PutNumber("Alignment Gain", 0);
+        frc::SmartDashboard::PutData(&frc2::CommandScheduler::GetInstance());
+        frc::SmartDashboard::PutNumber("Alignment Gain", 1.0);
 
         // frc::SmartDashboard::PutData("Compressor", &m_compressor);
 }
@@ -111,23 +112,37 @@ void RobotContainer::ConfigureButtonBindings() {
     m_rTriggerDriver.OnTrue(new AcquireGamePieceCommand(&m_gripper, &m_intake, &m_flipper, false, false));
 
     // in line
-    m_aButtonDriver.WhileTrue(new frc2::FunctionalCommand
+    m_aButtonDriver.OnTrue(new frc2::InstantCommand
       (
           [this] {
-          }, 
-          [this]{
-            printf("Auto Align\n");
-            double alignmentGain = frc::SmartDashboard::GetNumber("Alignment Gain", 0);
+            frc::TrajectoryConfig reverseConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel / 4)};
+              reverseConfig.SetKinematics(m_drivetrain.GetKinematics());
+              reverseConfig.SetReversed(true);
+              reverseConfig.SetStartVelocity(units::feet_per_second_t(1));
+              reverseConfig.SetEndVelocity(units::feet_per_second_t(1));
+            m_drivetrain.ResetOdometry(m_drivetrain.GetOdometryPosition());
             double tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0);
             double tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
-            m_drivetrain.Drive(0_mps, units::feet_per_second_t(tx * alignmentGain), units::radians_per_second_t(0));
-          }, 
-          [this](bool interrupted){
-            m_drivetrain.Drive(0_mps, 0_mps, units::radians_per_second_t(0));
-          },
-          [this]{
-            return false;
-          },{&m_drivetrain}
+            double ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty", 0);
+            double distanceToTarget = ((LimeLightConstants::k_BottomPostHeight_in - LimeLightConstants::k_CameraHeight_in) / tan((std::numbers::pi / 180) * (ty + LimeLightConstants::k_CameraAngle)));
+            double lateralOffsetFromTarget = -(distanceToTarget / tan((std::numbers::pi / 180) * (90 - tx)));
+            lateralOffsetFromTarget *= frc::SmartDashboard::GetNumber("Alignment Gain", 1.0);
+            frc::SmartDashboard::PutNumber("Distance To Target", distanceToTarget);
+            frc::SmartDashboard::PutNumber("Lateral Offset From Target", lateralOffsetFromTarget);
+            frc::Pose2d pos = m_drivetrain.GetOdometryPosition();
+            double endX = units::inch_t(pos.X()).value() - (distanceToTarget - LimeLightConstants::k_FinalXOffset_in);
+            double endY = units::inch_t(pos.Y()).value() - lateralOffsetFromTarget;
+            frc::SmartDashboard::PutNumber("end X", endX);
+            frc::SmartDashboard::PutNumber("end Y", endY);
+
+            frc2::Command * command = new FollowPathCommand( 
+              pos,
+              {},
+              frc::Pose2d{units::inch_t(endX), units::inch_t(endY), 0_deg},
+              reverseConfig, &m_drivetrain);
+            command->Schedule();
+          },{}
     ));
 
   // Operator Buttons
