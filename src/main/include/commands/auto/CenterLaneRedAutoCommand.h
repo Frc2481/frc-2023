@@ -21,6 +21,7 @@
 #include "commands/FollowPathCommand.h"
 #include "commands/AcquireGamePieceCommand.h"
 #include "commands/ScoreGamePieceCommand.h"
+#include "commands/WaitForPitchCommand.h"
 
 /**
  * An example command.
@@ -61,23 +62,35 @@ class CenterLaneRedAutoCommand
 
 
     AddCommands(
-      
+
       frc2::SequentialCommandGroup{
-         ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide),
-        frc2::ParallelDeadlineGroup(
-          std::move(AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)),
-          std::move(FollowPathCommand(
-            frc::Pose2d{0_in, 0_in, 0_deg}, 
-            {frc::Translation2d{25_in, 0_in}, frc::Translation2d{75_in, 0_in}},
-            frc::Pose2d{100_in, 0_in, 0_deg},
-            forwardConfig, m_pDrive)
-          )
-        ),
-        FollowPathCommand(
-            frc::Pose2d{100_in, 0_in, 0_deg}, 
-            {frc::Translation2d{75_in, 0_in}, frc::Translation2d{25_in, 0_in}},
-            frc::Pose2d{0_in, 0_in, 0_deg},
-            reverseConfig, m_pDrive),
+      
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, 13),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          WaitForPitchCommand(m_pDrive, 11),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          WaitForPitchCommand(m_pDrive, 1),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, -0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          frc2::WaitCommand(0.25_s),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+
+      // frc2::SequentialCommandGroup{
+      //    ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide),
+      //   frc2::ParallelDeadlineGroup(
+      //     std::move(AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)),
+      //     std::move(FollowPathCommand(
+      //       frc::Pose2d{0_in, 0_in, 0_deg}, 
+      //       {frc::Translation2d{25_in, 0_in}, frc::Translation2d{75_in, 0_in}},
+      //       frc::Pose2d{100_in, 0_in, 0_deg},
+      //       forwardConfig, m_pDrive)
+      //     )
+      //   ),
+      //   FollowPathCommand(
+      //       frc::Pose2d{100_in, 0_in, 0_deg}, 
+      //       {frc::Translation2d{75_in, 0_in}, frc::Translation2d{25_in, 0_in}},
+      //       frc::Pose2d{0_in, 0_in, 0_deg},
+      //       reverseConfig, m_pDrive),
 
             // Balance???
       }
