@@ -94,6 +94,7 @@ class RightLaneRedBalanceAutoCommand
         
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
         m_pGripper->CloseCommand(),
+        ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
         frc2::ScheduleCommand(new ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
         m_pFlipper->DownCommand(),
         m_pElevator->WaitForElevatorPastPositionCommand(),
@@ -146,7 +147,7 @@ class RightLaneRedBalanceAutoCommand
           FollowPathCommand(
             frc::Pose2d{2_in, 24_in, 0_deg},
             {},
-            frc::Pose2d{30_in, 64_in, 0_deg},
+            frc::Pose2d{30_in, 73_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{
             m_pGripper->CloseCommand(),
@@ -155,6 +156,7 @@ class RightLaneRedBalanceAutoCommand
         },
 
         //balance
+          // frc2::InstantCommand([this]{m_pDrive->toggleFieldCentricForJoystick();},{m_pDrive}),
           frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
           WaitForPitchCommand(m_pDrive, 13),
           frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
@@ -164,6 +166,7 @@ class RightLaneRedBalanceAutoCommand
           frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, -0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
           frc2::WaitCommand(0.25_s),
           frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          // frc2::InstantCommand([this]{m_pDrive->toggleFieldCentricForJoystick();},{m_pDrive}),
         // FollowPathCommand(
         //   frc::Pose2d{146_in, -85_in, 0_deg},
         //   {},

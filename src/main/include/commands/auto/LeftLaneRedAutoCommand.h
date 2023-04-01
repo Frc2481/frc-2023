@@ -119,6 +119,7 @@ class LeftLaneRedAutoCommand
         
         frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
         m_pGripper->CloseCommand(),
+        ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
         frc2::ScheduleCommand(new ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
         m_pFlipper->DownCommand(),
         m_pElevator->WaitForElevatorPastPositionCommand(),

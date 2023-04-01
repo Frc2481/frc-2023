@@ -1,5 +1,9 @@
 {
   "download": {
+    "localDir": "C:\\Users\\Team2481\\Desktop",
     "serverTeam": "2481"
+  },
+  "output": {
+    "outputFolder": "D:\\"
   }
 }
