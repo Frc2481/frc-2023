@@ -5,8 +5,7 @@
 #include "subsystems/Gripper.h"
 #include "RobotParameters.h"
 
- frc2::InstantCommand Gripper::
- OpenCommand(){
+ frc2::InstantCommand Gripper::OpenCommand(){
     return frc2::InstantCommand([this] {Open();});
  }
 

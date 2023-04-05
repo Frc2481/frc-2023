@@ -64,39 +64,39 @@ class RedThreePieceAutoCommand
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     forwardStartConfig.SetKinematics(m_pDrive->GetKinematics());
     forwardStartConfig.SetReversed(false);
-    forwardStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
+    forwardStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
     frc::TrajectoryConfig forwardEndConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     forwardEndConfig.SetKinematics(m_pDrive->GetKinematics());
     forwardEndConfig.SetReversed(false);
-    forwardEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
+    forwardEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
-    frc::TrajectoryConfig forwardMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5),
+    frc::TrajectoryConfig forwardMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 4),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     forwardMidConfig.SetKinematics(m_pDrive->GetKinematics());
     forwardMidConfig.SetReversed(false);
-    forwardMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
-    forwardMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
+    forwardMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    forwardMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
     frc::TrajectoryConfig reverseStartConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     reverseStartConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseStartConfig.SetReversed(true);
-    reverseStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
+    reverseStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
     frc::TrajectoryConfig reverseEndConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     reverseEndConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseEndConfig.SetReversed(true);
-    reverseEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
+    reverseEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
-    frc::TrajectoryConfig reverseMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 5),
+    frc::TrajectoryConfig reverseMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 4),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     reverseMidConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseMidConfig.SetReversed(true);
-    reverseMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
-    reverseMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 2));
+    reverseMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    reverseMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
 
 
@@ -154,6 +154,7 @@ class RedThreePieceAutoCommand
             m_pGripper->WaitForGamePieceCommand(),
             frc2::WaitCommand(0.25_s),
             frc2::ConditionalCommand(frc2::SequentialCommandGroup{
+              frc2::WaitCommand(0.75_s),
               (ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
             }, 
             frc2::InstantCommand([]{}),
@@ -207,8 +208,8 @@ class RedThreePieceAutoCommand
           
            FollowPathCommand( //keep driving out fast
             frc::Pose2d{80_in, -16_in, 0_deg},
-            {frc::Translation2d{145_in, -25_in}, frc::Translation2d{160_in, -45_in}},
-            frc::Pose2d{200_in, -68_in, 0_deg},
+            {frc::Translation2d{180_in, -25_in}, frc::Translation2d{190_in, -45_in}},
+            frc::Pose2d{210_in, -68_in, 0_deg},
             forwardEndConfig, m_pDrive),
           },
 
