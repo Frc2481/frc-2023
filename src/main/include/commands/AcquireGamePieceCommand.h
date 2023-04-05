@@ -63,7 +63,7 @@ class AcquireGamePieceCommand
         // m_pIntake->TurnOffCommand(),
         frc2::ConditionalCommand(
           frc2::SequentialCommandGroup{
-             m_pFlipper->UpCommand(),
+             m_pFlipper->UpCommand(cube),
              frc2::WaitCommand(0.5_s),
              m_pIntake->TurnOffVerticalCommand(),
              m_pGripper->CloseCommand(),
@@ -73,7 +73,7 @@ class AcquireGamePieceCommand
              m_pFlipper->FloatCommand()
           },
           
-          frc2::InstantCommand([]{}),  
+          m_pGripper->PickedUpConeCommand(),  
           [fastMode] {return fastMode;}
         ),
           

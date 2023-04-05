@@ -33,6 +33,10 @@ frc2::WaitUntilCommand Elevator::WaitForElevatorPastPositionCommand(){
     return frc2::WaitUntilCommand([this] {return GetActualPosition() > (ElevatorConstants::k_ElevatorTopPosition * 0.90);});
 }
 
+frc2::WaitUntilCommand Elevator::WaitForElevatorPastMidPositionCommand(){
+    return frc2::WaitUntilCommand([this] {return GetActualPosition() > (ElevatorConstants::k_ElevatorMidPosition * 0.90);});
+}
+
 frc2::InstantCommand Elevator::EngageBrakeCommand(){
     return frc2::InstantCommand([this] {EngageBrake();},{this});
 }

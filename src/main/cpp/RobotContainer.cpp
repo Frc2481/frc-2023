@@ -24,6 +24,7 @@
 #include "commands/auto/TestCommand.h"
 #include "commands/auto/LeftLaneBlueBalanceAutoCommand.h"
 #include "commands/auto/RightLaneRedBalanceAutoCommand.h"
+#include "commands/auto/RedThreePieceAutoCommand.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -69,6 +70,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         // m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Right Lane No", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Right Lane Balance", new RightLaneRedBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red 3 Piece", new RedThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.SetDefaultOption("None", new frc2::InstantCommand([this]{}));
 
         // m_chooser.AddOption("Test Auto", new TestCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
@@ -80,6 +82,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         frc::SmartDashboard::PutData("Engage Elevator Brake", new InstantDisabledCommand([this] {m_elevator.EngageBrake();}));
         frc::SmartDashboard::PutData("Release Elevator Brake", new InstantDisabledCommand([this]{m_elevator.ReleaseBrake();}));
         frc::SmartDashboard::PutData("Zero Elevator", new InstantDisabledCommand([this]{m_elevator.Zero();}));
+        frc::SmartDashboard::PutData("Zero Flipper", new InstantDisabledCommand([this]{m_flipper.Zero();}));
         // Cone Positions
         frc::SmartDashboard::PutData("Elevator Pos 255000", new ElevatorGoToPositionCommand(&m_elevator, 255000));
         frc::SmartDashboard::PutData("Elevator Pos 145000", new ElevatorGoToPositionCommand(&m_elevator, 145000));
@@ -168,9 +171,12 @@ void RobotContainer::ConfigureButtonBindings() {
     ).ToPtr());
 
     m_lTriggerAux.OnTrue(frc2::InstantCommand(
-      [this] {m_flipper.Up();},{&m_flipper}
+      [this] {m_flipper.Up(false);},{&m_flipper}
     ).ToPtr());
 
+    m_lJoyUpAux.OnTrue(frc2::InstantCommand(
+      [this] {m_flipper.Up(true);},{&m_flipper}
+    ).ToPtr());
 
 
   //elevator

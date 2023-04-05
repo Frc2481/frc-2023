@@ -77,6 +77,8 @@ class RobotContainer {
     frc2::Trigger m_lBumperAux{[&] { return m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};
     frc2::Trigger m_rTriggerAux{[&] { return m_auxController.GetAxis(XBOX_RIGHT_TRIGGER, .5); }};
     frc2::Trigger m_lTriggerAux{[&] { return m_auxController.GetAxis(XBOX_LEFT_TRIGGER, .5); }};
+
+    frc2::Trigger m_lJoyUpAux{[&] { return m_auxController.GetAxis(XBOX_LEFT_Y_AXIS, -0.5); }};
     
     frc2::POVButton m_tDpadAux;
     frc2::POVButton m_bDpadAux;

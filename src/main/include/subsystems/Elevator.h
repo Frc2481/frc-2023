@@ -23,6 +23,7 @@ public:
     frc2::InstantCommand GoToPositionCommand(double pos);
     frc2::WaitUntilCommand WaitForElevatorOnTargetCommand();
     frc2::WaitUntilCommand WaitForElevatorPastPositionCommand();
+    frc2::WaitUntilCommand WaitForElevatorPastMidPositionCommand();
     frc2::InstantCommand EngageBrakeCommand();
     frc2::InstantCommand ReleaseBrakeCommand();
 

@@ -55,6 +55,7 @@ namespace FalconIDs{
     static constexpr int kIntakeHorizontalMotor = 20;
     static constexpr int kIntakeHorizontalMotorFollower = 15;
     static constexpr int kIntakeVerticalMotor = 21;
+    static constexpr int kFlipperMotorID = 16;
 } 
 
 namespace CANCoderIDs
@@ -174,7 +175,7 @@ namespace IntakeConstants{
     static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
     static constexpr double k_IntakeHorizontalRollerSpeed = -1;//-0.5;
     static constexpr double k_IntakeVerticalRollerSpeed = -0.5;//-0.35;
-    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.5;//-0.5;
+    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.5 / 1.5;//-0.5;
     static constexpr double k_IntakeVerticalRollerSpeedCube = -0.3;//-0.35;
     
     static constexpr double k_IntakeBarfHorizontalRollerSpeed = 1;
@@ -194,6 +195,16 @@ namespace LimeLightConstants{
     static constexpr double k_AprilTagHeight_in = 0;
     static constexpr double k_CameraAngle = 8;
     static constexpr double k_FinalXOffset_in = 22;
+}
+
+namespace FlipperConstants{
+    static constexpr double k_FlipperTopSoftLimit = 25428;
+    static constexpr double k_FlipperCubeTopSoftLimit = 16502;
+    static constexpr double k_FlipperBottomSoftLimit = 0;
+    static constexpr double k_FlipperConeSpeed = 0.40;
+    static constexpr double k_FlipperCubeSpeed = 0.20;
+    static constexpr double k_FlipperCubeLaunchSpeed = 0.40;
+    static constexpr double k_FlipperDownSpeed = -0.20;
 }
 
 namespace ElevatorConstants{

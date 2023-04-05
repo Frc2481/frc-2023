@@ -111,31 +111,31 @@ frc2::WaitUntilCommand Slide::WaitForTargetVisibleCommand(){
 }
 
 Slide::Slide(){
-    m_pMotor = new TalonFX(FalconIDs::kSlideMotor);
-    m_pMotor->ConfigFactoryDefault();
-    m_pMotor->Config_kP(0, SlideConstants::k_SlidekP, 10);
-    m_pMotor->Config_kI(0, SlideConstants::k_SlidekI, 10);
-    m_pMotor->Config_kD(0, SlideConstants::k_SlidekD, 10);
-    m_pMotor->Config_kF(0, SlideConstants::k_SlidekF, 10);
-    m_pMotor->Config_IntegralZone(0, 0, 10);
-    m_pMotor->ConfigMaxIntegralAccumulator (0, 0, 10);
-    m_pMotor->ConfigMotionCruiseVelocity(SlideConstants::k_SlideMaxSpeed);  //Degrees per second
-    m_pMotor->ConfigMotionAcceleration(SlideConstants::k_SlideAcceleration);
-    m_pMotor->ConfigMotionSCurveStrength(SlideConstants::k_SlideSCurveStrength);
-    m_pMotor->SetNeutralMode(NeutralMode::Brake);
-    m_pMotor->EnableVoltageCompensation(true);
-    m_pMotor->ConfigVoltageCompSaturation(12.0, 0);
-    m_pMotor->ConfigNeutralDeadband(0.04, 0);
-    m_pMotor->ConfigNominalOutputForward(0.0, 0.0);
-    m_pMotor->ConfigNominalOutputReverse(0.0, 0.0);
-    m_pMotor->ConfigPeakOutputForward(1.0, 0.0);
-    m_pMotor->ConfigPeakOutputReverse(-1.0, 0.0);
-    m_pMotor->SetSensorPhase(false);	
-    m_pMotor->SetInverted(false);
-    m_pMotor->ConfigForwardSoftLimitThreshold(SlideConstants::k_SlideLeftSoftLimit, 10);
-    m_pMotor->ConfigReverseSoftLimitThreshold(SlideConstants::k_SlideRightSoftLimit, 10);
-    m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
-    m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
+    // m_pMotor = new TalonFX(FalconIDs::kSlideMotor);
+    // m_pMotor->ConfigFactoryDefault();
+    // m_pMotor->Config_kP(0, SlideConstants::k_SlidekP, 10);
+    // m_pMotor->Config_kI(0, SlideConstants::k_SlidekI, 10);
+    // m_pMotor->Config_kD(0, SlideConstants::k_SlidekD, 10);
+    // m_pMotor->Config_kF(0, SlideConstants::k_SlidekF, 10);
+    // m_pMotor->Config_IntegralZone(0, 0, 10);
+    // m_pMotor->ConfigMaxIntegralAccumulator (0, 0, 10);
+    // m_pMotor->ConfigMotionCruiseVelocity(SlideConstants::k_SlideMaxSpeed);  //Degrees per second
+    // m_pMotor->ConfigMotionAcceleration(SlideConstants::k_SlideAcceleration);
+    // m_pMotor->ConfigMotionSCurveStrength(SlideConstants::k_SlideSCurveStrength);
+    // m_pMotor->SetNeutralMode(NeutralMode::Brake);
+    // m_pMotor->EnableVoltageCompensation(true);
+    // m_pMotor->ConfigVoltageCompSaturation(12.0, 0);
+    // m_pMotor->ConfigNeutralDeadband(0.04, 0);
+    // m_pMotor->ConfigNominalOutputForward(0.0, 0.0);
+    // m_pMotor->ConfigNominalOutputReverse(0.0, 0.0);
+    // m_pMotor->ConfigPeakOutputForward(1.0, 0.0);
+    // m_pMotor->ConfigPeakOutputReverse(-1.0, 0.0);
+    // m_pMotor->SetSensorPhase(false);	
+    // m_pMotor->SetInverted(false);
+    // m_pMotor->ConfigForwardSoftLimitThreshold(SlideConstants::k_SlideLeftSoftLimit, 10);
+    // m_pMotor->ConfigReverseSoftLimitThreshold(SlideConstants::k_SlideRightSoftLimit, 10);
+    // m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
+    // m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
 }
 
 void Slide::Periodic(){
@@ -147,7 +147,7 @@ void Slide::Periodic(){
 void Slide::SetTargetPosition(double pos){
     m_desiredPosition = pos;
     double ticks = pos * SlideConstants::k_SlideTicksPerInch;
-    m_pMotor->Set(TalonFXControlMode::MotionMagic, ticks);
+    // m_pMotor->Set(TalonFXControlMode::MotionMagic, ticks);
 
 }
 
@@ -156,13 +156,15 @@ double Slide::GetTargetPosition(){
 }
 
 double Slide::GetActualPosition(){
-    return m_pMotor->GetSelectedSensorPosition() / SlideConstants::k_SlideTicksPerInch;
+    return 0;
+    // return m_pMotor->GetSelectedSensorPosition() / SlideConstants::k_SlideTicksPerInch;
 }
 
 void Slide::Zero(){
-    m_pMotor->SetSelectedSensorPosition(0, 0, 10);
+    // m_pMotor->SetSelectedSensorPosition(0, 0, 10);
 }
 
 bool Slide::IsOnTarget(){
-    return abs(GetActualPosition() - GetTargetPosition()) < SlideConstants::k_SlideOnTargetThreshold;
+    return true;
+    // return abs(GetActualPosition() - GetTargetPosition()) < SlideConstants::k_SlideOnTargetThreshold;
 }
