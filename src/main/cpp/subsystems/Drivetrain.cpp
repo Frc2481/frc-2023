@@ -11,6 +11,8 @@
 #include <frc/geometry/Rotation2d.h>
 #include "Utils/NormalizeToRange.h"
 
+#include "LimeLightHelpers.h"
+
 Drivetrain::Drivetrain(){
   frc::SmartDashboard::PutData("Field", &m_field);
 }
@@ -93,27 +95,35 @@ void Drivetrain::UpdateOdometry() {
   // or timestamps.
   // bot pose type
   // if(nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0)) {
+
+  //     LimelightHelpers::LimelightResultsClass results = LimelightHelpers::getLatestResults();
+
+  //     printf("Targets In View: %d\n", results.targetingResults.FiducialResults.size());
+
   //     std::vector<double> default_bot_pose = {0, 0, 0};
   //     std::vector<double> bot_pose = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("botpose", default_bot_pose);
-  //     frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[0]), 0_deg}; 
+  //     frc::Pose2d global_pose{units::meter_t(bot_pose[0]), units::meter_t(bot_pose[1]), 0_deg}; 
   //     double tl = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tl", 0) / 1000.0;
   //     double cl = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("cl", 0) / 1000.0;
   //     int tid = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tid", 0);
 
-  //     // Todo this is likely a terrible idea because it assumes the same start location for all autos...this isn't reality.
-  //     if (tid > 0 && tid < 4){
-  //       // Adjust vision measurement for red alliance.
-  //       global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(6.9088_m, 0_m),frc::Rotation2d()));
-  //     }
-  //     else {
-  //       // Adjust vision measurement for blue alliance.
-  //       global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(-6.9088_m, 0_m),frc::Rotation2d()));
-  //     }
+  //     // // Todo this is likely a terrible idea because it assumes the same start location for all autos...this isn't reality.
+  //     // if (tid > 0 && tid < 4){
+  //     //   // Adjust vision measurement for red alliance.
+  //     //   global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(6.9088_m, 0_m),frc::Rotation2d()));
+  //     // }
+  //     // else {
+  //     //   // Adjust vision measurement for blue alliance.
+  //     //   global_pose = global_pose.TransformBy(frc::Transform2d(frc::Translation2d(-6.9088_m, 0_m),frc::Rotation2d()));
+  //     // }
+
+  //     frc::SmartDashboard::PutNumber("Vision X", units::inch_t(global_pose.Translation().X()).value());
+  //     frc::SmartDashboard::PutNumber("Vision Y", units::inch_t(global_pose.Translation().Y()).value());
 
   //     m_poseEstimator.AddVisionMeasurement(
   //       global_pose, 
   //       frc::Timer::GetFPGATimestamp() - units::second_t(tl - cl));
-  //   printf("Vision Sample\n");
+  //   // printf("Vision Sample\n");
 
   // }
 }

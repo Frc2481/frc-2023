@@ -33,6 +33,7 @@ class FollowPathCommand
       frc::Timer m_timer;
       units::second_t m_PrevTime;
       Drivetrain* m_drivetrain;
+      frc::Translation2d m_pathTranslation;
 
 
  public:
@@ -40,9 +41,12 @@ class FollowPathCommand
                     const std::vector<frc::Translation2d> & innerWayPoints,
                     const frc::Pose2d & end,
                     const frc::TrajectoryConfig & config, 
-                    Drivetrain* drivetrain){
+                    Drivetrain* drivetrain,
+                    frc::Translation2d pathTranslation = frc::Translation2d()){
     m_drivetrain = drivetrain;
+    m_pathTranslation = pathTranslation;
     m_trajectory = frc::TrajectoryGenerator::GenerateTrajectory(start, innerWayPoints, end, config);
+    m_trajectory = m_trajectory.TransformBy(frc::Transform2d(m_pathTranslation, frc::Rotation2d()));
     AddRequirements(m_drivetrain);
   }
 

@@ -11,6 +11,10 @@ frc2::InstantCommand Flipper::UpCommand(bool cone){
     return frc2::InstantCommand([this, cone] {Up(cone);});
 }
 
+frc2::InstantCommand Flipper::AggitateCommand() {
+    return frc2::InstantCommand([this] {Aggitate();});
+}
+
 frc2::InstantCommand Flipper::DownCommand(){
     return frc2::InstantCommand([this] {Down();});
 }   
@@ -57,11 +61,18 @@ Flipper::Flipper(){
 }
 
 void Flipper::Up(bool cube){
-    m_pMotor->ConfigForwardSoftLimitThreshold(cube ? FlipperConstants::k_FlipperCubeTopSoftLimit : FlipperConstants::k_FlipperTopSoftLimit, 10);
+    m_topSoftLimit = cube ? FlipperConstants::k_FlipperCubeTopSoftLimit : FlipperConstants::k_FlipperTopSoftLimit;
+    m_pMotor->ConfigForwardSoftLimitThreshold(m_topSoftLimit, 10);
     m_pMotor->Set(ControlMode::PercentOutput, cube ? FlipperConstants::k_FlipperCubeSpeed : FlipperConstants::k_FlipperConeSpeed);
  }
 
- void Flipper::Down(){
+void Flipper::Aggitate() {
+    m_topSoftLimit = FlipperConstants::k_FlipperAggitateTopSoftLimit;
+    m_pMotor->ConfigForwardSoftLimitThreshold(m_topSoftLimit, 10);
+    m_pMotor->Set(ControlMode::PercentOutput, FlipperConstants::k_FlipperCubeSpeed);
+}
+
+void Flipper::Down(){
     m_pMotor->Set(ControlMode::PercentOutput, FlipperConstants::k_FlipperDownSpeed);
  }
 
@@ -79,7 +90,7 @@ void Flipper::Zero(){
 
  bool Flipper::IsUp() {
     // Check for at least 90% of the flipped position to be considered up. 
-    return GetActualPosition() > FlipperConstants::k_FlipperTopSoftLimit * 0.90;
+    return GetActualPosition() > m_topSoftLimit * 0.90;
  }
 
  bool Flipper::IsHome() {

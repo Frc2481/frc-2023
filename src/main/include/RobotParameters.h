@@ -173,10 +173,10 @@ namespace DigitalInputs{
 namespace IntakeConstants{
     static constexpr double k_DefaultIntakeRollerSpeed = 1; //TODO: Find out
     static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
-    static constexpr double k_IntakeHorizontalRollerSpeed = -1;//-0.5;
-    static constexpr double k_IntakeVerticalRollerSpeed = -0.5;//-0.35;
-    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.5 / 1.5;//-0.5;
-    static constexpr double k_IntakeVerticalRollerSpeedCube = -0.3;//-0.35;
+    static constexpr double k_IntakeHorizontalRollerSpeed = -1.0;//-0.5;
+    static constexpr double k_IntakeVerticalRollerSpeed = -0.60;//-0.35;
+    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.5;//-0.5;
+    static constexpr double k_IntakeVerticalRollerSpeedCube = -0.25;//-0.35;
     
     static constexpr double k_IntakeBarfHorizontalRollerSpeed = 1;
     static constexpr double k_IntakeBarfVerticalRollerSpeed = 1;
@@ -198,13 +198,14 @@ namespace LimeLightConstants{
 }
 
 namespace FlipperConstants{
-    static constexpr double k_FlipperTopSoftLimit = 25428;
-    static constexpr double k_FlipperCubeTopSoftLimit = 16502;
+    static constexpr double k_FlipperTopSoftLimit = 26000;
+    static constexpr double k_FlipperCubeTopSoftLimit = 16000; // 9500; Aggitate // 16000 cube grab
+    static constexpr double k_FlipperAggitateTopSoftLimit = 9500; // 9500; Aggitate // 16000 cube grab
     static constexpr double k_FlipperBottomSoftLimit = 0;
     static constexpr double k_FlipperConeSpeed = 0.40;
     static constexpr double k_FlipperCubeSpeed = 0.20;
     static constexpr double k_FlipperCubeLaunchSpeed = 0.40;
-    static constexpr double k_FlipperDownSpeed = -0.20;
+    static constexpr double k_FlipperDownSpeed = -0.10;
 }
 
 namespace ElevatorConstants{

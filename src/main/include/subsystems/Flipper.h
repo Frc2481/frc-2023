@@ -17,6 +17,7 @@ class Flipper : public frc2::SubsystemBase {
   Flipper();
 
     frc2::InstantCommand UpCommand(bool cone);
+    frc2::InstantCommand AggitateCommand();
     frc2::InstantCommand DownCommand();
     frc2::InstantCommand LaunchCommand();
     frc2::InstantCommand FloatCommand();
@@ -28,6 +29,8 @@ class Flipper : public frc2::SubsystemBase {
   void Periodic() override;
 
   void Up(bool cone);
+
+  void Aggitate();
 
   void Down();
 
@@ -47,6 +50,8 @@ class Flipper : public frc2::SubsystemBase {
 
   bool m_up;
   int m_desiredPosition;
+
+  double m_topSoftLimit;
 
   TalonFX* m_pMotor;
 

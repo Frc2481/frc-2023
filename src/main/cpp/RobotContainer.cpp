@@ -25,6 +25,7 @@
 #include "commands/auto/LeftLaneBlueBalanceAutoCommand.h"
 #include "commands/auto/RightLaneRedBalanceAutoCommand.h"
 #include "commands/auto/RedThreePieceAutoCommand.h"
+#include "commands/auto/BlueThreePieceAutoCommand.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -66,8 +67,10 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         m_chooser.AddOption("Center Lane Red", new CenterLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Blue Left Lane No", new LeftLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Blue Left Lane Balance", new LeftLaneBlueBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Left Lane Red No", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Blue Right Lane 3 Piece", new BlueThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        
         // m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red Left Lane No", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Right Lane No", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Right Lane Balance", new RightLaneRedBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Left Lane 3 Piece", new RedThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
@@ -174,9 +177,12 @@ void RobotContainer::ConfigureButtonBindings() {
       [this] {m_flipper.Up(false);},{&m_flipper}
     ).ToPtr());
 
-    m_lJoyUpAux.OnTrue(frc2::InstantCommand(
+    // Flip Cube
+    m_lJoyDownAux.OnTrue(frc2::InstantCommand(
       [this] {m_flipper.Up(true);},{&m_flipper}
     ).ToPtr());
+
+    m_lJoyUpAux.OnTrue(m_flipper.AggitateCommand().ToPtr());
 
 
   //elevator
