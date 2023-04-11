@@ -199,7 +199,7 @@ namespace LimeLightConstants{
 
 namespace FlipperConstants{
     static constexpr double k_FlipperTopSoftLimit = 26000;
-    static constexpr double k_FlipperCubeTopSoftLimit = 16000; // 9500; Aggitate // 16000 cube grab
+    static constexpr double k_FlipperCubeTopSoftLimit = 16300; // 9500; Aggitate // 16000 cube grab
     static constexpr double k_FlipperAggitateTopSoftLimit = 9500; // 9500; Aggitate // 16000 cube grab
     static constexpr double k_FlipperBottomSoftLimit = 0;
     static constexpr double k_FlipperConeSpeed = 0.40;
