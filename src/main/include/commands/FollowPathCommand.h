@@ -34,6 +34,7 @@ class FollowPathCommand
       units::second_t m_PrevTime;
       Drivetrain* m_drivetrain;
       frc::Translation2d m_pathTranslation;
+      int m_pathIdx;
 
 
  public:
@@ -60,7 +61,36 @@ class FollowPathCommand
   void Execute() override{
     printf("Exe\n");
     auto curTime = m_timer.Get();
-    auto desiredState = m_trajectory.Sample(curTime);
+
+    // TODO: Get current location of robot
+    frc::Pose2d pose = m_drivetrain->GetOdometryPosition();
+
+    
+    // Find the closest point on the path.
+    units::meter_t minDistance = 9999_m;
+    int minIdx = -1;
+    int driftingAway = 0;
+
+    for (int searchIdx = m_pathIdx; searchIdx < m_trajectory.States().size(); ++searchIdx) {
+      frc::Pose2d pathPose = m_trajectory.States()[searchIdx].pose;
+
+      units::meter_t distToPathPoint = pathPose.RelativeTo(pose).Translation().Norm();
+
+      if (distToPathPoint < minDistance) {
+        minDistance = distToPathPoint;
+        minIdx = searchIdx;
+        driftingAway = 0;
+      } else {
+        driftingAway++; 
+        if (driftingAway > 10) {
+          break;
+        }      
+      }
+    }
+    frc::Trajectory::State desiredState = m_trajectory.States()[minIdx];
+
+
+    // auto desiredState = m_trajectory.Sample(curTime);
     frc::SmartDashboard::PutNumber("Path X", units::inch_t(desiredState.pose.X()).value());
     frc::SmartDashboard::PutNumber("Path Y", units::inch_t(desiredState.pose.Y()).value());
     frc::SmartDashboard::PutNumber("Path Yaw", units::degree_t(m_yawController.GetSetpoint().position).value());
