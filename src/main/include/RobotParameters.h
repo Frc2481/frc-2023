@@ -221,7 +221,7 @@ namespace ElevatorConstants{
     static constexpr double k_ElevatorBottomSoftLimit = 0;
     static constexpr double k_ElevatorOnTargetThreshold = 1000;
     static constexpr double k_ElevatorTopPosition = 255000 / 2.91666 / 1.071;
-    static constexpr double k_ElevatorMidPosition = 135000 / 2.91666 / 1.071;
+    static constexpr double k_ElevatorMidPosition = 133000 / 2.91666 / 1.071;
     static constexpr double k_ElevatorFloorPosition = 70000 / 2.91666 / 1.071;
     static constexpr double k_ElevatorStowPosition = 0;
 }
