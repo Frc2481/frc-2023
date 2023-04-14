@@ -56,6 +56,7 @@ class FollowPathCommand
     m_timer.Start();
     m_drivetrain->GetField()->GetObject("traj")->SetTrajectory(m_trajectory);
     printf("Init\n");
+    m_pathIdx = 0;
   }
 
   void Execute() override{
@@ -80,13 +81,15 @@ class FollowPathCommand
         minDistance = distToPathPoint;
         minIdx = searchIdx;
         driftingAway = 0;
-      } else {
-        driftingAway++; 
-        if (driftingAway > 10) {
-          break;
-        }      
       }
+      //else {
+      //   driftingAway++; 
+      //   if (driftingAway > 10) {
+      //     break;
+      //   }      
+      // }
     }
+    m_pathIdx = minIdx;
     frc::Trajectory::State desiredState = m_trajectory.States()[minIdx];
 
 
@@ -108,6 +111,8 @@ class FollowPathCommand
     frc::SmartDashboard::PutNumber("Path Error Y", units::inch_t(m_drivetrain->GetOdometryPosition().Y() - desiredState.pose.Y()).value());
     frc::SmartDashboard::PutNumber("Chassis Speed X", units::feet_per_second_t(targetChassisSpeeds.vx).value());
     frc::SmartDashboard::PutNumber("Module Speed X", units::feet_per_second_t(targetModuleStates[0].speed).value()); 
+    frc::SmartDashboard::PutNumber("Path Idx", m_pathIdx);
+    frc::SmartDashboard::PutNumber("Distance To Path Point", units::inch_t(minDistance).value());
   }
 
   void End(bool interrupted) override{
@@ -118,6 +123,7 @@ class FollowPathCommand
 
   bool IsFinished() override{
     printf("IsFin\n");
-    return m_timer.HasElapsed(m_trajectory.TotalTime());
+    frc::Pose2d pose = m_drivetrain->GetOdometryPosition();
+    return m_trajectory.States().back().pose.RelativeTo(pose).Translation().Norm() < 2_in;
   }
 };

@@ -73,43 +73,43 @@ class BlueThreePieceAutoCommand
 
     frc::Translation2d path_offset = m_initialPosition.Translation();
 
-    frc::TrajectoryConfig forwardStartConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
-    forwardStartConfig.SetKinematics(m_pDrive->GetKinematics());
-    forwardStartConfig.SetReversed(false);
-    forwardStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    // frc::TrajectoryConfig forwardStartConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+    //                              units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    // forwardStartConfig.SetKinematics(m_pDrive->GetKinematics());
+    // forwardStartConfig.SetReversed(false);
+    // forwardStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
     frc::TrajectoryConfig forwardEndConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+                                 units::acceleration::feet_per_second_squared_t(16)};
     forwardEndConfig.SetKinematics(m_pDrive->GetKinematics());
     forwardEndConfig.SetReversed(false);
-    forwardEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    forwardEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(5));
 
-    frc::TrajectoryConfig forwardMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 4),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
-    forwardMidConfig.SetKinematics(m_pDrive->GetKinematics());
-    forwardMidConfig.SetReversed(false);
-    forwardMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
-    forwardMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    // frc::TrajectoryConfig forwardMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 4),
+    //                              units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    // forwardMidConfig.SetKinematics(m_pDrive->GetKinematics());
+    // forwardMidConfig.SetReversed(false);
+    // forwardMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    // forwardMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
-    frc::TrajectoryConfig reverseStartConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
-    reverseStartConfig.SetKinematics(m_pDrive->GetKinematics());
-    reverseStartConfig.SetReversed(true);
-    reverseStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    // frc::TrajectoryConfig reverseStartConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
+    //                              units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    // reverseStartConfig.SetKinematics(m_pDrive->GetKinematics());
+    // reverseStartConfig.SetReversed(true);
+    // reverseStartConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
     frc::TrajectoryConfig reverseEndConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+                                 units::acceleration::feet_per_second_squared_t(16)};
     reverseEndConfig.SetKinematics(m_pDrive->GetKinematics());
     reverseEndConfig.SetReversed(true);
-    reverseEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    reverseEndConfig.SetStartVelocity(units::velocity::feet_per_second_t(5));
 
-    frc::TrajectoryConfig reverseMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 4),
-                                 units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
-    reverseMidConfig.SetKinematics(m_pDrive->GetKinematics());
-    reverseMidConfig.SetReversed(true);
-    reverseMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
-    reverseMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    // frc::TrajectoryConfig reverseMidConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 4),
+    //                              units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
+    // reverseMidConfig.SetKinematics(m_pDrive->GetKinematics());
+    // reverseMidConfig.SetReversed(true);
+    // reverseMidConfig.SetEndVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
+    // reverseMidConfig.SetStartVelocity(units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed / 1.5));
 
 
 
@@ -133,25 +133,23 @@ class BlueThreePieceAutoCommand
 
       //drive out first time
         frc2::ParallelDeadlineGroup{
-         frc2::SequentialCommandGroup{
-          FollowPathCommand( //drive out fast
-            frc::Pose2d{0_in, 0_in, 0_deg},
-            {},
-            frc::Pose2d{64_in, 0_in, 0_deg},
-            forwardStartConfig, m_pDrive, path_offset),
+          // FollowPathCommand( //drive out fast
+          //   frc::Pose2d{0_in, 0_in, 0_deg},
+          //   {},
+          //   frc::Pose2d{64_in, 0_in, 0_deg},
+          //   forwardStartConfig, m_pDrive, path_offset),
 
-          FollowPathCommand( //drive over bump slow
-            frc::Pose2d{64_in, 0_in, 0_deg},
-            {},
-            frc::Pose2d{80_in, 0_in, 0_deg},
-            forwardMidConfig, m_pDrive, path_offset),
+          // FollowPathCommand( //drive over bump slow
+          //   frc::Pose2d{64_in, 0_in, 0_deg},
+          //   {},
+          //   frc::Pose2d{80_in, 0_in, 0_deg},
+          //   forwardMidConfig, m_pDrive, path_offset),
           
            FollowPathCommand( //keep driving out fast
-            frc::Pose2d{80_in, 0_in, 0_deg},
+            frc::Pose2d{0_in, 0_in, 0_deg},
             {frc::Translation2d{135_in, 6_in}, frc::Translation2d{160_in, 14_in}},
             frc::Pose2d{191_in, 16_in, 0_deg},
-            forwardEndConfig, m_pDrive, path_offset)
-          },
+            forwardEndConfig, m_pDrive, path_offset),
 
       //pick up second piece
           frc2::SequentialCommandGroup{   
@@ -174,25 +172,23 @@ class BlueThreePieceAutoCommand
             [this] {return m_pGripper->GetGamePieceType() != NONE;}),
         }
         ),
-        SequentialCommandGroup{
-          FollowPathCommand( //driving back in 
-            frc::Pose2d{191_in, 16_in, 0_deg},
-            {},
-            frc::Pose2d{114_in, 16_in, 0_deg},
-            reverseStartConfig, m_pDrive, path_offset),
+          // FollowPathCommand( //driving back in 
+          //   frc::Pose2d{227_in, 16_in, 0_deg},
+          //   {},
+          //   frc::Pose2d{114_in, 16_in, 0_deg},
+          //   reverseStartConfig, m_pDrive, path_offset),
 
-           FollowPathCommand( //slowing down over bump
-            frc::Pose2d{114_in, 16_in, 0_deg},
-            {},
-            frc::Pose2d{84_in, 16_in, 0_deg},
-            reverseMidConfig, m_pDrive, path_offset),
+          //  FollowPathCommand( //slowing down over bump
+          //   frc::Pose2d{114_in, 16_in, 0_deg},
+          //   {},
+          //   frc::Pose2d{84_in, 16_in, 0_deg},
+          //   reverseMidConfig, m_pDrive, path_offset),
 
            FollowPathCommand( //keep driving in fast
-            frc::Pose2d{84_in, 16_in, 0_deg},
+            frc::Pose2d{191_in, 16_in, 0_deg},
             {frc::Translation2d{60_in, 18_in}, frc::Translation2d{50_in, 22_in}},
             frc::Pose2d{4_in, 27_in, 0_deg},
             reverseEndConfig, m_pDrive, path_offset),
-        },
 
       //score second game piece
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
@@ -210,25 +206,23 @@ class BlueThreePieceAutoCommand
 
       //drive back out second time
         frc2::ParallelDeadlineGroup{
-         frc2::SequentialCommandGroup{
-          FollowPathCommand( //drive out fast
-            frc::Pose2d{4_in, 27_in, 0_deg},
-            {frc::Translation2d{50_in, 22_in}, frc::Translation2d{60_in, 18_in}},
-            frc::Pose2d{65_in, 16_in, 0_deg},
-            forwardStartConfig, m_pDrive, path_offset),
+        //   FollowPathCommand( //drive out fast
+        //     frc::Pose2d{4_in, 27_in, 0_deg},
+        //     {frc::Translation2d{50_in, 22_in}, frc::Translation2d{60_in, 18_in}},
+        //     frc::Pose2d{65_in, 16_in, 0_deg},
+        //     forwardStartConfig, m_pDrive, path_offset),
 
-          FollowPathCommand( //drive over bump slow
-            frc::Pose2d{65_in, 16_in, 0_deg},
-            {},
-            frc::Pose2d{80_in, 16_in, 0_deg},
-            forwardMidConfig, m_pDrive, path_offset),
+        //   FollowPathCommand( //drive over bump slow
+        //     frc::Pose2d{65_in, 16_in, 0_deg},
+        //     {},
+        //     frc::Pose2d{80_in, 16_in, 0_deg},
+        //     forwardMidConfig, m_pDrive, path_offset),
           
            FollowPathCommand( //keep driving out fast
-            frc::Pose2d{80_in, 16_in, 0_deg},
+            frc::Pose2d{4_in, 27_in, 0_deg},
             {frc::Translation2d{180_in, 25_in}, frc::Translation2d{190_in, 45_in}},
             frc::Pose2d{210_in, 68_in, 0_deg},
             forwardEndConfig, m_pDrive, path_offset),
-          },
 
       //pick up third game piece
           frc2::SequentialCommandGroup{
@@ -250,25 +244,23 @@ class BlueThreePieceAutoCommand
             [this] {return m_pGripper->GetGamePieceType() != NONE;}),
         }
         ),
-        SequentialCommandGroup{
-          FollowPathCommand( //driving back in 
-            frc::Pose2d{200_in, 68_in, 0_deg},
-            {frc::Translation2d{160_in, 45_in}, frc::Translation2d{145_in, 25_in}},
-            frc::Pose2d{114_in, 16_in, 0_deg},
-            reverseStartConfig, m_pDrive, path_offset),
+          // FollowPathCommand( //driving back in 
+          //   frc::Pose2d{200_in, 68_in, 0_deg},
+          //   {frc::Translation2d{160_in, 45_in}, frc::Translation2d{145_in, 25_in}},
+          //   frc::Pose2d{114_in, 16_in, 0_deg},
+          //   reverseStartConfig, m_pDrive, path_offset),
 
-           FollowPathCommand( //slowing down over bump
-            frc::Pose2d{114_in, 16_in, 0_deg},
-            {},
-            frc::Pose2d{84_in, 16_in, 0_deg},
-            reverseMidConfig, m_pDrive, path_offset),
+          //  FollowPathCommand( //slowing down over bump
+          //   frc::Pose2d{114_in, 16_in, 0_deg},
+          //   {},
+          //   frc::Pose2d{84_in, 16_in, 0_deg},
+          //   reverseMidConfig, m_pDrive, path_offset),
 
            FollowPathCommand( //keep driving in fast
-            frc::Pose2d{84_in, 16_in, 0_deg},
+            frc::Pose2d{210_in, 68_in, 0_deg},
             {frc::Translation2d{60_in, 18_in}, frc::Translation2d{50_in, 22_in}},
             frc::Pose2d{4_in, 27_in, 0_deg},
             reverseEndConfig, m_pDrive, path_offset),
-        },
         
       //score third game piece
          frc2::ConditionalCommand(frc2::SequentialCommandGroup{
