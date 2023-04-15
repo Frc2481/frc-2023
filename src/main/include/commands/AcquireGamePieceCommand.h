@@ -68,7 +68,7 @@ class AcquireGamePieceCommand
              m_pIntake->TurnOffVerticalCommand(),
              m_pGripper->CloseCommand(),
              m_pIntake->RetractCommand(),
-             frc2::WaitCommand(0.5_s),
+            //  frc2::WaitCommand(0.5_s),  // TODO: If this breaks all autos put it back.
              m_pGripper->PickedUpConeCommand(),
              m_pFlipper->FloatCommand()
           },

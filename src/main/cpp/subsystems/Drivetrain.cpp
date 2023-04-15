@@ -50,7 +50,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
 }
 
 void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates){
-  printf("%f ", desiredStates[0].speed.value());
+  // printf("%f ", desiredStates[0].speed.value());
   m_kinematics.DesaturateWheelSpeeds(&desiredStates, RobotParameters::k_maxSpeed);
   auto [fl, fr, bl, br] = desiredStates;
   m_frontLeft.SetDesiredState(fl);
@@ -58,7 +58,7 @@ void Drivetrain::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredSt
   m_backLeft.SetDesiredState(bl);
   m_backRight.SetDesiredState(br);
 
-  printf("%f\n", fl.speed.value());
+  // printf("%f\n", fl.speed.value());
   frc::SmartDashboard::PutNumber("fl Speed", fl.speed.value());
 }
 

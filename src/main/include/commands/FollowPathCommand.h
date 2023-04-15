@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <fstream>
+
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <frc/geometry/Pose2d.h>
@@ -57,6 +59,21 @@ class FollowPathCommand
     m_drivetrain->GetField()->GetObject("traj")->SetTrajectory(m_trajectory);
     printf("Init\n");
     m_pathIdx = 0;
+
+    std::ofstream f("/home/lvuser/paths.csv", std::ofstream::app | std::ofstream::out);
+
+    f << "x,y,v" << std::endl;
+
+    for (int searchIdx = 0; searchIdx < m_trajectory.States().size(); ++searchIdx){
+      
+      f << units::inch_t(m_trajectory.States()[searchIdx].pose.X()).value() << ","
+        << units::inch_t(m_trajectory.States()[searchIdx].pose.Y()).value() << ","
+        << units::feet_per_second_t(m_trajectory.States()[searchIdx].velocity).value() << std::endl;     
+      
+      // frc::SmartDashboard::PutNumber("Log Pose X", units::inch_t(m_trajectory.States()[searchIdx].pose.X()).value());
+      // frc::SmartDashboard::PutNumber("Log Pose Y", units::inch_t(m_trajectory.States()[searchIdx].pose.Y()).value());
+      // frc::SmartDashboard::PutNumber("Log Velocity", units::feet_per_second_t(m_trajectory.States()[searchIdx].velocity).value());
+    }
   }
 
   void Execute() override{
@@ -112,7 +129,9 @@ class FollowPathCommand
     frc::SmartDashboard::PutNumber("Chassis Speed X", units::feet_per_second_t(targetChassisSpeeds.vx).value());
     frc::SmartDashboard::PutNumber("Module Speed X", units::feet_per_second_t(targetModuleStates[0].speed).value()); 
     frc::SmartDashboard::PutNumber("Path Idx", m_pathIdx);
+    frc::SmartDashboard::PutNumber("Path Size", m_trajectory.States().size());
     frc::SmartDashboard::PutNumber("Distance To Path Point", units::inch_t(minDistance).value());
+    frc::SmartDashboard::PutNumber("Total Time", m_trajectory.TotalTime().value());
   }
 
   void End(bool interrupted) override{
@@ -122,8 +141,10 @@ class FollowPathCommand
   }
 
   bool IsFinished() override{
-    printf("IsFin\n");
+    bool IdxFin =  (m_trajectory.States().size()) - 1 == m_pathIdx;
     frc::Pose2d pose = m_drivetrain->GetOdometryPosition();
-    return m_trajectory.States().back().pose.RelativeTo(pose).Translation().Norm() < 2_in;
+    bool fin = m_trajectory.States().back().pose.RelativeTo(pose).Translation().Norm() < 2_in;
+    printf("IsFinished %f %d\n", units::inch_t(m_trajectory.States().back().pose.RelativeTo(pose).Translation().Norm()).value(), fin);
+    return fin || IdxFin;
   }
 };

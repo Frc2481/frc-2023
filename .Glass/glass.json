@@ -18,23 +18,27 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Elevator": "Subsystem",
+      "/SmartDashboard/Elevator Pos 0": "Command",
+      "/SmartDashboard/Elevator Pos 145000": "Command",
+      "/SmartDashboard/Elevator Pos 255000": "Command",
+      "/SmartDashboard/Elevator Pos 80000": "Command",
       "/SmartDashboard/Engage Elevator Brake": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Intake": "Subsystem",
       "/SmartDashboard/Release Elevator Brake": "Command",
       "/SmartDashboard/Reset Angle": "Command",
       "/SmartDashboard/Reset Odometry": "Command",
+      "/SmartDashboard/Scheduler": "Scheduler",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Test Auto": "Command",
       "/SmartDashboard/Zero Elevator": "Command",
-      "/SmartDashboard/Zero Steer": "Command"
+      "/SmartDashboard/Zero Flipper": "Command",
+      "/SmartDashboard/Zero Steer": "Command",
+      "/SmartDashboard/frc2::SubsystemBase": "Subsystem"
     },
     "windows": {
       "/SmartDashboard/Engage Elevator Brake": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Field": {
         "window": {
           "visible": true
         }
@@ -50,6 +54,11 @@
         }
       },
       "/SmartDashboard/Reset Odometry": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
         }
@@ -103,6 +112,107 @@
           "viewTime": 20.0
         }
       ]
+    },
+    "Plot <10>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Idx"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Path Size"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <11>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Total Time"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <12>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Log Pose X"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Log Pose Y"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <13>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Log Velocity"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <14>": {
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
@@ -305,7 +415,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <8>": {
       "plots": [

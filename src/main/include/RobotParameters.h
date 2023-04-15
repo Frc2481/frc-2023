@@ -175,7 +175,7 @@ namespace IntakeConstants{
     static constexpr double k_IntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
     static constexpr double k_IntakeHorizontalRollerSpeed = -1.0;//-0.5;
     static constexpr double k_IntakeVerticalRollerSpeed = -0.60;//-0.35;
-    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.5;//-0.5;
+    static constexpr double k_IntakeHorizontalRollerSpeedCube = -0.8;//-0.5; //actually -0.6
     static constexpr double k_IntakeVerticalRollerSpeedCube = -0.25;//-0.35;
     
     static constexpr double k_IntakeBarfHorizontalRollerSpeed = 1;
@@ -199,7 +199,7 @@ namespace LimeLightConstants{
 
 namespace FlipperConstants{
     static constexpr double k_FlipperTopSoftLimit = 26000;
-    static constexpr double k_FlipperCubeTopSoftLimit = 16300; // 9500; Aggitate // 16000 cube grab
+    static constexpr double k_FlipperCubeTopSoftLimit = 16900; // 9500; Aggitate // 16000 cube grab
     static constexpr double k_FlipperAggitateTopSoftLimit = 9500; // 9500; Aggitate // 16000 cube grab
     static constexpr double k_FlipperBottomSoftLimit = 0;
     static constexpr double k_FlipperConeSpeed = 0.40;
@@ -270,7 +270,7 @@ namespace RobotParametersCompetition {
     static constexpr units::radians_per_second_squared_t k_maxYawAccel = units::radians_per_second_squared_t(k_maxAccel / k_wheelLeverArm);
     static constexpr double k_maxYawDeccel = k_maxDeccel / k_wheelLeverArm*180/std::numbers::pi;
     static constexpr double k_minYawRate = k_minRobotVelocity / k_wheelLeverArm *180/std::numbers::pi;
-    static constexpr double k_yawKp = 10;
+    static constexpr double k_yawKp = 1;
     static constexpr double k_yawKi = 0;
     static constexpr double k_yawKd = 0;
     static constexpr double k_xyKp = 2;
