@@ -23,6 +23,7 @@
 #include "commands/ScoreGamePieceCommand.h"
 #include "commands/WaitForPitchCommand.h"
 #include <frc2/command/InstantCommand.h>
+#include "commands/ElevatorGoToPositionCommand.h" 
 
 
 
@@ -44,6 +45,7 @@ class CenterLaneBlueAutoCommand
       Gripper* m_pGripper;
       Intake* m_pIntake;
       Slide* m_pSlide;
+      frc::Pose2d m_initialPosition;
 
  public:
   CenterLaneBlueAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
@@ -53,6 +55,8 @@ class CenterLaneBlueAutoCommand
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pSlide = slide;
+    m_initialPosition = frc::Pose2d{0_in, 0_in, 0_deg};
+
     frc::TrajectoryConfig forwardConfig{units::velocity::feet_per_second_t(RobotParameters::k_maxSpeed),
                                  units::acceleration::feet_per_second_squared_t(RobotParameters::k_maxAccel)};
     forwardConfig.SetKinematics(m_pDrive->GetKinematics());
@@ -66,21 +70,52 @@ class CenterLaneBlueAutoCommand
     AddCommands(
 
       frc2::SequentialCommandGroup{
-        // ScoreGamePieceCommand(TOP, m_pElevator, m_pGripper, m_pSlide),
-        //   std::move(AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper)),
-          // frc2::InstantCommand([this]{m_pDrive->Drive(1_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //drive onto charge station
-          // WaitForPitchCommand(m_pDrive, 23),
-          // WaitForPitchCommand(m_pDrive, 17),
-          // WaitForPitchCommand(m_pDrive, 0),
-          frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
-          WaitForPitchCommand(m_pDrive, -17),
-          frc2::InstantCommand([this]{m_pDrive->Drive(-1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
-          WaitForPitchCommand(m_pDrive, -14),
-          frc2::InstantCommand([this]{m_pDrive->Drive(-0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
+          m_pGripper->CloseCommand(),
+          frc2::ScheduleCommand(new ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
+          m_pFlipper->DownCommand(),
+          m_pElevator->WaitForElevatorPastPositionCommand(),
+          m_pGripper->OpenCommand(),
+          m_pGripper->DroppedGamePieceCommand(),
+          frc2::WaitCommand(0.5_s),
+          frc2::ScheduleCommand(new ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition)),
+         
+          frc2::InstantCommand([this] {return m_pIntake->Extend();}),
+          frc2::WaitCommand(0.5_s),
+
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, 10),
+          frc2::InstantCommand([this] {return m_pIntake->Retract();}),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
           WaitForPitchCommand(m_pDrive, -9),
-          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, -6),
+          frc2::WaitCommand(0.1_s),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          
+          // frc2::InstantCommand([this]{m_pDrive->ResetOdometry(m_initialPosition);},{m_pDrive}),
+
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 4_rad_per_s);}, {m_pDrive}),
+          frc2::WaitCommand(0.45_s),
+          //  FollowPathCommand(
+          //   frc::Pose2d{230_in, 0_in, 0_deg},
+          //   {},
+          //   frc::Pose2d{200_in, 0_in, 180_deg},
+          //   reverseConfig, m_pDrive),
+
+          frc2::InstantCommand([this] {return m_pIntake->Extend();}),
+          frc2::WaitCommand(0.25_s),
+
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, 13),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          WaitForPitchCommand(m_pDrive, 11),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          WaitForPitchCommand(m_pDrive, 1),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, -0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
           frc2::WaitCommand(0.25_s),
           frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+
       }
     );
   }
