@@ -26,6 +26,7 @@
 #include "commands/auto/RightLaneRedBalanceAutoCommand.h"
 #include "commands/auto/RedThreePieceAutoCommand.h"
 #include "commands/auto/BlueThreePieceAutoCommand.h"
+#include "commands/auto/NothingAuto.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -74,7 +75,7 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
         m_chooser.AddOption("Red Right Lane No", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Right Lane Balance", new RightLaneRedBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Red Left Lane 3 Piece", new RedThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.SetDefaultOption("None", new frc2::InstantCommand([this]{}));
+        m_chooser.SetDefaultOption("None", new NothingAuto(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
 
         // m_chooser.AddOption("Test Auto", new TestCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         frc::SmartDashboard::PutData(&m_chooser);  

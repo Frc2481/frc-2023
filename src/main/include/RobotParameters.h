@@ -270,7 +270,7 @@ namespace RobotParametersCompetition {
     static constexpr units::radians_per_second_squared_t k_maxYawAccel = units::radians_per_second_squared_t(k_maxAccel / k_wheelLeverArm);
     static constexpr double k_maxYawDeccel = k_maxDeccel / k_wheelLeverArm*180/std::numbers::pi;
     static constexpr double k_minYawRate = k_minRobotVelocity / k_wheelLeverArm *180/std::numbers::pi;
-    static constexpr double k_yawKp = 1;
+    static constexpr double k_yawKp = 3; //1
     static constexpr double k_yawKi = 0;
     static constexpr double k_yawKd = 0;
     static constexpr double k_xyKp = 2;
