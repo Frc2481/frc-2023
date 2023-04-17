@@ -24,6 +24,8 @@
 #include "commands/ElevatorGoToPositionCommand.h"
 #include <frc2/command/ParallelCommandGroup.h>
 #include <frc2/command/ConditionalCommand.h>
+#include "commands/WaitForPitchCommand.h"
+#include <frc2/command/ParallelRaceGroup.h>
 
 #include <frc2/command/ProxyCommand.h>
 
@@ -36,9 +38,9 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class RedThreePieceAutoCommand
+class RedNoBumpThreePieceAutoCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
-    RedThreePieceAutoCommand> {
+    RedNoBumpThreePieceAutoCommand> {
 
       private:
       Drivetrain* m_pDrive;
@@ -48,16 +50,18 @@ class RedThreePieceAutoCommand
       Intake* m_pIntake;
       Slide* m_pSlide;
       frc::Pose2d m_initialPosition;
+      bool m_balance;
 
 
  public:
-  RedThreePieceAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide){
+  RedNoBumpThreePieceAutoCommand(Drivetrain* drive, Elevator* elevator, Flipper* flipper, Gripper* gripper, Intake* intake, Slide* slide, bool balance){
     m_pDrive = drive;
     m_pElevator = elevator;
     m_pFlipper = flipper;
     m_pGripper = gripper;
     m_pIntake = intake;
     m_pSlide = slide;
+    m_balance = balance;
 
     // Need to adjust this to the start position... based off of limelight OR move the path after its created.
     
@@ -171,8 +175,8 @@ class RedThreePieceAutoCommand
           
            FollowPathCommand3Piece( //keep driving out fast
             frc::Pose2d{0_in, 0_in, 0_deg},
-            {frc::Translation2d{135_in, -6_in}, frc::Translation2d{160_in, -14_in}},
-            frc::Pose2d{203_in, -22_in, 0_deg},
+            {frc::Translation2d{135_in, 6_in}, frc::Translation2d{160_in, 14_in}},
+            frc::Pose2d{188_in, 16_in, 0_deg},
             forwardConfig, m_pDrive, path_offset),
 
       //pick up second piece
@@ -209,15 +213,15 @@ class RedThreePieceAutoCommand
           //   reverseMidConfig, m_pDrive, path_offset),
 
            FollowPathCommand3Piece( //keep driving in fast
-            frc::Pose2d{203_in, -22_in, 0_deg},
-            {frc::Translation2d{100_in, -22_in}, frc::Translation2d{50_in, -24_in}},
-            frc::Pose2d{2_in, -38_in, 0_deg}, //40
+            frc::Pose2d{188_in, 16_in, 0_deg},
+            {frc::Translation2d{100_in, 22_in}, frc::Translation2d{50_in, 24_in}},
+            frc::Pose2d{4_in, 24_in, 0_deg}, //40
             reverseConfig, m_pDrive, path_offset),
 
       //score second game piece
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
           m_pElevator->WaitForElevatorPastMidPositionCommand(),
-          frc2::WaitCommand(0.4_s),
+          frc2::WaitCommand(0.15_s),
           m_pFlipper->DownCommand(),
           m_pGripper->OpenCommand(),
           m_pGripper->DroppedGamePieceCommand(),
@@ -244,38 +248,26 @@ class RedThreePieceAutoCommand
           
         frc2::SequentialCommandGroup{
           FollowPathCommand3Piece( //keep driving out fast
-            frc::Pose2d{2_in, -38_in, 0_deg},
-            {frc::Translation2d{40_in, -30_in}, frc::Translation2d{120_in, -20_in}},
-            frc::Pose2d{140_in, -25_in, 0_deg},
+            frc::Pose2d{4_in, 24_in, 0_deg},
+            {frc::Translation2d{40_in, 18_in}, frc::Translation2d{120_in, 20_in}},
+            frc::Pose2d{140_in, 25_in, 0_deg},
             forwardStartConfig, m_pDrive, path_offset),
 
 
            FollowPathCommand3Piece( //keep driving out fast and turn
-            frc::Pose2d{140_in, -25_in, 0_deg},
+            frc::Pose2d{140_in, 25_in, 0_deg},
             {},
-            frc::Pose2d{203_in, -64_in, -30_deg}, //196
+            frc::Pose2d{190_in, 64_in, 30_deg}, //196
             forwardEndConfig, m_pDrive, path_offset),
         },
       //pick up third game piece
           frc2::SequentialCommandGroup{
             m_pGripper->CloseCommand(),
             ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorStowPosition),
-            frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, true, true)), // geting 2nd game piece
+              frc2::ScheduleCommand(new AcquireGamePieceCommand(m_pGripper, m_pIntake, m_pFlipper, !m_balance, true)),
+            // geting 2nd game piece
           }
         },
-
-      //drive back in second time
-          frc2::ScheduleCommand(new frc2::SequentialCommandGroup{
-            m_pGripper->WaitForGamePieceCommand(),
-            frc2::WaitCommand(1.0_s),
-            frc2::ConditionalCommand(frc2::SequentialCommandGroup{
-              (ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
-              m_pFlipper->DownCommand(),
-            }, 
-            frc2::InstantCommand([]{}),
-            [this] {return m_pGripper->GetGamePieceType() != NONE;}),
-        }
-        ),
           // FollowPathCommand3Piece( //driving back in 
           //   frc::Pose2d{200_in, 68_in, 0_deg},
           //   {frc::Translation2d{160_in, 45_in}, frc::Translation2d{145_in, 25_in}},
@@ -288,34 +280,77 @@ class RedThreePieceAutoCommand
           //   frc::Pose2d{84_in, 16_in, 0_deg},
           //   reverseMidConfig, m_pDrive, path_offset),
 
-           FollowPathCommand3Piece( //keep driving in fast and turn
-            frc::Pose2d{203_in, -64_in, -30_deg},
-            {frc::Translation2d{175_in, -50_in}, frc::Translation2d{160_in, -40_in}},
-            frc::Pose2d{150_in, -30_in, 0_deg},
+      
+        frc2::ConditionalCommand(
+        //score ending
+          frc2::SequentialCommandGroup{
+         //drive back in second time
+          frc2::ScheduleCommand(new frc2::SequentialCommandGroup{
+            m_pGripper->WaitForGamePieceCommand(),
+            frc2::WaitCommand(1.0_s),
+            frc2::ConditionalCommand(frc2::SequentialCommandGroup{
+              (ElevatorGoToPositionCommand(m_pElevator, ElevatorConstants::k_ElevatorTopPosition, true)), // Elevator goes out
+              m_pFlipper->DownCommand(),
+            }, 
+            frc2::InstantCommand([]{}),
+            [this] {return m_pGripper->GetGamePieceType() != NONE;}),
+          }
+          ),
+          FollowPathCommand3Piece( //keep driving in fast and turn
+            frc::Pose2d{190_in, 64_in, 30_deg},
+            {frc::Translation2d{185_in, 50_in}, frc::Translation2d{175_in, 40_in}},
+            frc::Pose2d{160_in, 20_in, 0_deg},
             reverseStartConfig, m_pDrive, path_offset),
 
           FollowPathCommand3Piece( //keep driving in fast
-            frc::Pose2d{150_in, -30_in, 0_deg},
-            {frc::Translation2d{100_in, -34_in}, frc::Translation2d{60_in, -36_in}},
-            frc::Pose2d{5_in, -38_in, 0_deg}, //-4, 48
+            frc::Pose2d{160_in, 20_in, 0_deg},
+            {frc::Translation2d{100_in, 24_in}, frc::Translation2d{60_in, 24_in}},
+            frc::Pose2d{23_in, 24_in, 0_deg}, //-4, 48
             reverseEndConfig, m_pDrive, path_offset),
 
           FollowPathCommand3Piece( //keep driving in fast
-            frc::Pose2d{5_in, -38_in, 0_deg},
+            frc::Pose2d{23_in, 24_in, 0_deg},
             {},
-            frc::Pose2d{-12_in, -48_in, 0_deg}, //-4, 48
+            frc::Pose2d{-2_in, 24_in, 0_deg}, //-4, 48
             reverseFinalConfig, m_pDrive, path_offset),
         
       //score third game piece
-         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
+          frc2::InstantCommand([this]{m_pDrive->Drive(-0.2_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          frc2::ConditionalCommand(frc2::SequentialCommandGroup{
           m_pElevator->WaitForElevatorPastPositionCommand(),
-          // frc2::WaitCommand(0.5_s),
+          frc2::WaitCommand(0.5_s),
           m_pGripper->OpenCommand(),
           frc2::WaitCommand(0.5_s),
           m_pGripper->DroppedGamePieceCommand(),
             }, 
             frc2::InstantCommand([]{}),
             [this] {return m_pGripper->GetGamePieceType() != NONE;}),
+        },
+
+      //balance ending
+        frc2::SequentialCommandGroup{
+         frc2::ParallelRaceGroup{
+          FollowPathCommand3Piece( //keep driving in fast and turn
+            frc::Pose2d{190_in, 64_in, 30_deg},
+            {},
+            frc::Pose2d{150_in, 88_in, 180_deg},
+            reverseFinalConfig, m_pDrive, path_offset),
+         frc2::WaitCommand(1.0_s)
+         },
+          
+          frc2::WaitCommand(0.1_s),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          WaitForPitchCommand(m_pDrive, 13),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          WaitForPitchCommand(m_pDrive, 11),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0.6_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          WaitForPitchCommand(m_pDrive, 1),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, -0.1_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
+          frc2::WaitCommand(0.25_s),
+          frc2::InstantCommand([this]{m_pDrive->Drive(0_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+        },
+        [this] {return !m_balance;})
+           
   });  
       }
   };

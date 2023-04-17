@@ -28,6 +28,7 @@
 #include "commands/auto/BlueThreePieceAutoCommand.h"
 #include "commands/auto/NothingAuto.h"
 #include "commands/auto/BlueNoBumpThreePieceAutoCommand.h"
+#include "commands/auto/RedNoBumpThreePieceAutoCommand.h"
 
 //drive
 #include "commands/drive/DriveWithJoystickCommand.h"
@@ -67,18 +68,28 @@ RobotContainer::RobotContainer():m_driverController(0), m_auxController(1),
     ConfigureButtonBindings();
         m_chooser.AddOption("Center Lane Blue", new CenterLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Center Lane Red", new CenterLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Blue Left Lane No", new LeftLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Blue Left Lane Balance", new LeftLaneBlueBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Blue Right Lane 3 Piece", new BlueThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         
-        // m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Red Left Lane No", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Red Right Lane No", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Red Right Lane Balance", new RightLaneRedBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Red Left Lane 3 Piece", new RedThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.SetDefaultOption("None", new NothingAuto(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
-        m_chooser.AddOption("Blue No Bump 2.5 Piece Balance", new BlueNoBumpThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide, true));
+        m_chooser.AddOption("Blue Bump No", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Blue No Bump No", new LeftLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Blue No Bump Balance", new LeftLaneBlueBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Blue Bump 3 Piece", new BlueThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         m_chooser.AddOption("Blue No Bump 3 Piece", new BlueNoBumpThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide, false));
+
+        // m_chooser.AddOption("Right Lane Blue", new RightLaneBlueAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red Bump No", new LeftLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red No Bump No", new RightLaneRedAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red No Bump Balance", new RightLaneRedBalanceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red Bump 3 Piece", new RedThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        m_chooser.AddOption("Red No Bump 3 Piece", new RedNoBumpThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide, false));
+
+        m_chooser.SetDefaultOption("None", new NothingAuto(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
+        
+        //m_chooser.AddOption("Blue No Bump 2.5 Piece Balance", new BlueNoBumpThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide, true));
+        
+
+        //m_chooser.AddOption("Red No Bump 2.5 Piece Balance", new RedNoBumpThreePieceAutoCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide, true));
+        
+
 
         // m_chooser.AddOption("Test Auto", new TestCommand(&m_drivetrain, &m_elevator, &m_flipper, &m_gripper, &m_intake, &m_slide));
         frc::SmartDashboard::PutData(&m_chooser);  
