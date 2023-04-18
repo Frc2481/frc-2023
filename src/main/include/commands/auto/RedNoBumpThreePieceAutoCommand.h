@@ -214,7 +214,7 @@ class RedNoBumpThreePieceAutoCommand
 
            FollowPathCommand3Piece( //keep driving in fast
             frc::Pose2d{188_in, 16_in, 0_deg},
-            {frc::Translation2d{100_in, 22_in}, frc::Translation2d{50_in, 24_in}},
+            {frc::Translation2d{100_in, 16_in}, frc::Translation2d{50_in, 22_in}},
             frc::Pose2d{4_in, 24_in, 0_deg}, //40
             reverseConfig, m_pDrive, path_offset),
 
@@ -311,7 +311,7 @@ class RedNoBumpThreePieceAutoCommand
           FollowPathCommand3Piece( //keep driving in fast
             frc::Pose2d{23_in, 24_in, 0_deg},
             {},
-            frc::Pose2d{-2_in, 24_in, 0_deg}, //-4, 48
+            frc::Pose2d{-2_in, 35_in, 0_deg}, //-4, 48
             reverseFinalConfig, m_pDrive, path_offset),
         
       //score third game piece
