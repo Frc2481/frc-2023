@@ -172,7 +172,7 @@ class BlueThreePieceAutoCommand
            FollowPathCommand3Piece( //keep driving out fast
             frc::Pose2d{0_in, 0_in, 0_deg},
             {frc::Translation2d{135_in, 6_in}, frc::Translation2d{160_in, 14_in}},
-            frc::Pose2d{203_in, 22_in, 0_deg},
+            frc::Pose2d{203_in, 16_in, 0_deg},
             forwardConfig, m_pDrive, path_offset),
 
       //pick up second piece
@@ -209,9 +209,9 @@ class BlueThreePieceAutoCommand
           //   reverseMidConfig, m_pDrive, path_offset),
 
            FollowPathCommand3Piece( //keep driving in fast
-            frc::Pose2d{203_in, 22_in, 0_deg},
+            frc::Pose2d{203_in, 16_in, 0_deg},
             {frc::Translation2d{100_in, 22_in}, frc::Translation2d{50_in, 24_in}},
-            frc::Pose2d{2_in, 38_in, 0_deg}, //40
+            frc::Pose2d{2_in, 20_in, 0_deg}, //40
             reverseConfig, m_pDrive, path_offset),
 
       //score second game piece
@@ -244,7 +244,7 @@ class BlueThreePieceAutoCommand
           
         frc2::SequentialCommandGroup{
           FollowPathCommand3Piece( //keep driving out fast
-            frc::Pose2d{2_in, 38_in, 0_deg},
+            frc::Pose2d{2_in, 20_in, 0_deg},
             {frc::Translation2d{40_in, 30_in}, frc::Translation2d{120_in, 20_in}},
             frc::Pose2d{140_in, 25_in, 0_deg},
             forwardStartConfig, m_pDrive, path_offset),

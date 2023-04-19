@@ -105,7 +105,7 @@ class RightLaneRedBalanceAutoCommand
            FollowPathCommand(
             m_initialPosition,
             {frc::Translation2d{135_in, 6_in}, frc::Translation2d{160_in, 14_in}},
-            frc::Pose2d{188_in, 16_in, 0_deg},
+            frc::Pose2d{188_in, 19_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{   
             m_pGripper->CloseCommand(), 
@@ -127,7 +127,7 @@ class RightLaneRedBalanceAutoCommand
         }
         ),
           FollowPathCommand(
-            frc::Pose2d{188_in, 16_in, 0_deg},
+            frc::Pose2d{188_in, 19_in, 0_deg},
             {frc::Translation2d{100_in, 18_in}, frc::Translation2d{50_in, 22_in}},
             frc::Pose2d{2_in, 24_in, 0_deg},
             reverseConfig, m_pDrive),

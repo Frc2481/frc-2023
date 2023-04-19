@@ -105,7 +105,7 @@ class LeftLaneBlueBalanceAutoCommand
            FollowPathCommand(
             m_initialPosition,
             {frc::Translation2d{135_in, -6_in}, frc::Translation2d{160_in, -14_in}},
-            frc::Pose2d{188_in, -16_in, 0_deg},
+            frc::Pose2d{191_in, -16_in, 0_deg},
             forwardConfig, m_pDrive),
           frc2::SequentialCommandGroup{   
             m_pGripper->CloseCommand(), 
@@ -127,9 +127,9 @@ class LeftLaneBlueBalanceAutoCommand
         }
         ),
           FollowPathCommand(
-            frc::Pose2d{188_in, -16_in, 0_deg},
+            frc::Pose2d{191_in, -16_in, 0_deg},
             {frc::Translation2d{100_in, -18_in}, frc::Translation2d{50_in, -22_in}},
-            frc::Pose2d{4_in, -24_in, 0_deg},
+            frc::Pose2d{4_in, -27_in, 0_deg},
             reverseConfig, m_pDrive),
         // },
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
@@ -145,7 +145,7 @@ class LeftLaneBlueBalanceAutoCommand
         frc2::InstantCommand([this] {return m_pIntake->Extend();}),
         frc2::ParallelDeadlineGroup{
           FollowPathCommand(
-            frc::Pose2d{4_in, -24_in, 0_deg},
+            frc::Pose2d{4_in, -27_in, 0_deg},
             {},
             frc::Pose2d{30_in, -73_in, 0_deg},
             forwardConfig, m_pDrive),
@@ -157,9 +157,9 @@ class LeftLaneBlueBalanceAutoCommand
 
         //balance
         // frc2::InstantCommand([this]{m_pDrive->toggleFieldCentricForJoystick();},{m_pDrive}),
-          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.4_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
           WaitForPitchCommand(m_pDrive, 13),
-          frc2::InstantCommand([this]{m_pDrive->Drive(1.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
+          frc2::InstantCommand([this]{m_pDrive->Drive(1.4_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), 
           WaitForPitchCommand(m_pDrive, 11),
           frc2::InstantCommand([this]{m_pDrive->Drive(0.5_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}), //back up a little 
           WaitForPitchCommand(m_pDrive, 1),
