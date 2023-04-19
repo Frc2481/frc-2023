@@ -311,14 +311,14 @@ class RedNoBumpThreePieceAutoCommand
           FollowPathCommand3Piece( //keep driving in fast
             frc::Pose2d{23_in, 24_in, 0_deg},
             {},
-            frc::Pose2d{-2_in, 47_in, 0_deg}, //-4, 48
+            frc::Pose2d{-2_in, 44_in, 0_deg}, //-4, 48
             reverseFinalConfig, m_pDrive, path_offset),
         
       //score third game piece
           frc2::InstantCommand([this]{m_pDrive->Drive(-0.2_mps, 0_mps, 0_deg_per_s);}, {m_pDrive}),
           frc2::ConditionalCommand(frc2::SequentialCommandGroup{
           m_pElevator->WaitForElevatorPastPositionCommand(),
-          frc2::WaitCommand(0.5_s),
+          // frc2::WaitCommand(0.5_s),
           m_pGripper->OpenCommand(),
           frc2::WaitCommand(0.5_s),
           m_pGripper->DroppedGamePieceCommand(),

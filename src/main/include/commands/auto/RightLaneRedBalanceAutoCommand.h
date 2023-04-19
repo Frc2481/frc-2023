@@ -128,8 +128,8 @@ class RightLaneRedBalanceAutoCommand
         ),
           FollowPathCommand(
             frc::Pose2d{188_in, 19_in, 0_deg},
-            {frc::Translation2d{100_in, 18_in}, frc::Translation2d{50_in, 22_in}},
-            frc::Pose2d{2_in, 24_in, 0_deg},
+            {frc::Translation2d{100_in, 18_in}, frc::Translation2d{50_in, 25_in}},
+            frc::Pose2d{2_in, 27_in, 0_deg},
             reverseConfig, m_pDrive),
         // },
         frc2::ConditionalCommand(frc2::SequentialCommandGroup{
@@ -145,7 +145,7 @@ class RightLaneRedBalanceAutoCommand
          frc2::InstantCommand([this] {return m_pIntake->Extend();}),
         frc2::ParallelDeadlineGroup{
           FollowPathCommand(
-            frc::Pose2d{2_in, 24_in, 0_deg},
+            frc::Pose2d{2_in, 27_in, 0_deg},
             {},
             frc::Pose2d{30_in, 73_in, 0_deg},
             forwardConfig, m_pDrive),
