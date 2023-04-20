@@ -102,6 +102,15 @@ void Flipper::Zero(){
     // It's a Falcon FX... Falcon's can't float.  Very small rocks float...
  }
 
+ void Flipper::DisableBottomSoftLimit() {
+    m_pMotor->ConfigReverseSoftLimitEnable(false, 10);
+ }
+
+ void Flipper::EnableBottomSoftLimit() {
+    m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
+ }
+
+
  
 // This method will be called once per scheduler run
 void Flipper::Periodic() {

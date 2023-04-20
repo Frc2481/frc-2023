@@ -172,7 +172,7 @@ class RedThreePieceAutoCommand
            FollowPathCommand3Piece( //keep driving out fast
             frc::Pose2d{0_in, 0_in, 0_deg},
             {frc::Translation2d{135_in, -6_in}, frc::Translation2d{160_in, -10_in}},
-            frc::Pose2d{203_in, -12_in, 0_deg},
+            frc::Pose2d{203_in, -8_in, 0_deg},
             forwardConfig, m_pDrive, path_offset),
 
       //pick up second piece
@@ -209,8 +209,8 @@ class RedThreePieceAutoCommand
           //   reverseMidConfig, m_pDrive, path_offset),
 
            FollowPathCommand3Piece( //keep driving in fast
-            frc::Pose2d{203_in, -12_in, 0_deg},
-            {frc::Translation2d{100_in, -14_in}, frc::Translation2d{50_in, -20_in}},
+            frc::Pose2d{203_in, -8_in, 0_deg},
+            {frc::Translation2d{100_in, -12_in}, frc::Translation2d{50_in, -20_in}},
             frc::Pose2d{-1_in, -20_in, 0_deg}, //40
             reverseConfig, m_pDrive, path_offset),
 
@@ -297,7 +297,7 @@ class RedThreePieceAutoCommand
 
           FollowPathCommand3Piece( //keep driving in fast
             frc::Pose2d{150_in, -20_in, 0_deg},
-            {frc::Translation2d{100_in, -24_in}, frc::Translation2d{60_in, -36_in}},
+            {frc::Translation2d{100_in, -15_in}, frc::Translation2d{60_in, -32_in}},
             frc::Pose2d{5_in, -38_in, 0_deg}, //-4, 48
             reverseEndConfig, m_pDrive, path_offset),
 

@@ -188,6 +188,11 @@ void RobotContainer::ConfigureButtonBindings() {
       [this] {m_flipper.Down();},{&m_flipper}
     ).ToPtr());
 
+    m_lBumperAux.WhileTrue(frc2::StartEndCommand(
+      [this] {m_flipper.DisableBottomSoftLimit();},
+      [this] {m_flipper.EnableBottomSoftLimit();}
+    ).ToPtr());
+
     m_lTriggerAux.OnTrue(frc2::InstantCommand(
       [this] {m_flipper.Up(false);},{&m_flipper}
     ).ToPtr());

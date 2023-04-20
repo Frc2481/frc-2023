@@ -46,6 +46,10 @@ class Flipper : public frc2::SubsystemBase {
 
   void Zero();
 
+  void DisableBottomSoftLimit();
+
+  void EnableBottomSoftLimit();
+
  private:
 
   bool m_up;
